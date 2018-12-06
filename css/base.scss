@@ -1,0 +1,15 @@
+// Include parts of Bootstrap
+// Compile base.css with cmd or git bash command: (while in .../plugins/folder directory)
+// sass.bat css/base.scss css/base.css
+
+// Required
+@import "C:/UniServerZ/www/redcap/plugins/nitin/bootstrap/scss/_functions.scss";
+@import "C:/UniServerZ/www/redcap/plugins/nitin/bootstrap/scss/_variables.scss";
+@import "C:/UniServerZ/www/redcap/plugins/nitin/bootstrap/scss/_mixins.scss";
+
+// // Optional
+@import "C:/UniServerZ/www/redcap/plugins/nitin/bootstrap/scss/_reboot.scss";
+@import "C:/UniServerZ/www/redcap/plugins/nitin/bootstrap/scss/_type.scss";
+@import "C:/UniServerZ/www/redcap/plugins/nitin/bootstrap/scss/_images.scss";
+@import "C:/UniServerZ/www/redcap/plugins/nitin/bootstrap/scss/_code.scss";
+@import "C:/UniServerZ/www/redcap/plugins/nitin/bootstrap/scss/_grid.scss";
