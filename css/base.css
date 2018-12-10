@@ -1467,5 +1467,14 @@ pre code {
     margin-left: 91.6666666667%;
   }
 }
+@media (min-width: 1200px) {
+  .container {
+    max-width: 100%;
+  }
+}
+div {
+  background-color: #006;
+  color: #fff;
+}
 
 /*# sourceMappingURL=base.css.map */

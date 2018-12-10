@@ -19,7 +19,7 @@ $html = str_replace("{JAVASCRIPT}", "js/base.js", $html);
 
 $html = str_replace("{TITLE}", "ARC Trial - Nitin Dashboards", $html);
 
-$body = $html = file_get_contents("html/one.html");
+$body = file_get_contents("html/one.html");
 $html = str_replace("{BODY}", $body, $html);
 
 echo $html;
