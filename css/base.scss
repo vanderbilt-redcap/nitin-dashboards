@@ -14,28 +14,74 @@
 @import "C:/UniServerZ/www/redcap/plugins/nitin/bootstrap/scss/_code.scss";
 @import "C:/UniServerZ/www/redcap/plugins/nitin/bootstrap/scss/_grid.scss";
 
+// variables
+$gradDarkBlue: #00426d;
+$gradLightBlue: #0077be;
+$divDarkBlue: #003a59;
+$divLightBlue: #0073b1;
+$divHoverBlue: #0095e6;
+$divBorderBlue: #005381;
+$rowDarkBlue: #cbd5e4;
+$rowLightBlue: #e7ebf2;
+$divRed: #7d3c4a;
+$divBorderRed: #5a2934;
+$textRed: #ff0000;
+
+// CONTAINER
+body, html, .container-fluid {
+	height: 100%;
+}
+
+// HEADER
 .header1 {
-	background-color: #006;
+	background-image: linear-gradient($gradLightBlue, $gradDarkBlue);
 	color: #fff;
 	padding: 16px;
+	margin-bottom: 24px;
 }
 
-nav {
-	margin-top: 12px;
-}
+// #logo {
+	// height: 12%;
+// }
 
+// MAIN
+// #main {
+	// height: 100%;
+// }
+
+// NAV
 nav > div {
 	margin: 12px;
+	background-color: $divLightBlue;
+	border: 1.5px solid $divBorderBlue;
+	font-size: 20px;
+	font-weight: 550;
+	text-align: center;
+	color: #fff;
+	padding: 8px 36px;
+}
+nav > div:hover {
+	background-color: $divHoverBlue;
+}
+nav > div.selected {
+	background-color: $divDarkBlue;
+}
+
+// CONTENT
+// #content {
+	// margin-top: 20px;
+// }
+
+h4 {
 	background-color: #006;
 	color: #fff;
 	padding: 16px;
+	margin: 6px 12px 4px 12px;
 }
 
-.content {
-	margin-top: 20px;
-}
-
-.header2 {
-	background-color: #006;
+h5 {
+	background-color: #7d3c4a;
 	color: #fff;
+	padding: 16px;
+	margin: 6px 12px 4px 12px;
 }
