@@ -1467,12 +1467,28 @@ pre code {
     margin-left: 91.6666666667%;
   }
 }
-@media (min-width: 1200px) {
-  .container {
-    max-width: 100%;
-  }
+.header1 {
+  background-color: #006;
+  color: #fff;
+  padding: 16px;
 }
-div {
+
+nav {
+  margin-top: 12px;
+}
+
+nav > div {
+  margin: 12px;
+  background-color: #006;
+  color: #fff;
+  padding: 16px;
+}
+
+.content {
+  margin: 20px 12px 20px 4px;
+}
+
+.header2 {
   background-color: #006;
   color: #fff;
 }
