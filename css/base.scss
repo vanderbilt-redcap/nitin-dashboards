@@ -1,18 +1,4 @@
-// Include parts of Bootstrap
-// Compile base.css with cmd or git bash command: (while in .../plugins/folder directory)
-// sass.bat css/base.scss css/base.css
-
-// Required
-@import "C:/UniServerZ/www/redcap/plugins/nitin/bootstrap/scss/_functions.scss";
-@import "C:/UniServerZ/www/redcap/plugins/nitin/bootstrap/scss/_variables.scss";
-@import "C:/UniServerZ/www/redcap/plugins/nitin/bootstrap/scss/_mixins.scss";
-
-// // Optional
-@import "C:/UniServerZ/www/redcap/plugins/nitin/bootstrap/scss/_reboot.scss";
-@import "C:/UniServerZ/www/redcap/plugins/nitin/bootstrap/scss/_type.scss";
-@import "C:/UniServerZ/www/redcap/plugins/nitin/bootstrap/scss/_images.scss";
-@import "C:/UniServerZ/www/redcap/plugins/nitin/bootstrap/scss/_code.scss";
-@import "C:/UniServerZ/www/redcap/plugins/nitin/bootstrap/scss/_grid.scss";
+@import "C:/UniServerZ/www/redcap/plugins/nitin/css/_normalize.scss";
 
 // variables
 $gradDarkBlue: #00426d;
@@ -27,61 +13,41 @@ $divRed: #7d3c4a;
 $divBorderRed: #5a2934;
 $textRed: #ff0000;
 
-// CONTAINER
-body, html, .container-fluid {
-	height: 100%;
-}
-
-// HEADER
-.header1 {
+#header {
+	top: 0px;
+	position: fixed;
+	width: 100%;
 	background-image: linear-gradient($gradLightBlue, $gradDarkBlue);
-	color: #fff;
 	padding: 16px;
-	margin-bottom: 24px;
+	z-index: 1030;
 }
 
-// #logo {
-	// height: 12%;
-// }
-
-// MAIN
-// #main {
-	// height: 100%;
-// }
-
-// NAV
-nav > div {
-	margin: 12px;
-	background-color: $divLightBlue;
-	border: 1.5px solid $divBorderBlue;
-	font-size: 20px;
-	font-weight: 550;
-	text-align: center;
-	color: #fff;
-	padding: 8px 36px;
-}
-nav > div:hover {
-	background-color: $divHoverBlue;
-}
-nav > div.selected {
-	background-color: $divDarkBlue;
+nav {
+	position: fixed;
+	margin-top: 175px;
+	width: 334px;
+	div {
+		background-color: $divLightBlue;
+		border: 1.5px solid $divBorderBlue;
+		
+		color: #fff;
+		font-size: 20px;
+		font-weight: 550;
+		text-align: center;
+		
+		margin: 12px;
+		padding: 8px 12px;
+	}
+	div:hover {
+		background-color: $divHoverBlue;
+	}
+	div.selected {
+		background-color: $divDarkBlue;
+	}
 }
 
-// CONTENT
-// #content {
-	// margin-top: 20px;
-// }
-
-h4 {
-	background-color: #006;
-	color: #fff;
-	padding: 16px;
-	margin: 6px 12px 4px 12px;
-}
-
-h5 {
-	background-color: #7d3c4a;
-	color: #fff;
-	padding: 16px;
-	margin: 6px 12px 4px 12px;
+#content {
+	margin-top: 175px;
+	width: calc(100% - 350px);
+	float: right;
 }
