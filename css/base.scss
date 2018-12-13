@@ -51,3 +51,72 @@ nav {
 	width: calc(100% - 350px);
 	float: right;
 }
+
+.redHeader {
+	background-color: $divRed;
+	border: 1.5px solid $divBorderRed;
+	color: #fff;
+	font: 20px bold, sans-serif;
+	padding: 4px;
+	text-align: center;
+	margin-right: 7.5%;
+}
+
+// tables
+.dataTables_wrapper {
+	margin-right: 7.5%;
+}
+
+.dataTable {
+	border-bottom: 0 !important;
+	thead {
+		text-align: left;
+		font-family: sans-serif;
+		font-size: 18px;
+		th {
+			padding-left: 10px !important;
+		}
+		th:not(:first-child) {
+			border-left: 1px solid black;
+		}
+	}
+	td + td {
+		border-left: 1px solid black;
+	}
+	tr + tr td {
+		border-top: 1px solid black;
+	}
+}
+
+.summaryTable {
+	border: 1px solid white;
+	table-layout: auto;
+	width: 92.5%;
+	text-align: left;
+	thead {
+		background-color: $divBorderBlue;
+		color: #fff;
+		font: 24px bold, sans-serif;
+		th {
+			padding: 12px;
+		}
+	}
+	tbody {
+		td, th {
+			padding: 12px;
+		}
+		td:last-child {
+			color: #f00;
+			font-weight: 600;
+		}
+		tr {
+			font: 18px normal, sans-serif;
+		}
+		.even {
+			background-color: $rowLightBlue;
+		}
+		.odd {
+			background-color: $rowDarkBlue;
+		}
+	}
+}

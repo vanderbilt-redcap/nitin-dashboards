@@ -1,4 +1,10 @@
 $(function() {
+	$(".dataTable").DataTable({
+		paging: false,
+		info: false,
+		searching: false
+	});
+	
 	// click handler for nav buttons
 	$("nav div").on("click", function(e) {
 		if ($(this).hasClass('selected')) return;
