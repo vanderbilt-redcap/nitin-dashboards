@@ -1,3 +1,6 @@
+// recompile command (in git bash in plugins/nitin folder):
+//sass.bat css/base.scss css/base.css
+
 @import "C:/UniServerZ/www/redcap/plugins/nitin/css/_normalize.scss";
 
 // variables
@@ -37,6 +40,8 @@ nav {
 		
 		margin: 12px;
 		padding: 8px 12px;
+		
+		cursor: pointer;
 	}
 	div:hover {
 		background-color: $divHoverBlue;
@@ -62,6 +67,16 @@ nav {
 	margin-right: 7.5%;
 }
 
+.blueHeader {
+	background-color: $divLightBlue;
+	border: 1.5px solid $divBorderBlue;
+	color: #fff;
+	font: 20px bold, sans-serif;
+	padding: 4px;
+	text-align: center;
+	margin-right: 7.5%;
+}
+
 // tables
 .dataTables_wrapper {
 	margin-right: 7.5%;
@@ -69,6 +84,7 @@ nav {
 
 .dataTable {
 	border-bottom: 0 !important;
+	margin-right: 7.5%;
 	thead {
 		text-align: left;
 		font-family: sans-serif;

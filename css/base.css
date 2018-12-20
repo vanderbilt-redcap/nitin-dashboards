@@ -360,6 +360,7 @@ nav div {
   text-align: center;
   margin: 12px;
   padding: 8px 12px;
+  cursor: pointer;
 }
 nav div:hover {
   background-color: #0095e6;
@@ -384,12 +385,23 @@ nav div.selected {
   margin-right: 7.5%;
 }
 
+.blueHeader {
+  background-color: #0073b1;
+  border: 1.5px solid #005381;
+  color: #fff;
+  font: 20px bold, sans-serif;
+  padding: 4px;
+  text-align: center;
+  margin-right: 7.5%;
+}
+
 .dataTables_wrapper {
   margin-right: 7.5%;
 }
 
 .dataTable {
   border-bottom: 0 !important;
+  margin-right: 7.5%;
 }
 .dataTable thead {
   text-align: left;

@@ -1,6 +1,6 @@
 <?php
 
-# make summary table
+# add summary table
 $content = "<table class='summaryTable'>
 	<thead>
 		<th>Follow-Up Status Summary</th>
@@ -27,33 +27,20 @@ foreach($rows as $i => $row) {
 }
 unset($evenOdd, $i, $row);
 
-# add PI Calls Needed table
+// # add PI Calls Needed table
 $content .= "
 	</tbody>
-</table>
-<h2 class='redHeader'>PI Calls Needed</h2>
-<table class='dataTable'>
-	<thead>
-		<tr>
-			<th>Study ID</th>
-			<th>Event Name</th>
-			<th>Approximate date PI call needed:</th>
-		</tr>
-	</thead>
-	<tbody>";
-$rows = [
-	["4-3285-119", "3-months", "10/30/18"],
-	["10-2284-23", "12-months", "10/30/18"]
-];
-foreach($rows as $row) {
-	$content .= "
-		<tr>
-			<td>" . $row[0] . "</td>
-			<td>" . $row[1] . "</td>
-			<td>" . $row[2] . "</td>
-		</tr>";
-}
-$content .= "
-	</tbody>";
+</table>";
 
-unset($rows);
+$table = [
+	"title" => "PI Calls Needed",
+	"titleClass" => "redHeader",
+	"headers" => ["Study ID", "Event Name", "Approximate date PI call needed"],
+	"content" => [
+		["4-3285-119", "3-months", "10/30/18"],
+		["10-2284-23", "12-months", "10/30/18"]
+	]
+];
+global $dash;
+$content .= $dash->makeDataTable($table);
+unset($table);

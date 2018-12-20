@@ -15,11 +15,22 @@ class Dashboard {
 	private $screens = [
 		[
 			"title" => "Summary and Notifications",
-			"filepath" => "html/summary.php"
-		],
-		[
+			"filepath" => "html/summary_and_notifications.php"
+		], [
 			"title" => "Treatment Initiation",
-			"filepath" => "html/treatment.php"
+			"filepath" => "html/treatment_initiation.php"
+		], [
+			"title" => "Treating PT Follow-Up",
+			"filepath" => "html/treating_pt_followup.php"
+		], [
+			"title" => "Patient Follow-Up",
+			"filepath" => "html/patient_followup.php"
+		], [
+			"title" => "Financial",
+			"filepath" => "html/financial.php"
+		], [
+			"title" => "Data Management",
+			"filepath" => "html/data_management.php"
 		]
 	];
 	
@@ -51,14 +62,57 @@ class Dashboard {
 		$html = str_replace("{BODY}", $body, $html);
 		
 		// insert Summary and Notifications screen
-		include("html/summary.php");
+		include_once("html/summary_and_notifications.php");
 		$html = str_replace("{CONTENT}", $content, $html);
 		
 		return $html;
 	}
+	
+	public function makeDataTable($tableData) {
+		# returns (string) HTML table
+		# requires $tableData array with properties:
+		#	titleClass => string
+		#	title => string
+		#	headers => 1D array of header values
+		#	content => 2D array of the actual tabular data to be inserted
+		$table = "
+			<h2 class='" . $tableData['titleClass'] . "'>" . $tableData['title'] . "</h2>
+			<table class='dataTable'>
+				<thead>
+					<tr>";
+		foreach ($tableData['headers'] as $header) {
+			$table .= "
+						<th>$header</th>";
+		}
+		$table .= "
+					</tr>
+				</thead>
+				<tbody>";
+		foreach ($tableData['content'] as $row) {
+			$table .= "
+					<tr>";
+			foreach ($row as $datum) {
+				$table .= "
+							<td>$datum</td>";
+			}
+			$table .= "
+					</tr>";
+		}
+		$table .= "
+				</tbody>
+			</table>";
+		
+		return $table;
+	}
+	
+	public function test($x) {
+		return "<pre>$x\n</pre>";
+	}
 }
 
-$dash = new Dashboard();
+if (!$dash) {
+	$dash = new Dashboard();
+}
 if (isset($_GET['screen'])) {
 	echo $dash->getDashboard($_GET['screen']);
 } else {
