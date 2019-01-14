@@ -11,6 +11,9 @@ require_once "../../redcap_connect.php";
 
 use Vanderbilt\Nitin;
 
+# Practice ARC Subject Database on redcap PID: 73340
+$pid = 73340;
+
 class Dashboard {
 	private $screens = [
 		[
