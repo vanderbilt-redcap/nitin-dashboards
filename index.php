@@ -14,7 +14,7 @@ use Vanderbilt\Nitin;
 # Practice ARC Subject Database on redcap PID: 73340
 $pid = 63383;
 
-$record = \REDCap::getData($pid, 'array', 1);
+$record = \REDCap::getData($pid, 'array', 2);
 exit("<pre>" . print_r($record, true) . "</pre>");
 
 class Dashboard {
