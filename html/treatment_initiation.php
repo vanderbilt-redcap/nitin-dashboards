@@ -3,6 +3,19 @@
 global $dash;
 $content = "";
 
+# get PT Scheduling table data from db
+$params = [
+	"project_id" => 63383,
+	"return_format" => 'array',
+	"events" => ["enrollment_arm_1", "baseline_arm_1"],
+	"filterLogic" => "([baseline_arm_1][qtk_physical_therapy] <> '1') AND ([baseline_arm_1][qtk_physical_therapy] <> '0') AND ([enrollment_arm_1][pati_study_status]<>'0') AND (([enrollment_arm_1][randgroup]='2') OR (([enrollment_arm_1][randgroup]='1') AND ([enrollment_arm_1][pati_x15] <> '')))",
+	"exportDataAccessGroups" => true
+];
+
+$records = \REDCap::getData($params);
+
+die("<pre>" . print_r($records, true) . "</pre>");
+
 // # add Physical Therapy Scheduling table
 $table = [
 	"title" => "Physical Therapy Scheduling",
