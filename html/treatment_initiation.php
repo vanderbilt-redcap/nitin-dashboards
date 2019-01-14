@@ -3,6 +3,16 @@
 global $dash;
 $content = "";
 
+// # add Physical Therapy Scheduling table
+$table = [
+	"title" => "Physical Therapy Scheduling",
+	"titleClass" => "blueHeader",
+	"headers" => ["Study ID", "DAG", "Randomization Group", "Randomization/Surgery Date", "Call 1", "Call 2", "Call 3", "Site referral"],
+	"content" => [
+		["4-3285-119", "", "", "8/30/18", "9/10/18", "9/17/18", "9/21/18", "9/25/18"],
+		["10-2284-23", "", "", "8/26/18", "9/09/18", "9/21/18", "9/25/18", "9/31/18"]
+	]
+];
 # get PT Scheduling table data from db
 $params = [
 	"project_id" => 63383,
@@ -11,21 +21,10 @@ $params = [
 	"filterLogic" => "([baseline_arm_1][qtk_physical_therapy] <> '1') AND ([baseline_arm_1][qtk_physical_therapy] <> '0') AND ([enrollment_arm_1][pati_study_status]<>'0') AND (([enrollment_arm_1][randgroup]='2') OR (([enrollment_arm_1][randgroup]='1') AND ([enrollment_arm_1][pati_x15] <> '')))",
 	"exportDataAccessGroups" => true
 ];
-
 $records = \REDCap::getData($params);
+exit("<pre>" . count($records) . "</pre>");
 
-die("<pre>" . print_r($records, true) . "</pre>");
-
-// # add Physical Therapy Scheduling table
-$table = [
-	"title" => "Physical Therapy Scheduling",
-	"titleClass" => "blueHeader",
-	"headers" => ["Study ID", "Randomization/Surgery Date", "Call 1", "Call 2", "Call 3", "Site referral"],
-	"content" => [
-		["4-3285-119", "8/30/18", "9/10/18", "9/17/18", "9/21/18", "9/25/18"],
-		["10-2284-23", "8/26/18", "9/09/18", "9/21/18", "9/25/18", "9/31/18"]
-	]
-];
+# cat to content
 $content .= $dash->makeDataTable($table);
 
 // # add Surgery Scheduling table
