@@ -12,7 +12,10 @@ require_once "../../redcap_connect.php";
 use Vanderbilt\Nitin;
 
 # Practice ARC Subject Database on redcap PID: 73340
-$pid = 73340;
+$pid = 63383;
+
+$record = \REDCap::getData($pid, 'array', 1);
+exit("<pre>" . print_r($record, true) . "</pre>");
 
 class Dashboard {
 	private $screens = [
