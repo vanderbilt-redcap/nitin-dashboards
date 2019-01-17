@@ -401,6 +401,7 @@ nav div.selected {
 
 .dataTable {
   border-bottom: 0 !important;
+  width: calc(100% - 350px);
   margin-right: 7.5%;
 }
 .dataTable thead {

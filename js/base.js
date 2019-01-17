@@ -20,6 +20,11 @@ $(function() {
 			dataType: "html",
 			success : function(data) {
 				$("#content").html(data);
+				$(".dataTable").DataTable({
+					paging: false,
+					info: false,
+					searching: false
+				});
 			},
 			fail : function(data) {
 				$("#content").html("<pre>There was an error:\n" + data + "</pre>")

@@ -11,10 +11,6 @@ require_once "../../redcap_connect.php";
 
 use Vanderbilt\Nitin;
 
-# Practice ARC Subject Database on redcap PID: 73340
-# ARC Subject Database on redcap PID: 63383
-$pid = 63383;
-
 class Dashboard {
 	private $screens = [
 		[
@@ -37,6 +33,19 @@ class Dashboard {
 			"filepath" => "html/data_management.php"
 		]
 	];
+	
+	public function __construct() {
+		# Practice ARC Subject Database on redcap PID: 73340
+		# ARC Subject Database on redcap PID: 63383
+		# ARC Subject Database on devcap PID: 21
+		$this->pid = 21;
+		$this->project = new \Project($this->pid);
+		$this->projEvents = \Event::getEventsByProject($this->pid);
+		$this->baselineEID = array_search("Baseline", $this->projEvents);
+		$this->enrollmentEID = array_search("Enrollment", $this->projEvents);
+		// $this->dags = $this->project->getUniqueGroupNames();
+		$this->dags = $this->project->getGroups();
+	}
 	
 	function getBaseHtml() {
 		# get base HTML and substitute file paths to css and js files
@@ -67,6 +76,7 @@ class Dashboard {
 		
 		// insert Summary and Notifications screen
 		include_once("html/summary_and_notifications.php");
+		// include_once("html/treatment_initiation.php");
 		$html = str_replace("{CONTENT}", $content, $html);
 		
 		return $html;
