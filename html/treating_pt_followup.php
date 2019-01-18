@@ -23,6 +23,24 @@ $params = [
 ];
 $records = \REDCap::getData($params);
 foreach ($records as $i => $record) {
+	foreach ($record as $eid => $data) {
+		if ($record[$baseline) {
+			$row = [];
+			$row[0] = $record[$dash->enrollmentEID]['study_id'];
+			$row[1] = $record[$dash->enrollmentEID]['pati_6'];
+			
+			# manually format this value
+			$leadPT = $record[$dash->enrollmentEID]['pti_lead_pt_is_treating_pt'];
+			$row[2] = $leadPT == '0' ? 'No (0)' : ($leadPT == '1' ? 'Yes (1)' : $leadPT);
+			
+			$row[3] = $record[$dash->enrollmentEID]['pti_lpt_referral_date'];
+			$row[4] = $record[$dash->enrollmentEID]['pti_pt_contacted'];
+			
+			$table['content'][] = $row;
+		}
+	}
+}
+foreach ($records as $i => $record) {
 	$row = [];
 	$row[0] = $record[$dash->enrollmentEID]['study_id'];
 	$row[1] = $record[$dash->enrollmentEID]['pati_6'];
@@ -47,23 +65,27 @@ $table = [
 $params = [
 	"project_id" => $dash->pid,
 	"return_format" => 'array',
-	"filterLogic" => "(([enrollment_arm_1][pti_patient_is_participant]='1') AND ([enrollment_arm_1][pti_receipt_of_protocol] = '')) OR (([enrollment_arm_1][pti_contact_pt] = '1') AND ([enrollment_arm_1][pti_pt_contacted] = ''))",
+	// "filterLogic" => "(([enrollment_arm_1][pti_patient_is_participant]='1') AND ([enrollment_arm_1][pti_receipt_of_protocol] = '')) OR (([enrollment_arm_1][pti_contact_pt] = '1') AND ([enrollment_arm_1][pti_pt_contacted] = ''))",
 	"exportDataAccessGroups" => true
 ];
 $records = \REDCap::getData($params);
 foreach ($records as $i => $record) {
-	$row = [];
-	$row[0] = $record[$dash->enrollmentEID]['study_id'];
-	$row[1] = $record[$dash->enrollmentEID]['pati_6'];
-	
-	# manually format this value
-	$leadPT = $record[$dash->enrollmentEID]['pti_lead_pt_is_treating_pt'];
-	$row[2] = $leadPT == '0' ? 'No (0)' : ($leadPT == '1' ? 'Yes (1)' : $leadPT);
-	
-	$row[3] = $record[$dash->enrollmentEID]['pti_lpt_referral_date'];
-	$row[4] = $record[$dash->enrollmentEID]['pti_pt_contacted'];
-	
-	$table['content'][] = $row;
+	foreach ($record as $eid => $data) {
+		if (($data['pti_patient_is_participant'] == '1' and $data['pti_receipt_of_protocol'] == '') or ($data['pti_contact_pt'] == '1' and $data['pti_pt_contacted'] == '')) {
+			$row = [];
+			$row[0] = $record[$dash->enrollmentEID]['study_id'];
+			$row[1] = $record[$dash->enrollmentEID]['pati_6'];
+			
+			# manually format this value
+			$leadPT = $record[$dash->enrollmentEID]['pti_lead_pt_is_treating_pt'];
+			$row[2] = $leadPT == '0' ? 'No (0)' : ($leadPT == '1' ? 'Yes (1)' : $leadPT);
+			
+			$row[3] = $record[$dash->enrollmentEID]['pti_lpt_referral_date'];
+			$row[4] = $record[$dash->enrollmentEID]['pti_pt_contacted'];
+			
+			$table['content'][] = $row;
+		}
+	}
 }
 $content .= $dash->makeDataTable($table);
 
