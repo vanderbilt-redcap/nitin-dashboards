@@ -118,6 +118,33 @@ $table = [
 	"headers" => ["Study ID", "DAG", "Randomization group", "Date delay of treatment effective:", "Surgery scheduling status/notes: (if applicable:"],
 	"content" => []
 ];
+$params = [
+	"project_id" => $dash->pid,
+	"return_format" => 'array',
+	"exportDataAccessGroups" => true
+];
+$records = \REDCap::getData($params);
+foreach ($records as $i => $record) {
+	foreach ($record as $eid => $data) {
+		if ($data['qtk_questionnaire_received'] == '1') {
+			$row = [];
+			$row[0] = $record[$dash->enrollmentEID]['study_id'];
+			$row[1] = $record[$dash->enrollmentEID]['pati_6'];
+			$row[2] = $data['patc_a2'];
+			$row[3] = $data['patc_a3'];
+			$row[4] = $dash->projEvents[$eid];
+			$row[5] = $data['patc_timepoint'];
+			$row[6] = $data['qtk_check_request_number'];
+			$row[7] = $data['qtk_date_received'];
+			$row[8] = $data['qtk_check_request_submitted'];
+			$row[9] = $data['qtk_check_request_date'];
+			$row[10] = $data['qtk_patient_paid'];
+			$row[11] = $data['qtk_date_check_cleared'];
+			
+			$table['content'][] = $row;
+		}
+	}
+}
 $content .= $dash->makeDataTable($table);
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
