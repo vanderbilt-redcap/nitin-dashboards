@@ -8,6 +8,7 @@
 
 // Call the REDCap Connect file in the main "redcap" directory
 require_once "../../redcap_connect.php";
+require_once "config.php";
 
 use Vanderbilt\Nitin;
 
@@ -35,10 +36,7 @@ class Dashboard {
 	];
 	
 	public function __construct() {
-		# Practice ARC Subject Database on redcap PID: 73340
-		# ARC Subject Database on redcap PID: 63383
-		# ARC Subject Database on devcap PID: 21
-		$this->pid = 21;
+		$this->pid = PID;
 		$this->project = new \Project($this->pid);
 		$this->projEvents = \Event::getEventsByProject($this->pid);
 		$this->baselineEID = array_search("Baseline", $this->projEvents);

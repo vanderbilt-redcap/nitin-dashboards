@@ -22,24 +22,24 @@ $params = [
 	"exportDataAccessGroups" => true
 ];
 $records = \REDCap::getData($params);
-foreach ($records as $i => $record) {
-	foreach ($record as $eid => $data) {
-		if ($record[$baseline) {
-			$row = [];
-			$row[0] = $record[$dash->enrollmentEID]['study_id'];
-			$row[1] = $record[$dash->enrollmentEID]['pati_6'];
+// foreach ($records as $i => $record) {
+	// foreach ($record as $eid => $data) {
+		// if ($record[$baseline]) {
+			// $row = [];
+			// $row[0] = $record[$dash->enrollmentEID]['study_id'];
+			// $row[1] = $record[$dash->enrollmentEID]['pati_6'];
 			
-			# manually format this value
-			$leadPT = $record[$dash->enrollmentEID]['pti_lead_pt_is_treating_pt'];
-			$row[2] = $leadPT == '0' ? 'No (0)' : ($leadPT == '1' ? 'Yes (1)' : $leadPT);
+			// # manually format this value
+			// $leadPT = $record[$dash->enrollmentEID]['pti_lead_pt_is_treating_pt'];
+			// $row[2] = $leadPT == '0' ? 'No (0)' : ($leadPT == '1' ? 'Yes (1)' : $leadPT);
 			
-			$row[3] = $record[$dash->enrollmentEID]['pti_lpt_referral_date'];
-			$row[4] = $record[$dash->enrollmentEID]['pti_pt_contacted'];
+			// $row[3] = $record[$dash->enrollmentEID]['pti_lpt_referral_date'];
+			// $row[4] = $record[$dash->enrollmentEID]['pti_pt_contacted'];
 			
-			$table['content'][] = $row;
-		}
-	}
-}
+			// $table['content'][] = $row;
+		// }
+	// }
+// }
 foreach ($records as $i => $record) {
 	$row = [];
 	$row[0] = $record[$dash->enrollmentEID]['study_id'];
