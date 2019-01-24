@@ -10,6 +10,8 @@
 require_once "../../redcap_connect.php";
 require_once "config.php";
 
+
+
 use Vanderbilt\Nitin;
 
 class Dashboard {
@@ -32,11 +34,17 @@ class Dashboard {
 		], [
 			"title" => "Data Management",
 			"filepath" => "html/data_management.php"
+		], [
+			"title" => "Screening",
+			"filepath" => "html/screening.php"
+		], [
+			"title" => "Imaging",
+			"filepath" => "html/imaging.php"
 		]
 	];
 	
 	public function __construct() {
-		$this->pid = PID;
+		$this->pid = SUBJECT_PID;
 		$this->project = new \Project($this->pid);
 		$this->projEvents = \Event::getEventsByProject($this->pid);
 		$this->baselineEID = array_search("Baseline", $this->projEvents);
