@@ -7,18 +7,20 @@ if(!defined("ENVIRONMENT")) {
 		if ($envConf[Victr_Env::ENV_CURRENT] === Victr_Env::ENV_PROD) {
 			define("ENVIRONMENT", "PROD");
 			define("SCREENING_PID", 63382);	// real project on prod");
-			// define("SUBJECT_PID", 63383);	// real project on prod");
+			define("SUBJECT_PID", 63383);	// real project on prod");
 			define("IMAGING_PID", 63384);	// real project on prod");
-			define("SUBJECT_PID", 73340);	// test project on prod");
+			// define("SUBJECT_PID", 73340);	// test project on prod");
 		} elseif ($envConf[Victr_Env::ENV_CURRENT] === Victr_Env::ENV_DEV) {
 			// define("ENVIRONMENT", "TEST");
 			// define("SUBJECT_PID", N/A);
 		}
 	} else {
 		define("ENVIRONMENT", "DEV");
-		define("SUBJECT_PID", 13);		// @able
-		define("IMAGING_PID", 14);		// @able
-		define("SCREENING_PID", 15);	// @able
-		// define("PID", 21);
+		// define("SUBJECT_PID", 13);		// @able
+		// define("IMAGING_PID", 14);		// @able
+		// define("SCREENING_PID", 15);	// @able
+		define("SUBJECT_PID", 21);
+		define("SCREENING_PID", 22);
+		define("IMAGING_PID", 23);
 	}
 }

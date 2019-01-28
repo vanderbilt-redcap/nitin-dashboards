@@ -49,8 +49,44 @@ class Dashboard {
 		$this->projEvents = \Event::getEventsByProject($this->pid);
 		$this->baselineEID = array_search("Baseline", $this->projEvents);
 		$this->enrollmentEID = array_search("Enrollment", $this->projEvents);
-		// $this->dags = $this->project->getUniqueGroupNames();
+		$this->m1EID = array_search("1-Month", $this->projEvents);
+		$this->m3EID = array_search("3-Months", $this->projEvents);
+		$this->m6EID = array_search("6-Months", $this->projEvents);
+		$this->m12EID = array_search("12-Months", $this->projEvents);
 		$this->dags = $this->project->getGroups();
+		
+		// get labels for subject project
+		$q = db_query("SELECT field_name, element_enum FROM redcap_metadata WHERE project_id=" . SUBJECT_PID);
+		$this->subject_labels = [];
+		while ($row = db_fetch_assoc($q)) {
+			$this->subject_labels[$row['field_name']] = $row['element_enum'];
+		}
+		// get labels for screening project
+		$q = db_query("SELECT field_name, element_enum FROM redcap_metadata WHERE project_id=" . SCREENING_PID);
+		$this->screening_labels = [];
+		while ($row = db_fetch_assoc($q)) {
+			$this->screening_labels[$row['field_name']] = $row['element_enum'];
+		}
+		// get labels for imaging project
+		$q = db_query("SELECT field_name, element_enum FROM redcap_metadata WHERE project_id=" . IMAGING_PID);
+		$this->imaging_labels = [];
+		while ($row = db_fetch_assoc($q)) {
+			$this->imaging_labels[$row['field_name']] = $row['element_enum'];
+		}
+	}
+	
+	function labelizeValue($fieldName, $fieldValue, $labels = '') {
+		if ($labels == '') $labels = $this->subject_labels;
+		if ($fieldValue == '') return $fieldValue;
+		if (isset($labels[$fieldName])) {
+			$enum = $labels[$fieldName];
+			preg_match_all("/$fieldValue, ([^\\\]+)/", $enum, $matches);
+			if (isset($matches[1][0])) {
+				# could return something like "Operative (2)"
+				return $matches[1][0] . " ($fieldValue)";
+			}
+		}
+		return $fieldValue;
 	}
 	
 	function getBaseHtml() {
