@@ -24,7 +24,7 @@ $imagingParams = [
 $subjectRecords = \REDCap::getData($subjectParams);
 $imagingRecords = \REDCap::getData($imagingParams);
 
-
+// exit("<pre>" . print_r($imaging['dags'], true) . "</pre>");
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 $table = [
 	"title" => "Site MRIs/X-rays to be sent to VUMC",
@@ -33,20 +33,16 @@ $table = [
 	"content" => []
 ];
 foreach ($subjectRecords as $i => $s_record) {
-	// $i_record = $imagingRecords[$i];
-	// if ($s_record and $i_record) {
-		$s_data = current($s_record);
-		// $i_data = current($i_record);
-		if ($s_data['pati_x19'] <> '1' and $s_data['study_id'] <> '') {
-			$row = [];
-			$row[0] = $s_data['study_id'];
-			$row[1] = $s_data['pati_6'];
-			$row[2] = $s_data['date'];
-			$row[3] = $s_data['pati_x17'];
-			
-			$table['content'][] = $row;
-		}
-	// }
+	$s_data = current($s_record);
+	if ($s_data['pati_x19'] <> '1' and $s_data['study_id'] <> '') {
+		$row = [];
+		$row[0] = $s_data['study_id'];
+		$row[1] = $s_data['pati_6'];
+		$row[2] = $s_data['date'];
+		$row[3] = $s_data['pati_x17'];
+		
+		$table['content'][] = $row;
+	}
 }
 $content .= $dash->makeDataTable($table);
 
@@ -58,20 +54,16 @@ $table = [
 	"content" => []
 ];
 foreach ($subjectRecords as $i => $s_record) {
-	// $i_record = $imagingRecords[$i];
-	// if ($s_record and $i_record) {
-		$s_data = current($s_record);
-		// $i_data = current($i_record);
-		if ($s_data['pati_x19'] == '1' and $s_data['pati_x20'] <> '1') {
-			$row = [];
-			$row[0] = $s_data['study_id'];
-			$row[1] = $s_data['pati_6'];
-			$row[2] = $s_data['date'];
-			$row[3] = $s_data['pati_x19'];
-			
-			$table['content'][] = $row;
-		}
-	// }
+	$s_data = current($s_record);
+	if ($s_data['pati_x19'] == '1' and $s_data['pati_x20'] <> '1') {
+		$row = [];
+		$row[0] = $s_data['study_id'];
+		$row[1] = $s_data['pati_6'];
+		$row[2] = $s_data['date'];
+		$row[3] = $s_data['pati_x19_1'];
+		
+		$table['content'][] = $row;
+	}
 }
 $content .= $dash->makeDataTable($table);
 
@@ -92,7 +84,7 @@ foreach ($subjectRecords as $i => $s_record) {
 			$row[0] = $s_data['study_id'];
 			$row[1] = $s_data['pati_6'];
 			$row[2] = $s_data['date'];
-			$row[3] = $s_data['pati_x19'];
+			$row[3] = $s_data['pati_x19_1'];
 			
 			$table['content'][] = $row;
 		}
@@ -110,14 +102,14 @@ $table = [
 foreach ($subjectRecords as $i => $s_record) {
 	$i_record = $imagingRecords[$i];
 	if ($s_record and $i_record) {
-		$s_data = current($s_record);
-		$i_data = current($i_record);
+		$s_data = reset($s_record);
+		$i_data = reset($i_record);
 		if ($i_data['img_mri_ready_to_review'] == '1' and $i_data['img_disc_given'] <> '1') {
 			$row = [];
 			$row[0] = $s_data['study_id'];
 			$row[1] = $s_data['pati_6'];
 			$row[2] = $s_data['date'];
-			$row[3] = $s_data['pati_x19'];
+			$row[3] = $s_data['pati_x19_1'];
 			
 			$table['content'][] = $row;
 		}
@@ -135,14 +127,14 @@ $table = [
 foreach ($subjectRecords as $i => $s_record) {
 	$i_record = $imagingRecords[$i];
 	if ($s_record and $i_record) {
-		$s_data = current($s_record);
-		$i_data = current($i_record);
+		$s_data = reset($s_record);
+		$i_data = reset($i_record);
 		if ($i_data['img_disc_given'] == '1' and $i_data['img_radiologist_review'] <> '1') {
 			$row = [];
 			$row[0] = $s_data['study_id'];
 			$row[1] = $s_data['pati_6'];
 			$row[2] = $s_data['date'];
-			$row[3] = $s_data['pati_x19'];
+			$row[3] = $s_data['pati_x19_1'];
 			
 			$table['content'][] = $row;
 		}

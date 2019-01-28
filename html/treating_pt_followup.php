@@ -72,47 +72,25 @@ foreach ($records as $i => $record) {
 $content .= $dash->makeDataTable($table);
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// # add PT Reports to send table
 $table = [
 	"title" => "PT Reports to send",
 	"titleClass" => "blueHeader",
 	"headers" => ["Study ID", "DAG", "Randomization Group", "Event", "Lower Window", "Ideal Date"],
 	"content" => []
 ];
+$day30 = date('Y-m-d', strtotime('+30 days'));	# set target date to be 30 days from now
 foreach ($records as $i => $record) {
-	// $date1 = "2019-01-31";
-	$date1 = date('Y-m-d', strtotime('+30 days'));	# set target date to be 30 days from now
 	$edata = $record[$dash->enrollmentEID];
 	$m1data = $record[$dash->m1EID];
 	$m3data = $record[$dash->m3EID];
-	
-		// $row = [];
-		// $row[0] = $edata['study_id'];
-		// $row[1] = $edata['pati_6'];
-		
-		// $rgroup = $edata['randgroup'];
-		// $row[2] = $this->labelizeValue("randgroup", $rgroup);
-		
-		// $row[3] = $dash->projEvents[$eid];
-		// $row[4] = $rgroup == '1' ? $data['pttk_lower_window_2'] : ($rgroup == '2' ? $data['pttk_lower_window'] : '');
-		// $row[5] = $rgroup == '1' ? $data['pttk_ideal_date_2'] : ($rgroup == '2' ? $data['pttk_ideal_date'] : '');
-		
-		// $table['content'][] = $row;
-	
 	foreach ($record as $eid => $data) {
 		if (
-		((($data['pttk_pt_report_sent'] == '' OR
-		$data['pttk_pt_report_sent'] == '') AND
-		($edata['pati_study_status'] <> '0') AND
-		($data['pttk_pt_report_sent'] == '' OR
-		$data['pttk_pt_report_sent'] == '')) AND
-		((($data['pttk_ideal_date_2'] <= $date1 OR
-		$data['pttk_ideal_date_2'] <= $date1) AND
-		($edata['randgroup'] == '1') AND
-		($edata['pati_x15'] <> '')) OR
-		(($data['pttk_ideal_date'] <= $date1 OR
-		$data['pttk_ideal_date'] <= $date1) AND
-		($edata['randgroup'] == '2'))))
+		$data['pttk_lower_window'] <= $day30 and
+		$data['pttk_pt_report_sent'] == '' and
+		$edata['date'] <> '' and
+		$data['pttk_ideal_date'] <> '' and
+		$edata['randgroup'] <> '1' and
+		$edata['pati_study_status'] <> '0'
 		) {
 			$row = [];
 			$row[0] = $edata['study_id'];
@@ -133,35 +111,35 @@ foreach ($records as $i => $record) {
 }
 $content .= $dash->makeDataTable($table);
 
-// UNVERIFIED - event level issues
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// # add PT Reports (follow-up) table
 $table = [
 	"title" => "PT Reports (follow-up)",
 	"titleClass" => "redHeader",
 	"headers" => ["Study ID", "DAG", "Event", "Date sent:", "Contact 1 approx. date due:", "Contact 2 approx. date due:", "LPT contact approx. date due:", "LPT contact needed?"],
 	"content" => []
 ];
-$params = [
-	"project_id" => $dash->pid,
-	"return_format" => 'array',
-	"filterLogic" => "([pttk_pt_report_completed] = '' OR [pttk_pt_report_completed] = '2') AND ([pttk_pt_report_sent] = '1') AND ([pttk_lead_pt_contact_made] = '') AND ([enrollment_arm_1][pati_study_status] <> '0')",
-	"exportDataAccessGroups" => true
-];
-$records = \REDCap::getData($params);
 foreach ($records as $i => $record) {
+	$edata = $record[$dash->enrollmentEID];
 	foreach ($record as $eid => $data) {
-		$row = [];
-		$row[0] = $record[$dash->enrollmentEID]['study_id'];
-		$row[1] = $record[$dash->enrollmentEID]['pati_6'];
-		$row[2] = $dash->projEvents[$eid];
-		$row[3] = $data['pttk_date_pt_report_sent'];
-		$row[4] = $data['pttk_contact_due_1'];
-		$row[5] = $data['pttk_contact_due_2'];
-		$row[6] = $data['pttk_contact_due_3'];
-		$row[7] = $data['pttk_lead_pt_contact_needed'];
-		
-		$table['content'][] = $row;
+		if (
+		($data['pttk_pt_report_completed'] == '' or
+		$data['pttk_pt_report_completed'] == '2') and
+		$data['pttk_pt_report_sent'] == '1' and
+		$data['pttk_lead_pt_contact_made'] == '' and
+		$edata['pati_study_status'] <> '0'
+		) {
+			$row = [];
+			$row[0] = $record[$dash->enrollmentEID]['study_id'];
+			$row[1] = $record[$dash->enrollmentEID]['pati_6'];
+			$row[2] = $dash->projEvents[$eid];
+			$row[3] = $data['pttk_date_pt_report_sent'];
+			$row[4] = $data['pttk_contact_due_1'];
+			$row[5] = $data['pttk_contact_due_2'];
+			$row[6] = $data['pttk_contact_due_3'];
+			$row[7] = $data['pttk_lead_pt_contact_needed'];
+			
+			$table['content'][] = $row;
+		}
 	}
 }
 $content .= $dash->makeDataTable($table);

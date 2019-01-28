@@ -6,14 +6,11 @@ $content = "";
 $params = [
 	"project_id" => $dash->pid,
 	"return_format" => 'array',
-	// "exportAsLabels" => true,
-	// "records" => ["4", "5"],
 	"exportDataAccessGroups" => true
 ];
 $records = \REDCap::getData($params);
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-# add Physical Therapy Scheduling table
 $table = [
 	"title" => "Physical Therapy Scheduling",
 	"titleClass" => "blueHeader",
@@ -48,7 +45,6 @@ foreach ($records as $i => $record) {
 $content .= $dash->makeDataTable($table);
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-# add Surgery Scheduling table
 $table = [
 	"title" => "Surgery Scheduling",
 	"titleClass" => "redHeader",
@@ -114,13 +110,6 @@ $table = [
 	"headers" => ["Study ID", "DAG", "Actual Surgery Date", "3m sxu response", "6m sxu response", "12m sxu response"],
 	"content" => []
 ];
-// $params = [
-	// "project_id" => $dash->pid,
-	// "return_format" => 'array',
-	// "filterLogic" => "([3months_arm_1][sxu_b1] = '1' OR [6months_arm_1][sxu_b1] = '1' OR [12months_arm_1][sxu_b1] = '1' OR [enrollment_arm_1][pati_x15] <> '' OR [enrollment_arm_1][pati_16] <> '') AND ([enrollment_arm_1][randgroup] = '2')",
-	// "exportDataAccessGroups" => true
-// ];
-// $records = \REDCap::getData($params);
 foreach ($records as $i => $record) {
 	$m3data = $record[$dash->m3EID];
 	$m6data = $record[$dash->m6EID];
@@ -151,6 +140,3 @@ foreach ($records as $i => $record) {
 	}
 }
 $content .= $dash->makeDataTable($table);
-$content .= "<br />";
-$content .= "<br />";
-$content .= "<br />";

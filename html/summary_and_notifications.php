@@ -1,36 +1,31 @@
 <?php
 
 global $dash;
+$params = [
+	"project_id" => $dash->pid,
+	"return_format" => 'array',
+	"exportDataAccessGroups" => true
+];
+$records = \REDCap::getData($params);
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// # prep PI Calls Needed table (so we can count # piCallsNeeded first)
 $table = [
 	"title" => "PI Calls Needed",
 	"titleClass" => "redHeader",
 	"headers" => ["Study ID", "DAG", "Event Name", "Approximate date PI call needed"],
-	"content" => [
-		// ["4-3285-119", "3-months", "10/30/18"],
-		// ["10-2284-23", "12-months", "10/30/18"]
-	]
+	"content" => []
 ];
-$params = [
-	"project_id" => $dash->pid,
-	"return_format" => 'array',
-	// "filterLogic" => "[enrollment_arm_1][study_id] <> '' AND ([qtk_pi_call] = '1') AND ([qtk_pi_call_complete] = '')",
-	"exportDataAccessGroups" => true
-];
-$records = \REDCap::getData($params);
 $piCallsNeeded = 0;
 foreach ($records as $i => $record) {
+	$edata = $record[$dash->enrollmentEID];
 	foreach ($record as $eid => $data) {
 		if ($data['qtk_pi_call'] == '1' and $data['qtk_pi_call_complete'] == '') {
 			$piCallsNeeded++;
 			$row = [];
-			$row[0] = $record[$dash->enrollmentEID]['study_id'];
-			$row[1] = $record[$dash->enrollmentEID]['pati_6'];
+			$row[0] = $edata['study_id'];
+			$row[1] = $edata['pati_6'];
 			$row[2] = $dash->projEvents[$eid];
-			$row[3] = $record[$dash->baselineEID]["qtk_call_due_4"];
-			# print with label where possible, if not, print actual value
+			$row[3] = $edata["qtk_call_due_4"];
 			
 			$table['content'][] = $row;
 		}

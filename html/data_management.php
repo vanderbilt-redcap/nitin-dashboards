@@ -2,98 +2,71 @@
 
 global $dash;
 $content = "";
+$params = [
+	"project_id" => $dash->pid,
+	"return_format" => 'array',
+	"exportDataAccessGroups" => true
+];
+$records = \REDCap::getData($params);
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// # add Enrollment Documents table
 $table = [
 	"title" => "Enrollment Documents",
 	"titleClass" => "blueHeader",
 	"headers" => ["Study ID", "DAG", "Randomization Group", "Randomization date:", "These documents MUST be uploaded BY:"],
-	"content" => [
-		// ["4-3285-119", "3-months", "Piped from baseline qtk"],
-		// ["10-2284-23", "6-months", "9/10/18"]
-	]
+	"content" => []
 ];
-$params = [
-	"project_id" => $dash->pid,
-	"return_format" => 'array',
-	"events" => [$dash->enrollmentEID],
-	"exportDataAccessGroups" => true
-];
-$records = \REDCap::getData($params);
 foreach ($records as $i => $record) {
-	foreach ($record as $eid => $data) {
-		if ($data['sdoc_initial_due'] <> '' and $data['sdoc_vumc_cert'] <> '1') {
-			$row = [];
-			$row[0] = $data['study_id'];
-			$row[1] = $data['pati_6'];
-			$row[2] = $data['randgroup'];
-			$row[3] = $data['date'];
-			$row[4] = $data['sdoc_initial_due'];
-			
-			$table['content'][] = $row;
-		}
+	$edata = $record[$dash->enrollmentEID];
+	if ($edata['sdoc_initial_due'] <> '' and $edata['sdoc_vumc_cert'] <> '1') {
+		$row = [];
+		$row[0] = $edata['study_id'];
+		$row[1] = $edata['pati_6'];
+		$row[2] = $dash->labelizeValue('randgroup', $edata['randgroup']);
+		$row[3] = $edata['date'];
+		$row[4] = $edata['sdoc_initial_due'];
+		
+		$table['content'][] = $row;
 	}
 }
 $content .= $dash->makeDataTable($table);
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// # add Surgical Documents table
 $table = [
 	"title" => "Surgical Documents",
 	"titleClass" => "redHeader",
 	"headers" => ["Study ID", "DAG", "Randomization date", "Actual Surgery Date:", "These documents MUST be uploaded BY:"],
-	"content" => [
-		// ["4-3285-119", "", ""],
-		// ["10-2284-23", "", ""]
-	]
+	"content" => []
 ];
-$params = [
-	"project_id" => $dash->pid,
-	"return_format" => 'array',
-	"events" => [$dash->enrollmentEID],
-	"exportDataAccessGroups" => true
-];
-$records = \REDCap::getData($params);
 foreach ($records as $i => $record) {
-	foreach ($record as $eid => $data) {
-		if ($data['sdoc_vumc_cert_2'] <> '1' and $data['randgroup'] == '1' and $data['pati_x15'] <> '') {
-			$row = [];
-			$row[0] = $data['study_id'];
-			$row[1] = $data['pati_6'];
-			$row[2] = $data['date'];
-			$row[3] = $data['pati_x15'];
-			$row[4] = $data['sdoc_surgical_due'];
-			
-			$table['content'][] = $row;
-		}
+	$edata = $record[$dash->enrollmentEID];
+	if ($edata['sdoc_vumc_cert_2'] <> '1' and $edata['randgroup'] == '1' and $edata['pati_x15'] <> '') {
+		$row = [];
+		$row[0] = $edata['study_id'];
+		$row[1] = $edata['pati_6'];
+		$row[2] = $edata['date'];
+		$row[3] = $edata['pati_x15'];
+		$row[4] = $edata['sdoc_surgical_due'];
+		
+		$table['content'][] = $row;
 	}
 }
 $content .= $dash->makeDataTable($table);
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// # add Data Validation table
 $table = [
 	"title" => "Data Validation (Sites/Personnel)",
 	"titleClass" => "blueHeader",
 	"headers" => ["Study ID", "DAG", "Event", "Instance", "Information to be validated", "Resolution notes", "Date issue(s) discovered", "Contact 1 Date", "Contact 2 Date", "Contact 3 Date", "Contact 4 Date", "Contact 5 Date"],
-	"content" => [
-		// ["4-3285-119", "", "", "", "", ""],
-		// ["10-2284-23", "", "", "9/10/18", "9/17/18", "9/24/18"]
-	]
+	"content" => []
 ];
-$params = [
-	"project_id" => $dash->pid,
-	"return_format" => 'array',
-	"exportDataAccessGroups" => true
-];
-$records = \REDCap::getData($params);
 foreach ($records as $i => $record) {
+	$edata = $record[$dash->enrollmentEID];
 	foreach ($record as $eid => $data) {
 		if ($data['dval_action_needed'] == '1' and $data['dval_res_ra'] == '2') {
 			$row = [];
-			$row[0] = $record[$dash->enrollmentEID]['study_id'];
-			$row[1] = $record[$dash->enrollmentEID]['pati_6'];
+			$row[0] = $edata['study_id'];
+			$row[1] = $edata['pati_6'];
 			$row[2] = $dash->projEvents[$eid];
 			$row[3] = '';
 			$row[4] = $data['dval_specify_research'];
@@ -118,42 +91,55 @@ $table = [
 	"headers" => ["Study ID", "DAG", "Randomization group", "Date delay of treatment effective:", "Surgery scheduling status/notes: (if applicable:"],
 	"content" => []
 ];
-$params = [
-	"project_id" => $dash->pid,
-	"return_format" => 'array',
-	"exportDataAccessGroups" => true
-];
-$records = \REDCap::getData($params);
+$day0 = date('Y-m-d');	# set target date to be 30 days from now
 foreach ($records as $i => $record) {
-	foreach ($record as $eid => $data) {
-		if ($data['qtk_questionnaire_received'] == '1') {
-			$row = [];
-			$row[0] = $record[$dash->enrollmentEID]['study_id'];
-			$row[1] = $record[$dash->enrollmentEID]['pati_6'];
-			$row[2] = $data['patc_a2'];
-			$row[3] = $data['patc_a3'];
-			$row[4] = $dash->projEvents[$eid];
-			$row[5] = $data['patc_timepoint'];
-			$row[6] = $data['qtk_check_request_number'];
-			$row[7] = $data['qtk_date_received'];
-			$row[8] = $data['qtk_check_request_submitted'];
-			$row[9] = $data['qtk_check_request_date'];
-			$row[10] = $data['qtk_patient_paid'];
-			$row[11] = $data['qtk_date_check_cleared'];
-			
-			$table['content'][] = $row;
-		}
+	$edata = $record[$dash->enrollmentEID];
+	$bdata = $record[$dash->baselineEID];
+	if (
+	$edata['qtk_pdv_effective_date'] <= $day0 and
+	$edata['pati_x15'] == '' and
+	$bdata['qtk_physical_therapy'] <> '1'
+	) {
+		$row = [];
+		$row[0] = $edata['study_id'];
+		$row[1] = $edata['pati_6'];
+		$row[2] = $dash->labelizeValue('randgroup', $edata['randgroup']);
+		$row[3] = $edata['qtk_pdv_effective_date'];
+		$row[4] = $edata['pati_surgical_sched_notes'];
+		
+		$table['content'][] = $row;
 	}
 }
 $content .= $dash->makeDataTable($table);
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 $table = [
-	"title" => "Double Data Entry",
+	"title" => "Delay of Treatment Protocol Deviations (approaching)",
 	"titleClass" => "blueHeader",
-	"headers" => [],
+	"headers" => ["Study ID", "DAG", "Randomization Group", "Date delay of treatment effective:", "Surgery scheduling status/notes: (if applicable:"],
 	"content" => []
 ];
+$day0 = date('Y-m-d');
+$day30 = date('Y-m-d', strtotime('+30 days'));	# set target date to be 30 days from now
+foreach ($records as $i => $record) {
+	$edata = $record[$dash->enrollmentEID];
+	$bdata = $record[$dash->baselineEID];
+	if (
+	$edata['qtk_pdv_effective_date'] >= $day0 and
+	$edata['qtk_pdv_effective_date'] <= $day30 and
+	$edata['pati_x15'] == '' and
+	$bdata['qtk_physical_therapy'] <> '1'
+	) {
+		$row = [];
+		$row[0] = $edata['study_id'];
+		$row[1] = $edata['pati_6'];
+		$row[2] = $dash->labelizeValue('randgroup', $edata['randgroup']);
+		$row[3] = $edata['qtk_pdv_effective_date'];
+		$row[4] = $edata['pati_surgical_sched_notes'];
+		
+		$table['content'][] = $row;
+	}
+}
 $content .= $dash->makeDataTable($table);
 
 
