@@ -347,6 +347,7 @@ template {
 }
 
 nav {
+  font: 20px bold, sans-serif;
   position: fixed;
   margin-top: 175px;
   width: 334px;

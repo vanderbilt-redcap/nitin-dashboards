@@ -21,14 +21,21 @@ foreach ($records as $i => $record) {
 	$edata = $record[$dash->enrollmentEID];
 	foreach ($record as $eid => $data) {
 		if (
-		$data['qtk_lower_window'] < $date1 and
-		$data['qtk_questionnaire_sent'] == '' and
-		$edata['date'] <> '' and
-		$data['qtk_lower_window'] <> '' and
-		$edata['pati_study_status'] <> '0'
+			// logic pulled from "Questionnaires to send" report
+			($data['qtk_lower_window'] < $day30) AND
+			($data['qtk_questionnaire_sent'] == "") AND
+			($edata['date'] <> "") AND
+			($data['qtk_lower_window'] <> "") AND
+			($edata['pati_study_status'] <> "0")
+			
+			// $data['qtk_lower_window'] < $date1 and
+			// $data['qtk_questionnaire_sent'] == '' and
+			// $edata['date'] <> '' and
+			// $data['qtk_lower_window'] <> '' and
+			// $edata['pati_study_status'] <> '0'
 		) {
 			$row = [];
-			$row[0] = $record[$dash->enrollmentEID]['study_id'];
+			$row[0] = "<a href = \"" . $dash->recordHome . "$i\">" . $edata['enrollment_id'] . "</a>-" . $edata['study_id'];
 			$row[1] = $record[$dash->enrollmentEID]['pati_6'];
 			$row[2] = $dash->projEvents[$eid];
 			$row[3] = $data['qtk_lower_window'];
@@ -43,7 +50,7 @@ $content .= $dash->makeDataTable($table);
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 $table = [
-	"title" => "Physical Therapy Diaries to Send/Check",
+	"title" => "Physical Therapy Diaries to Check/Send",
 	"titleClass" => "redHeader",
 	"headers" => ["Study ID", "DAG", "Diary type", "Event Name"],
 	"content" => []
@@ -51,8 +58,17 @@ $table = [
 foreach ($records as $i => $record) {
 	$edata = $record[$dash->enrollmentEID];
 	foreach ($record as $eid => $data) {
-		if(true) {
-			# table on hold til kimberly done
+		if(
+			($data['pttk_diary_check'] == "" OR
+			$data['qtk_questionnaire_received_2'] == "") AND
+			($data['qtk_questionnaire_sent'] == "1") AND
+			($data['patc'] <> "1")
+		) {
+			$row = [];
+			$row[0] = "<a href = \"" . $dash->recordHome . "$i\">" . $edata['enrollment_id'] . "</a>-" . $edata['study_id'];
+			$row[1] = '1';
+			$row[2] = '2';
+			$row[3] = '3';
 		}
 	}
 }
@@ -76,7 +92,7 @@ foreach ($records as $i => $record) {
 		($data['qtk_questionnaire_received'] == '' or $data['qtk_questionnaire_received'] == '2')
 		) {
 			$row = [];
-			$row[0] = $record[$dash->enrollmentEID]['study_id'];
+			$row[0] = "<a href = \"" . $dash->recordHome . "$i\">" . $edata['enrollment_id'] . "</a>-" . $edata['study_id'];
 			$row[1] = $record[$dash->enrollmentEID]['pati_6'];
 			$row[2] = $dash->projEvents[$eid];
 			$row[3] = $data['qtk_call_due'];
@@ -106,7 +122,7 @@ foreach ($records as $i => $record) {
 		$edata['pati_study_status'] <> '0'
 		) {
 			$row = [];
-			$row[0] = $edata['study_id'];
+			$row[0] = "<a href = \"" . $dash->recordHome . "$i\">" . $edata['enrollment_id'] . "</a>-" . $edata['study_id'];
 			$row[1] = $edata['pati_6'];
 			$row[2] = $dash->projEvents[$eid];
 			$row[3] = ''; // how to get redcap_repeat_instance??

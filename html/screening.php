@@ -13,10 +13,22 @@ $screening['dags'] = $screening['project']->getGroups();
 # fetch records
 $params = [
 	"project_id" => SCREENING_PID,
+	"events" => [$dash->enrollmentEID],
 	"return_format" => 'array',
 	"exportDataAccessGroups" => true
 ];
 $records = \REDCap::getData($params);
+
+# fetch subject db info
+// $subjectParams = [
+	// "project_id" => SUBJECT_PID,
+	// "return_format" => 'array',
+	// "events" => [$dash->enrollmentEID],
+	// "exportDataAccessGroups" => true
+// ];
+// $subjectRecords = \REDCap::getData($subjectParams);
+
+// exit("<pre>" . print_r($subjectRecords, true) . "</pre>");
 
 $dagNames = [
 	"george_washington" => "George Washington University (Washington, DC)",
@@ -53,7 +65,8 @@ foreach ($records as $i => $record) {
 	foreach ($record as $eid => $data) {
 		if ($data['slg_d1'] == '2') {
 			$row = [];
-			$row[0] = $data['study_id'];
+			$row[0] = "<a href = \"" . $dash->screeningRecordHome . $data['study_id'] . "\">" . $data['study_id'] . "</a>";
+			// $row[0] = $data['study_id'];
 			$row[1] = $dagNames[$data['redcap_data_access_group']];
 			$row[2] = $dash->labelizeValue('slg_dr_site_12', $data['slg_dr_site_12'], $dash->screening_labels);
 			$row[3] = $data['slg_d3'];
@@ -76,7 +89,7 @@ foreach ($records as $i => $record) {
 	foreach ($record as $eid => $data) {
 		if ($data['slg_f2a'] == '1') {
 			$row = [];
-			$row[0] = $data['study_id'];
+			$row[0] = "<a href = \"" . $dash->screeningRecordHome . $data['study_id'] . "\">" . $data['study_id'] . "</a>";
 			$row[1] = $dagNames[$data['redcap_data_access_group']];
 			$row[2] = $data['slg_appointment_date'];
 			
@@ -97,7 +110,7 @@ foreach ($records as $i => $record) {
 	foreach ($record as $eid => $data) {
 		if ($data['screening_log_complete'] <> '2') {
 			$row = [];
-			$row[0] = $data['study_id'];
+			$row[0] = "<a href = \"" . $dash->screeningRecordHome . $data['study_id'] . "\">" . $data['study_id'] . "</a>";
 			$row[1] = $dagNames[$data['redcap_data_access_group']];
 			$row[2] = $data['slg_appointment_date'];
 			$row[3] = $dash->labelizeValue('slg_d1', $data['slg_d1'], $dash->screening_labels);

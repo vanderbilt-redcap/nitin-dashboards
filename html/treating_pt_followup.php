@@ -28,7 +28,7 @@ foreach ($records as $i => $record) {
 	$edata['pti_lead_pt_is_treating_pt'] == '')
 	) {
 		$row = [];
-		$row[0] = $edata['study_id'];
+		$row[0] = "<a href = \"" . $dash->recordHome . "$i\">" . $edata['enrollment_id'] . "</a>-" . $edata['study_id'];
 		$row[1] = $edata['pati_6'];
 		$row[2] = $dash->labelizeValue('pti_release_sent_to_pt', $edata['pti_release_sent_to_pt']);
 		
@@ -44,19 +44,19 @@ $content .= $dash->makeDataTable($table);
 $table = [
 	"title" => "Outstanding Lead PT Initial Calls/Verification",
 	"titleClass" => "redHeader",
-	"headers" => ["Study ID", "DAG", "Site Lead PT Treating PT?", "Date referred to lead PT", "Treating Physical therapist successfully contacted?"],
+	"headers" => ["Study ID", "DAG", "Site Lead PT Treating PT?", "Date referred to lead PT", "Treating Physical therapist successfully contacted?", "Contact Notes"],
 	"content" => []
 ];
 foreach ($records as $i => $record) {
 	$edata = $record[$dash->enrollmentEID];
 	if (
-	($edata['pti_patient_is_participant'] == '1' and
-	$edata['pti_receipt_of_protocol'] == '') or
-	($edata['pti_contact_pt'] == '1' and 
-	$edata['pti_pt_contacted'] == '')
+		($edata['pti_patient_is_participant'] == '1' and
+		$edata['pti_receipt_of_protocol'] == '') or
+		($edata['pti_contact_pt'] == '1' and 
+		$edata['pti_pt_contacted'] == '')
 	) {
 		$row = [];
-		$row[0] = $edata['study_id'];
+		$row[0] = "<a href = \"" . $dash->recordHome . "$i\">" . $edata['enrollment_id'] . "</a>-" . $edata['study_id'];
 		$row[1] = $edata['pati_6'];
 		
 		# manually format this value
@@ -65,6 +65,7 @@ foreach ($records as $i => $record) {
 		
 		$row[3] = $edata['pti_lpt_referral_date'];
 		$row[4] = $edata['pti_pt_contacted'];
+		$row[5] = $edata['pti_pt_contact_notes'];
 		
 		$table['content'][] = $row;
 	}
@@ -85,15 +86,41 @@ foreach ($records as $i => $record) {
 	$m3data = $record[$dash->m3EID];
 	foreach ($record as $eid => $data) {
 		if (
-		$data['pttk_lower_window'] <= $day30 and
-		$data['pttk_pt_report_sent'] == '' and
-		$edata['date'] <> '' and
-		$data['pttk_ideal_date'] <> '' and
-		$edata['randgroup'] <> '1' and
-		$edata['pati_study_status'] <> '0'
+			// logic from report "PT reports to send (combined-revised post dashboard draft)"
+			// (([enrollment_arm_1][pati_study_status]<>'0') AND
+			// (([1month_arm_1][pttk_pt_report_sent] = "") AND
+			// ((([enrollment_arm_1][randgroup] = "2" ) AND
+			// ([1month_arm_1][pttk_ideal_date] <= "2019-02-28") AND
+			// ([1month_arm_1][pttk_ideal_date] <> "")) OR
+			// (([enrollment_arm_1][randgroup] = "1") AND
+			// ([1month_arm_1][pttk_ideal_date_2] <= "2019-02-28") AND
+			// ([1month_arm_1][pttk_ideal_date_2] <> "")))) OR
+			// (([3months_arm_1][pttk_pt_report_sent] = "") AND
+			// ((([enrollment_arm_1][randgroup] = "2" ) AND
+			// ([3months_arm_1][pttk_ideal_date] <= "2019-02-28") AND
+			// ([3months_arm_1][pttk_ideal_date] <> "")) OR
+			// (([enrollment_arm_1][randgroup] = "1") AND
+			// ([3months_arm_1][pttk_ideal_date_2] <= "2019-02-28") AND
+			// ([3months_arm_1][pttk_ideal_date_2] <> "")))))
+			
+			(($edata['pati_study_status'] <> '0') AND
+			(($m1data['pttk_pt_report_sent'] == "") AND
+			((($edata['randgroup'] == "2" ) AND
+			($m1data['pttk_ideal_date'] <= $day30) AND
+			($m1data['pttk_ideal_date'] <> "")) OR
+			(($edata['randgroup'] == "1") AND
+			($m1data['pttk_ideal_date_2'] <= $day30) AND
+			($m1data['pttk_ideal_date_2'] <> "")))) OR
+			(($m3data['pttk_pt_report_sent'] == "") AND
+			((($edata['randgroup'] == "2" ) AND
+			($m3data['pttk_ideal_date'] <= $day30) AND
+			($m3data['pttk_ideal_date'] <> "")) OR
+			(($edata['randgroup'] == "1") AND
+			($m3data['pttk_ideal_date_2'] <= $day30) AND
+			($m3data['pttk_ideal_date_2'] <> "")))))
 		) {
 			$row = [];
-			$row[0] = $edata['study_id'];
+			$row[0] = "<a href = \"" . $dash->recordHome . "$i\">" . $edata['enrollment_id'] . "</a>-" . $edata['study_id'];
 			$row[1] = $edata['pati_6'];
 			
 			# formatting
@@ -129,7 +156,7 @@ foreach ($records as $i => $record) {
 		$edata['pati_study_status'] <> '0'
 		) {
 			$row = [];
-			$row[0] = $record[$dash->enrollmentEID]['study_id'];
+			$row[0] = "<a href = \"" . $dash->recordHome . "$i\">" . $edata['enrollment_id'] . "</a>-" . $edata['study_id'];
 			$row[1] = $record[$dash->enrollmentEID]['pati_6'];
 			$row[2] = $dash->projEvents[$eid];
 			$row[3] = $data['pttk_date_pt_report_sent'];

@@ -54,6 +54,11 @@ class Dashboard {
 		$this->m6EID = array_search("6-Months", $this->projEvents);
 		$this->m12EID = array_search("12-Months", $this->projEvents);
 		$this->dags = $this->project->getGroups();
+		$this->recordHome = substr(APP_PATH_WEBROOT_FULL, 0, -8) . APP_PATH_WEBROOT . "DataEntry/record_home.php?pid=" . SUBJECT_PID . "&id=";
+		$this->imagingRecordHome = substr(APP_PATH_WEBROOT_FULL, 0, -8) . APP_PATH_WEBROOT . "DataEntry/record_home.php?pid=" . IMAGING_PID . "&id=";
+		$this->screeningRecordHome = substr(APP_PATH_WEBROOT_FULL, 0, -8) . APP_PATH_WEBROOT . "DataEntry/index.php?pid=" . SCREENING_PID . "&page=screening_log&id=";
+		
+		// http://localhost/redcap/redcap_v8.10.2/DataEntry/index.php?pid=22&id=32841-792&page=screening_log
 		
 		// get labels for subject project
 		$q = db_query("SELECT field_name, element_enum FROM redcap_metadata WHERE project_id=" . SUBJECT_PID);
