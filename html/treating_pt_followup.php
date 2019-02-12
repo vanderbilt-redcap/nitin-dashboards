@@ -117,7 +117,7 @@ foreach ($records as $i => $record) {
 			($m3data['pttk_ideal_date'] <> "")) OR
 			(($edata['randgroup'] == "1") AND
 			($m3data['pttk_ideal_date_2'] <= $day30) AND
-			($m3data['pttk_ideal_date_2'] <> "")))))
+			($m3data['pttk_ideal_date_2'] <> ""))))) and ($eid == $dash->m1EID or $eid == $dash->m3EID)
 		) {
 			$row = [];
 			$row[0] = "<a href = \"" . $dash->recordHome . "$i\">" . $edata['enrollment_id'] . "</a>-" . $edata['study_id'];

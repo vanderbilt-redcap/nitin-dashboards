@@ -25,7 +25,7 @@ foreach ($records as $i => $record) {
 			$row[0] = "<a href = \"" . $dash->recordHome . "$i\">" . $edata['enrollment_id'] . "</a>-" . $edata['study_id'];
 			$row[1] = $edata['pati_6'];
 			$row[2] = $dash->projEvents[$eid];
-			$row[3] = $edata["qtk_call_due_4"];
+			$row[3] = $data["qtk_call_due_4"];
 			
 			$table['content'][] = $row;
 		}

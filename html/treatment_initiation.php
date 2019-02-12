@@ -70,7 +70,7 @@ $content .= $dash->makeDataTable($table);
 $table = [
 	"title" => "Operative to Non-operative Potential Crossovers",
 	"titleClass" => "blueHeader",
-	"headers" => ["Study ID", "DAG", "Actual Surgery Date", "Patient 3mQ response", "Patient 6mQ response", "Patient 12mQ response"],
+	"headers" => ["Study ID", "DAG", "Actual Surgery Date", "Patient 3mQ PT response", "Patient 6mQ PT response", "Patient 12mQ PT response"],
 	"content" => []
 ];
 foreach ($records as $i => $record) {
