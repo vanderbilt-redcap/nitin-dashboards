@@ -58,19 +58,22 @@ $dagNames = [
 $table = [
 	"title" => "Pending MRIs",
 	"titleClass" => "redHeader",
-	"headers" => ["Study ID", "DAG", "Physician Name", "MRI Scheduled Date:", "Date patient scheduled to return to clinic:"],
+	"headers" => ["Study ID", "DAG", "Physician Name", "Appointment Date", "MRI Scheduled Date:", "Date patient scheduled to return to clinic:"],
 	"content" => []
 ];
 foreach ($records as $i => $record) {
+	$edata = $record[$dash->enrollmentEID];
 	foreach ($record as $eid => $data) {
 		if ($data['slg_d1'] == '2') {
 			$row = [];
 			$row[0] = "<a href = \"" . $dash->screeningRecordHome . $data['study_id'] . "\">" . $data['study_id'] . "</a>";
-			// $row[0] = $data['study_id'];
 			$row[1] = $dagNames[$data['redcap_data_access_group']];
-			$row[2] = $dash->labelizeValue('slg_dr_site_12', $data['slg_dr_site_12'], $dash->screening_labels);
-			$row[3] = $data['slg_d3'];
-			$row[4] = $data['slg_d5'];
+			
+			$siteName = $data['site_name'];
+			$row[2] = $dash->labelizeValue("slg_dr_site_$siteName", $data["slg_dr_site_$siteName"], $dash->screening_labels);
+			$row[3] = $data['slg_appointment_date'];
+			$row[4] = $data['slg_d3'];
+			$row[5] = $data['slg_d5'];
 			
 			$table['content'][] = $row;
 		}
@@ -103,7 +106,7 @@ $content .= $dash->makeDataTable($table);
 $table = [
 	"title" => "Outstanding (incomplete) records",
 	"titleClass" => "redHeader",
-	"headers" => ["Study ID", "DAG", "Date of appointment", "Does patient have tear?", "Date MRI scheduled (if MRI Pending)", "Patient need more time to decide?"],
+	"headers" => ["Study ID", "DAG", "Appointment Date", "Does patient have tear?", "Date MRI scheduled (if MRI Pending)", "Patient need more time to decide?"],
 	"content" => []
 ];
 foreach ($records as $i => $record) {

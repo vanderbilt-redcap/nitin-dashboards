@@ -11,7 +11,7 @@ $records = \REDCap::getData($params);
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 $table = [
-	"title" => "Enrollment Documents",
+	"title" => "Enrollment Document Collection",
 	"titleClass" => "blueHeader",
 	"headers" => ["Study ID", "DAG", "Randomization Group", "Randomization date:", "These documents MUST be uploaded BY:"],
 	"content" => []
@@ -33,7 +33,7 @@ $content .= $dash->makeDataTable($table);
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 $table = [
-	"title" => "Surgical Documents",
+	"title" => "Surgical Document Collection",
 	"titleClass" => "redHeader",
 	"headers" => ["Study ID", "DAG", "Randomization date", "Actual Surgery Date:", "These documents MUST be uploaded BY:"],
 	"content" => []
@@ -62,13 +62,16 @@ $table = [
 ];
 foreach ($records as $i => $record) {
 	$edata = $record[$dash->enrollmentEID];
-	foreach ($record as $eid => $data) {
+	foreach ($record['repeat_instances'][$dash->baselineEID]['data_collectionvalidation'] as $eid => $data) {
+		// logic from "Data Validation (site)"
+		// ([dval_action_needed] = "1") AND ([dval_res_ra] = "2")
+		// if ($data['dval_action_needed'] == '1' or $record[$dash->baselineEID]['dval_res_ra'] == '2') exit('2');
 		if ($data['dval_action_needed'] == '1' and $data['dval_res_ra'] == '2') {
 			$row = [];
 			$row[0] = "<a href = \"" . $dash->recordHome . "$i\">" . $edata['enrollment_id'] . "</a>-" . $edata['study_id'];
 			$row[1] = $edata['pati_6'];
-			$row[2] = $dash->projEvents[$eid];
-			$row[3] = '';
+			$row[2] = $dash->projEvents[$dash->baselineEID];
+			$row[3] = $repeatInstance;
 			$row[4] = $data['dval_specify_research'];
 			$row[5] = $data['dval_res_notes'];
 			$row[6] = $data['dval_issue_disc_date'];

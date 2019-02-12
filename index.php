@@ -55,7 +55,12 @@ class Dashboard {
 		$this->m12EID = array_search("12-Months", $this->projEvents);
 		$this->dags = $this->project->getGroups();
 		$this->recordHome = substr(APP_PATH_WEBROOT_FULL, 0, -8) . APP_PATH_WEBROOT . "DataEntry/record_home.php?pid=" . SUBJECT_PID . "&id=";
+		
 		$this->imagingRecordHome = substr(APP_PATH_WEBROOT_FULL, 0, -8) . APP_PATH_WEBROOT . "DataEntry/record_home.php?pid=" . IMAGING_PID . "&id=";
+		// $this->imagingProject = new \Project(IMAGING_PID);
+		// $this->imagingProjectEvents = \Event::getEventsByProject(IMAGING_PID);
+		// $this->imagingEnrollmentEID = array_search("Enrollment", $this->imagingProjectEvents);
+		
 		$this->screeningRecordHome = substr(APP_PATH_WEBROOT_FULL, 0, -8) . APP_PATH_WEBROOT . "DataEntry/index.php?pid=" . SCREENING_PID . "&page=screening_log&id=";
 		
 		// http://localhost/redcap/redcap_v8.10.2/DataEntry/index.php?pid=22&id=32841-792&page=screening_log

@@ -59,6 +59,12 @@ foreach ($records as $i => $record) {
 	$edata = $record[$dash->enrollmentEID];
 	foreach ($record as $eid => $data) {
 		if(
+			// logic from "Physical therapy diary checks" report
+			// ([pttk_diary_check] = "" OR
+			// [qtk_questionnaire_received_2] = "") AND
+			// ([qtk_questionnaire_sent] = "1") AND
+			// ([patc] <> "1")
+			
 			($data['pttk_diary_check'] == "" OR
 			$data['qtk_questionnaire_received_2'] == "") AND
 			($data['qtk_questionnaire_sent'] == "1") AND
@@ -66,9 +72,9 @@ foreach ($records as $i => $record) {
 		) {
 			$row = [];
 			$row[0] = "<a href = \"" . $dash->recordHome . "$i\">" . $edata['enrollment_id'] . "</a>-" . $edata['study_id'];
-			$row[1] = '1';
-			$row[2] = '2';
-			$row[3] = '3';
+			$row[1] = $edata['pati_6'];
+			$row[2] = $edata['pati_14'];
+			$row[3] = ($edata['pati_14']) == '' ? 'Enrollment' : $dash->projEvents[$eid];
 		}
 	}
 }
@@ -85,15 +91,24 @@ foreach ($records as $i => $record) {
 	$edata = $record[$dash->enrollmentEID];
 	foreach ($record as $eid => $data) {
 		if (
-		$data['qtk_timepoint'] <> '0' and
-		$data['qtk_pi_call'] <> '1' and
-		$data['pati_study_status'] <> '0' and
-		$data['qtk_questionnaire_sent'] == '1' and
-		($data['qtk_questionnaire_received'] == '' or $data['qtk_questionnaire_received'] == '2')
+			// logic from "Follow up calls (patient questionnaire)"
+			// ([qtk_timepoint] <> "0") AND
+			// ([qtk_pi_call] <> "1") AND
+			// ([pati_study_status] <> "0") AND
+			// ([qtk_questionnaire_sent] = "1") AND
+			// ([qtk_questionnaire_received] = "" OR
+			// [qtk_questionnaire_received] = "2")
+			
+			($data['qtk_timepoint'] <> "0") and
+			($data['qtk_pi_call'] <> "1") and
+			($data['pati_study_status'] <> "0") and
+			($data['qtk_questionnaire_sent'] == "1") and
+			($data['qtk_questionnaire_received'] == "" or
+			$data['qtk_questionnaire_received'] == "2")
 		) {
 			$row = [];
 			$row[0] = "<a href = \"" . $dash->recordHome . "$i\">" . $edata['enrollment_id'] . "</a>-" . $edata['study_id'];
-			$row[1] = $record[$dash->enrollmentEID]['pati_6'];
+			$row[1] = $edata['pati_6'];
 			$row[2] = $dash->projEvents[$eid];
 			$row[3] = $data['qtk_call_due'];
 			$row[4] = $data['qtk_call_due_2'];
@@ -117,9 +132,10 @@ foreach ($records as $i => $record) {
 	$edata = $record[$dash->enrollmentEID];
 	foreach ($record as $eid => $data) {
 		if (
-		$data['dval_pat_contact_needed'] == '1' and
-		($data['dval_res_pat'] == '2' or $data['dval_res_pat'] == '') and
-		$edata['pati_study_status'] <> '0'
+			
+			$data['dval_pat_contact_needed'] == '1' and
+			($data['dval_res_pat'] == '2' or $data['dval_res_pat'] == '') and
+			$edata['pati_study_status'] <> '0'
 		) {
 			$row = [];
 			$row[0] = "<a href = \"" . $dash->recordHome . "$i\">" . $edata['enrollment_id'] . "</a>-" . $edata['study_id'];
@@ -134,6 +150,44 @@ foreach ($records as $i => $record) {
 			$row[9] = $data['dval_contact_date_3'];
 			$row[10] = $data['dval_contact_date_4'];
 			$row[11] = $data['dval_contact_date_5'];
+			
+			$table['content'][] = $row;
+		}
+	}
+}
+$content .= $dash->makeDataTable($table);
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+$table = [
+	"title" => "Physical Therapy Diary Monitoring (Questionnaire received but physical therapy diary still outstanding)",
+	"titleClass" => "blueHeader",
+	"headers" => ["Study ID", "DAG", "Diary Type", "Event Name", "Date Questionnaire Received:"],
+	"content" => []
+];
+foreach ($records as $i => $record) {
+	$edata = $record[$dash->enrollmentEID];
+	$m3data = $record[$dash->m3EID];
+	$m6data = $record[$dash->m6EID];
+	foreach ($record as $eid => $data) {
+		if (
+			// logic from "PT diary follow-up"
+			(($data['qtk_questionnaire_received'] == "1") and
+			($data['qtk_questionnaire_received_2'] == "2") and
+			($data['qtk_questionnaire_sent_2'] == "1")) or
+			(($data['qtk_questionnaire_received'] == "1") and
+			($data['qtk_questionnaire_received_2'] == "2") and
+			($data['qtk_questionnaire_sent_2'] == "1")) or
+			(($data['mycap_completion'] == "") and
+			($data['qtk_questionnaire_sent_2'] == "2")) or
+			(($data['mycap_completion'] == "") and
+			($data['qtk_questionnaire_sent_2'] == "2"))
+		) {
+			$row = [];
+			$row[0] = "<a href = \"" . $dash->recordHome . "$i\">" . $edata['enrollment_id'] . "</a>-" . $edata['study_id'];
+			$row[1] = $edata['pati_6'];
+			$row[2] = $edata['pati_14'];
+			$row[3] = $dash->projEvents[$eid];
+			$row[4] = $data['qtk_date_received'];
 			
 			$table['content'][] = $row;
 		}
