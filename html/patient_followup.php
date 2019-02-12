@@ -65,9 +65,9 @@ foreach ($records as $i => $record) {
 			// ([qtk_questionnaire_sent] = "1") AND
 			// ([patc] <> "1")
 			
-			($data['pttk_diary_check'] == "" OR
-			$data['qtk_questionnaire_received_2'] == "") AND
-			($data['qtk_questionnaire_sent'] == "1") AND
+			($data['pttk_diary_check'] == "" or
+			$data['qtk_questionnaire_received_2'] == "") and
+			($data['qtk_questionnaire_sent'] == "1") and
 			($data['patc'] <> "1")
 		) {
 			$row = [];
