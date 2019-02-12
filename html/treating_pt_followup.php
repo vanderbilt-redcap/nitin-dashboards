@@ -87,9 +87,40 @@ foreach ($records as $i => $record) {
 	foreach ($record as $eid => $data) {
 		if (
 			// logic from report "PT reports to send (combined-revised post dashboard draft)"
-			// (([enrollment_arm_1][pati_study_status]<>'0') AND (([1month_arm_1][pttk_pt_report_sent] = "") AND ((([enrollment_arm_1][randgroup] = "2" ) AND ([1month_arm_1][pttk_ideal_date] <= "2019-02-28") AND ([1month_arm_1][pttk_ideal_date] <> "")) OR (([enrollment_arm_1][randgroup] = "1") AND  ([1month_arm_1][pttk_ideal_date_2] <= "2019-02-28") AND ([1month_arm_1][pttk_ideal_date_2] <> "")))) OR (([3months_arm_1][pttk_pt_report_sent] = "") AND ((([enrollment_arm_1][randgroup] = "2" ) AND ([3months_arm_1][pttk_ideal_date] <= "2019-02-28") AND ([3months_arm_1][pttk_ideal_date] <> "")) OR (([enrollment_arm_1][randgroup] = "1") AND  ([3months_arm_1][pttk_ideal_date_2] <= "2019-02-28") AND ([3months_arm_1][pttk_ideal_date_2] <> "")))))
 			
-			(($edata['pati_study_status']<>'0') and (($m1data['pttk_pt_report_sent'] == "") and ((($edata['randgroup'] == "2" ) and ($m1data['pttk_ideal_date'] <= $day30) and ($m1data['pttk_ideal_date'] <> "")) or (($edata['randgroup'] == "1") and  ($m1data['pttk_ideal_date_2'] <= $day30) and ($m1data['pttk_ideal_date_2'] <> "")))) or (($m3data['pttk_pt_report_sent'] == "") and ((($edata['randgroup'] == "2" ) and ($m3data['pttk_ideal_date'] <= $day30) and ($m3data['pttk_ideal_date'] <> "")) or (($edata['randgroup'] == "1") and  ($m3data['pttk_ideal_date_2'] <= $day30) and ($m3data['pttk_ideal_date_2'] <> ""))))) and ($eid == $dash->m1EID or $eid == $dash->m3EID)
+			
+			// (([enrollment_arm_1][pati_study_status]<>'0') AND
+			   (($edata['pati_study_status']<>'0') and
+			// (([1month_arm_1][pttk_pt_report_sent] = "") AND
+			   (($m1data['pttk_pt_report_sent'] == "") and
+			// ((([enrollment_arm_1][randgroup] = "2" ) AND
+			   ((($edata['randgroup'] == "2" ) and
+			// ([1month_arm_1][pttk_ideal_date] <= "2019-02-28") AND
+			   ($m1data['pttk_ideal_date'] <= $day30) and
+			// ([1month_arm_1][pttk_ideal_date] <> "")) OR
+			   ($m1data['pttk_ideal_date'] <> "")) or
+			// (([enrollment_arm_1][randgroup] = "1") AND
+			   (($edata['randgroup'] == "1") and
+			// ([1month_arm_1][pttk_ideal_date_2] <= "2019-02-28") AND
+			   ($m1data['pttk_ideal_date_2'] <= $day30) and
+			// ([1month_arm_1][pttk_ideal_date_2] <> "")))) OR
+			   ($m1data['pttk_ideal_date_2'] <> "")))) or
+			// (([3months_arm_1][pttk_pt_report_sent] = "") AND
+			   (($m3data['pttk_pt_report_sent'] == "") and
+			// ((([enrollment_arm_1][randgroup] = "2" ) AND
+			   ((($edata['randgroup'] == "2" ) and
+			// ([3months_arm_1][pttk_ideal_date] <= "2019-02-28") AND
+			   ($m3data['pttk_ideal_date'] <= $day30) and
+			// ([3months_arm_1][pttk_ideal_date] <> "")) OR
+			   ($m3data['pttk_ideal_date'] <> "")) or
+			// (([enrollment_arm_1][randgroup] = "1") AND
+			   (($edata['randgroup'] == "1") and
+			// ([3months_arm_1][pttk_ideal_date_2] <= "2019-02-28") AND
+			   ($m3data['pttk_ideal_date_2'] <= $day30) and
+			// ([3months_arm_1][pttk_ideal_date_2] <> "")))))
+			   ($m3data['pttk_ideal_date_2'] <> ""))))) and
+			
+			($eid == $dash->m1EID or $eid == $dash->m3EID)
 		) {
 			$row = [];
 			$row[0] = "<a href = \"" . $dash->recordHome . "$i\">" . $edata['enrollment_id'] . "</a>-" . $edata['study_id'];
