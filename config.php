@@ -16,11 +16,11 @@ if(!defined("ENVIRONMENT")) {
 		}
 	} else {
 		define("ENVIRONMENT", "DEV");
-		// define("SUBJECT_PID", 13);		// @able
-		// define("IMAGING_PID", 14);		// @able
-		// define("SCREENING_PID", 15);	// @able
-		define("SUBJECT_PID", 21);
-		define("SCREENING_PID", 22);
-		define("IMAGING_PID", 23);
+		define("SUBJECT_PID", 13);		// @able
+		define("IMAGING_PID", 14);		// @able
+		define("SCREENING_PID", 15);	// @able
+		// define("SUBJECT_PID", 21);
+		// define("SCREENING_PID", 22);
+		// define("IMAGING_PID", 23);
 	}
 }

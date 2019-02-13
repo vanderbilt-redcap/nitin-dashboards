@@ -60,10 +60,7 @@ foreach ($records as $i => $record) {
 	foreach ($record as $eid => $data) {
 		if(
 			// logic from "Physical therapy diary checks" report
-			// ([pttk_diary_check] = "" OR
-			// [qtk_questionnaire_received_2] = "") AND
-			// ([qtk_questionnaire_sent] = "1") AND
-			// ([patc] <> "1")
+			// ([pttk_diary_check] = "" OR [qtk_questionnaire_received_2] = "") AND ([qtk_questionnaire_sent] = "1") AND ([patc] <> "1")
 			
 			($data['pttk_diary_check'] == "" or
 			$data['qtk_questionnaire_received_2'] == "") and
@@ -75,6 +72,19 @@ foreach ($records as $i => $record) {
 			$row[1] = $edata['pati_6'];
 			$row[2] = $edata['pati_14'];
 			$row[3] = ($edata['pati_14']) == '' ? 'Enrollment' : $dash->projEvents[$eid];
+		} else {
+			if ($eid == 44) {
+				$out = [];
+				$r1 = $records[1];
+				$out['b1'] = ($data['pttk_diary_check'] == "");
+				$out['b2'] = ($data['qtk_questionnaire_received_2'] == "");
+				$out['b3'] = ($data['qtk_questionnaire_sent'] == "1");
+				$out['b4'] = ($data['patc'] <> "1");
+				$out['eid'] = );
+				var_dump($data['qtk_questionnaire_sent']);
+
+				exit("<pre>" . print_r($out, true) . "</pre>");
+			}
 		}
 	}
 }
