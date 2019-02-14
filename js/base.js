@@ -31,9 +31,9 @@ $(function() {
 					searching: false
 				});
 				document.body.scrollTop = document.documentElement.scrollTop = 0;
-				// $("#loader").fadeOut(100, function() {
-					// $("#content").fadeIn(150);
-				// });
+				$("#loader").fadeOut(100, function() {
+					$("#content").fadeIn(150);
+				});
 			},
 			fail : function(data) {
 				$("#content").html("<pre>There was an error:\n" + data + "</pre>")
