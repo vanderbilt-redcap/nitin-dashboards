@@ -14,6 +14,10 @@ if(!defined("ENVIRONMENT")) {
 			// define("ENVIRONMENT", "TEST");
 			// define("SUBJECT_PID", N/A);
 		}
+		
+		define("SUBJECT_RECORD_URL", APP_PATH_WEBROOT_FULL . "DataEntry/record_home.php?pid=" . SUBJECT_PID . "&id=");
+		define("SCREENING_RECORD_URL", APP_PATH_WEBROOT_FULL . "DataEntry/index.php?pid=" . SCREENING_PID . "&page=screening_log&id=");
+		define("IMAGING_RECORD_URL", APP_PATH_WEBROOT_FULL . "DataEntry/record_home.php?pid=" . IMAGING_PID . "&id=");
 	} else {
 		define("ENVIRONMENT", "DEV");
 		// define("SUBJECT_PID", 13);		// @able
@@ -22,5 +26,9 @@ if(!defined("ENVIRONMENT")) {
 		define("SUBJECT_PID", 21);
 		define("SCREENING_PID", 22);
 		define("IMAGING_PID", 23);
+		
+		define("SUBJECT_RECORD_URL", substr(APP_PATH_WEBROOT_FULL, 0, -8) . APP_PATH_WEBROOT . "DataEntry/record_home.php?pid=" . SUBJECT_PID . "&id=");
+		define("SCREENING_RECORD_URL", substr(APP_PATH_WEBROOT_FULL, 0, -8) . APP_PATH_WEBROOT . "DataEntry/index.php?pid=" . SCREENING_PID . "&page=screening_log&id=");
+		define("IMAGING_RECORD_URL", substr(APP_PATH_WEBROOT_FULL, 0, -8) . APP_PATH_WEBROOT . "DataEntry/record_home.php?pid=" . IMAGING_PID . "&id=");
 	}
 }
