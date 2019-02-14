@@ -62,7 +62,7 @@ $table = [
 ];
 foreach ($records as $i => $record) {
 	$edata = $record[$dash->enrollmentEID];
-	foreach ($record['repeat_instances'][$dash->baselineEID]['data_collectionvalidation'] as $eid => $data) {
+	foreach ($record['repeat_instances'][$dash->baselineEID]['data_collectionvalidation'] as $repeatInstance => $data) {
 		// logic from "Data Validation (site)"
 		// ([dval_action_needed] = "1") AND ([dval_res_ra] = "2")
 		// if ($data['dval_action_needed'] == '1' or $record[$dash->baselineEID]['dval_res_ra'] == '2') exit('2');
