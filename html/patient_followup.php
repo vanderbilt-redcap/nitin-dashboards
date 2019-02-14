@@ -129,7 +129,8 @@ $table = [
 ];
 foreach ($records as $i => $record) {
 	$edata = $record[$dash->enrollmentEID];
-	foreach ($record as $eid => $data) {
+	// foreach ($record as $eid => $data) {
+	foreach ($record['repeat_instances'][$dash->baselineEID]['data_collectionvalidation'] as $eid => $data) {
 		if (
 			
 			$data['dval_pat_contact_needed'] == '1' and
