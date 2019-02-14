@@ -71,7 +71,7 @@ foreach ($records as $i => $record) {
 			$row[0] = "<a href = \"" . $dash->recordHome . "$i\">" . $edata['enrollment_id'] . "</a> " . $edata['study_id'];
 			$row[1] = $edata['pati_6'];
 			$row[2] = $dash->labelizeValue('pati_14', $edata['pati_14']);
-			$row[3] = ($edata['pati_14']) == '' ? 'Enrollment' : $dash->projEvents[$eid];
+			$row[3] = $dash->projEvents[$eid];
 			
 			$table['content'][] = $row;
 		}
