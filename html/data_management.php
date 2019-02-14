@@ -20,7 +20,7 @@ foreach ($records as $i => $record) {
 	$edata = $record[$dash->enrollmentEID];
 	if ($edata['sdoc_initial_due'] <> '' and $edata['sdoc_vumc_cert'] <> '1') {
 		$row = [];
-		$row[0] = "<a href = \"" . $dash->recordHome . "$i\">" . $edata['enrollment_id'] . "</a>-" . $edata['study_id'];
+		$row[0] = "<a href = \"" . $dash->recordHome . "$i\">" . $edata['enrollment_id'] . "</a> " . $edata['study_id'];
 		$row[1] = $edata['pati_6'];
 		$row[2] = $dash->labelizeValue('randgroup', $edata['randgroup']);
 		$row[3] = $edata['date'];
@@ -42,7 +42,7 @@ foreach ($records as $i => $record) {
 	$edata = $record[$dash->enrollmentEID];
 	if ($edata['sdoc_vumc_cert_2'] <> '1' and $edata['randgroup'] == '1' and $edata['pati_x15'] <> '') {
 		$row = [];
-		$row[0] = "<a href = \"" . $dash->recordHome . "$i\">" . $edata['enrollment_id'] . "</a>-" . $edata['study_id'];
+		$row[0] = "<a href = \"" . $dash->recordHome . "$i\">" . $edata['enrollment_id'] . "</a> " . $edata['study_id'];
 		$row[1] = $edata['pati_6'];
 		$row[2] = $edata['date'];
 		$row[3] = $edata['pati_x15'];
@@ -68,7 +68,7 @@ foreach ($records as $i => $record) {
 		// if ($data['dval_action_needed'] == '1' or $record[$dash->baselineEID]['dval_res_ra'] == '2') exit('2');
 		if ($data['dval_action_needed'] == '1' and $data['dval_res_ra'] == '2') {
 			$row = [];
-			$row[0] = "<a href = \"" . $dash->recordHome . "$i\">" . $edata['enrollment_id'] . "</a>-" . $edata['study_id'];
+			$row[0] = "<a href = \"" . $dash->recordHome . "$i\">" . $edata['enrollment_id'] . "</a> " . $edata['study_id'];
 			$row[1] = $edata['pati_6'];
 			$row[2] = $dash->projEvents[$dash->baselineEID];
 			$row[3] = $repeatInstance;
@@ -104,7 +104,7 @@ foreach ($records as $i => $record) {
 	$bdata['qtk_physical_therapy'] <> '1'
 	) {
 		$row = [];
-		$row[0] = "<a href = \"" . $dash->recordHome . "$i\">" . $edata['enrollment_id'] . "</a>-" . $edata['study_id'];
+		$row[0] = "<a href = \"" . $dash->recordHome . "$i\">" . $edata['enrollment_id'] . "</a> " . $edata['study_id'];
 		$row[1] = $edata['pati_6'];
 		$row[2] = $dash->labelizeValue('randgroup', $edata['randgroup']);
 		$row[3] = $edata['qtk_pdv_effective_date'];
@@ -134,7 +134,7 @@ foreach ($records as $i => $record) {
 	$bdata['qtk_physical_therapy'] <> '1'
 	) {
 		$row = [];
-		$row[0] = "<a href = \"" . $dash->recordHome . "$i\">" . $edata['enrollment_id'] . "</a>-" . $edata['study_id'];
+		$row[0] = "<a href = \"" . $dash->recordHome . "$i\">" . $edata['enrollment_id'] . "</a> " . $edata['study_id'];
 		$row[1] = $edata['pati_6'];
 		$row[2] = $dash->labelizeValue('randgroup', $edata['randgroup']);
 		$row[3] = $edata['qtk_pdv_effective_date'];

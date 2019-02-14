@@ -21,7 +21,7 @@ foreach ($records as $i => $record) {
 	$rgroup = $edata['randgroup'];
 	if ($rgroup <> '') {
 		$row = [];
-		$row[0] = "<a href = \"" . $dash->recordHome . "$i\">" . $edata['enrollment_id'] . "</a>-" . $edata['study_id'];
+		$row[0] = "<a href = \"" . $dash->recordHome . "$i\">" . $edata['enrollment_id'] . "</a> " . $edata['study_id'];
 		$row[1] = $edata['pati_6'];
 		$row[2] = $dash->projEvents[$dash->enrollmentEID];
 		$row[3] = $dash->labelizeValue('mritk_recruitment_invoice', $edata['mritk_recruitment_invoice']);
@@ -50,7 +50,7 @@ foreach ($records as $i => $record) {
 		$data['qtk_questionnaire_received'] == '1'
 		) {
 			$row = [];
-			$row[0] = "<a href = \"" . $dash->recordHome . "$i\">" . $edata['enrollment_id'] . "</a>-" . $edata['study_id'];
+			$row[0] = "<a href = \"" . $dash->recordHome . "$i\">" . $edata['enrollment_id'] . "</a> " . $edata['study_id'];
 			$row[1] = $edata['pati_6'];
 			$row[2] = $dash->projEvents[$eid];
 			$row[3] = $data['patc_a1'];
@@ -74,7 +74,7 @@ foreach ($records as $i => $record) {
 	foreach ($record as $eid => $data) {
 		if ($data['qtk_questionnaire_received'] == '1') {
 			$row = [];
-			$row[0] = "<a href = \"" . $dash->recordHome . "$i\">" . $edata['enrollment_id'] . "</a>-" . $edata['study_id'];
+			$row[0] = "<a href = \"" . $dash->recordHome . "$i\">" . $edata['enrollment_id'] . "</a> " . $edata['study_id'];
 			$row[1] = $edata['pati_6'];
 			$row[2] = $data['patc_a2'];
 			$row[3] = $data['patc_a3'];

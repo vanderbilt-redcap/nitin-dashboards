@@ -22,7 +22,7 @@ foreach ($records as $i => $record) {
 		if ($data['qtk_pi_call'] == '1' and $data['qtk_pi_call_complete'] == '') {
 			$piCallsNeeded++;
 			$row = [];
-			$row[0] = "<a href = \"" . $dash->recordHome . "$i\">" . $edata['enrollment_id'] . "</a>-" . $edata['study_id'];
+			$row[0] = "<a href = \"" . $dash->recordHome . "$i\">" . $edata['enrollment_id'] . "</a> " . $edata['study_id'];
 			$row[1] = $edata['pati_6'];
 			$row[2] = $dash->projEvents[$eid];
 			$row[3] = $data["qtk_call_due_4"];

@@ -26,7 +26,7 @@ foreach ($records as $i => $record) {
 	($enrollment['randgroup'] == '2' or ($enrollment['randgroup'] == '1' and $enrollment['pati_x15'] <> ''))) {
 		$rgroup = $record[$dash->enrollmentEID]['randgroup'];
 		$row = [];
-		$row[0] = "<a href = \"" . $dash->recordHome . "$i\">" . $edata['enrollment_id'] . "</a>-" . $edata['study_id'];
+		$row[0] = "<a href = \"" . $dash->recordHome . "$i\">" . $edata['enrollment_id'] . "</a> " . $edata['study_id'];
 		$row[1] = $record[$dash->enrollmentEID]['pati_6'];
 		# print with label where possible, if not, print actual value
 		// $row[2] = $rgroup == '1' ? 'Operative (1)' : ($rgroup == 2 ? 'Non-operative (2)' : $rgroup);
@@ -55,7 +55,7 @@ foreach ($records as $i => $record) {
 	$edata = $record[$dash->enrollmentEID];
 	if ($edata['randgroup'] == '1' and $edata['pati_x15'] == '' and $edata['pati_study_status'] <> '0') {
 		$row = [];
-		$row[0] = "<a href = \"" . $dash->recordHome . "$i\">" . $edata['enrollment_id'] . "</a>-" . $edata['study_id'];
+		$row[0] = "<a href = \"" . $dash->recordHome . "$i\">" . $edata['enrollment_id'] . "</a> " . $edata['study_id'];
 		$row[1] = $edata['pati_6'];
 		$row[2] = $edata["date"];
 		$row[3] = $edata["pati_16"];
@@ -94,7 +94,7 @@ foreach ($records as $i => $record) {
 		($m3data['tx_a7_fu'] == '1' or $m6data['tx_a7_fu'] == '1' or $m12data['tx_a7_fu'] == '1' or $edata['pati_x16'] <> '')
 	) {
 		$row = [];
-		$row[0] = "<a href = \"" . $dash->recordHome . "$i\">" . $edata['enrollment_id'] . "</a>-" . $edata['study_id'];
+		$row[0] = "<a href = \"" . $dash->recordHome . "$i\">" . $edata['enrollment_id'] . "</a> " . $edata['study_id'];
 		$row[1] = $record[$dash->enrollmentEID]['pati_6'];
 		$row[2] = $edata['pati_x15'];
 		
@@ -140,7 +140,7 @@ foreach ($records as $i => $record) {
 		$edata['randgroup'] == '2'
 	) {
 		$row = [];
-		$row[0] = "<a href = \"" . $dash->recordHome . "$i\">" . $edata['enrollment_id'] . "</a>-" . $edata['study_id'];
+		$row[0] = "<a href = \"" . $dash->recordHome . "$i\">" . $edata['enrollment_id'] . "</a> " . $edata['study_id'];
 		$row[1] = $record[$dash->enrollmentEID]['pati_6'];
 		$row[2] = $edata['pati_x15'];
 		

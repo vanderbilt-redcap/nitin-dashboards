@@ -28,7 +28,7 @@ foreach ($records as $i => $record) {
 	$edata['pti_lead_pt_is_treating_pt'] == '')
 	) {
 		$row = [];
-		$row[0] = "<a href = \"" . $dash->recordHome . "$i\">" . $edata['enrollment_id'] . "</a>-" . $edata['study_id'];
+		$row[0] = "<a href = \"" . $dash->recordHome . "$i\">" . $edata['enrollment_id'] . "</a> " . $edata['study_id'];
 		$row[1] = $edata['pati_6'];
 		$row[2] = $dash->labelizeValue('pti_release_sent_to_pt', $edata['pti_release_sent_to_pt']);
 		
@@ -56,7 +56,7 @@ foreach ($records as $i => $record) {
 		$edata['pti_pt_contacted'] == '')
 	) {
 		$row = [];
-		$row[0] = "<a href = \"" . $dash->recordHome . "$i\">" . $edata['enrollment_id'] . "</a>-" . $edata['study_id'];
+		$row[0] = "<a href = \"" . $dash->recordHome . "$i\">" . $edata['enrollment_id'] . "</a> " . $edata['study_id'];
 		$row[1] = $edata['pati_6'];
 		
 		# manually format this value
@@ -123,7 +123,7 @@ foreach ($records as $i => $record) {
 			($eid == $dash->m1EID or $eid == $dash->m3EID)
 		) {
 			$row = [];
-			$row[0] = "<a href = \"" . $dash->recordHome . "$i\">" . $edata['enrollment_id'] . "</a>-" . $edata['study_id'];
+			$row[0] = "<a href = \"" . $dash->recordHome . "$i\">" . $edata['enrollment_id'] . "</a> " . $edata['study_id'];
 			$row[1] = $edata['pati_6'];
 			
 			# formatting
@@ -159,7 +159,7 @@ foreach ($records as $i => $record) {
 		$edata['pati_study_status'] <> '0'
 		) {
 			$row = [];
-			$row[0] = "<a href = \"" . $dash->recordHome . "$i\">" . $edata['enrollment_id'] . "</a>-" . $edata['study_id'];
+			$row[0] = "<a href = \"" . $dash->recordHome . "$i\">" . $edata['enrollment_id'] . "</a> " . $edata['study_id'];
 			$row[1] = $record[$dash->enrollmentEID]['pati_6'];
 			$row[2] = $dash->projEvents[$eid];
 			$row[3] = $data['pttk_date_pt_report_sent'];

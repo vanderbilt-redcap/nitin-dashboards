@@ -158,8 +158,15 @@ class Dashboard {
 			$table .= "
 					<tr>";
 			foreach ($row as $datum) {
-				$table .= "
+				if (strpos($datum, '</a>') !== false) {
+					preg_match_all("/>(\d+)<.a>/", $datum, $matches);
+					$enrollmentID = $matches[1][0];
+					$table .= "
+							<td data-sort='$enrollmentID'>$datum</td>";
+				} else {
+					$table .= "
 							<td>$datum</td>";
+				}
 			}
 			$table .= "
 					</tr>";
