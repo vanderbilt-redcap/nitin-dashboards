@@ -55,8 +55,8 @@ class Dashboard {
 		$this->m12EID = array_search("12-Months", $this->projEvents);
 		$this->dags = $this->project->getGroups();
 		$this->recordHome = SUBJECT_RECORD_URL;
-		$this->imagingRecordHome = SCREENING_RECORD_URL;
-		$this->screeningRecordHome = IMAGING_RECORD_URL;
+		$this->imagingRecordHome = IMAGING_RECORD_URL;
+		$this->screeningRecordHome = SCREENING_RECORD_URL;
 		
 		// get labels for subject project
 		$q = db_query("SELECT field_name, element_enum FROM redcap_metadata WHERE project_id=" . SUBJECT_PID);
