@@ -60,7 +60,7 @@ foreach ($records as $i => $record) {
 	$m1data = $record[$dash->m1EID];
 	$m3data = $record[$dash->m3EID];
 	$m6data = $record[$dash->m6EID];
-	foreach ($record as $eid => $data) {
+	// foreach ($record as $eid => $data) {
 		if(
 			// logic from "Physical therapy diary checks" report
 			// ([enrollment_arm_1][pati_14] = "" OR (([1month_arm_1][pttk_diary_check] <> "1") AND ([1month_arm_1][pttk_pt_report_sent] <> "")) OR (([3months_arm_1][qtk_questionnaire_sent_2] = "") AND ([3months_arm_1][qtk_questionnaire_sent] = "1")) OR (([6months_arm_1][qtk_questionnaire_sent_2] = "") AND ([6months_arm_1][qtk_questionnaire_sent] = "1")))
@@ -82,11 +82,21 @@ foreach ($records as $i => $record) {
 			$row[0] = "<a href = \"" . $dash->recordHome . "$i\">" . $edata['enrollment_id'] . "</a> " . $edata['study_id'];
 			$row[1] = $edata['pati_6'];
 			$row[2] = $dash->labelizeValue('pati_14', $edata['pati_14']);
-			$row[3] = $dash->projEvents[$eid];
+			if ($edata['pati_14'] == "") {
+				$row[3] = 'Enrollment';
+			} elseif ($m1data['pttk_diary_check'] <> "1" and $m1data['pttk_pt_report_sent'] <> "") {
+				$row[3] = '1 Month';
+			} elseif ($m3data['qtk_questionnaire_sent_2'] == "" and $m3data['qtk_questionnaire_sent'] == "1") {
+				$row[3] = '3 Months';
+			} elseif ($m6data['qtk_questionnaire_sent_2'] == "" and $m6data['qtk_questionnaire_sent'] == "1") {
+				$row[3] = '6 Months';
+			} else {
+				$row[3] = '';
+			}
 			
 			$table['content'][] = $row;
 		}
-	}
+	// }
 }
 $content .= $dash->makeDataTable($table);
 
