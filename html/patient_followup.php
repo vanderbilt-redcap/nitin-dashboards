@@ -65,26 +65,18 @@ foreach ($records as $i => $record) {
 			// logic from "Physical therapy diary checks" report
 			// ([enrollment_arm_1][pati_14] = "" OR (([1month_arm_1][pttk_diary_check] <> "1") AND ([1month_arm_1][pttk_pt_report_sent] <> "")) OR (([3months_arm_1][qtk_questionnaire_sent_2] = "") AND ([3months_arm_1][qtk_questionnaire_sent] = "1")) OR (([6months_arm_1][qtk_questionnaire_sent_2] = "") AND ([6months_arm_1][qtk_questionnaire_sent] = "1")))
 			
-			($edata['pati_14'] == "" or 
-			(($m1data['pttk_diary_check'] <> "1") and 
-			($m1data['pttk_pt_report_sent'] <> "")) or 
-			(($m3data['qtk_questionnaire_sent_2'] == "") and 
-			($m3data['qtk_questionnaire_sent'] == "1")) or 
-			(($m6data['qtk_questionnaire_sent_2'] == "") and 
-			($m6data['qtk_questionnaire_sent'] == "1")))
-			
 			// ($edata['pati_14'] == "" or 
-			// ($m1data['pttk_diary_check'] <> "1") and 
+			// (($m1data['pttk_diary_check'] <> "1") and 
 			// ($m1data['pttk_pt_report_sent'] <> "")) or 
 			// (($m3data['qtk_questionnaire_sent_2'] == "") and 
 			// ($m3data['qtk_questionnaire_sent'] == "1")) or 
 			// (($m6data['qtk_questionnaire_sent_2'] == "") and 
-			// ($m6data['qtk_questionnaire_sent'] == "1"))
+			// ($m6data['qtk_questionnaire_sent'] == "1")))
 			
-			// ($data['pttk_diary_check'] == "" or
-			// $data['qtk_questionnaire_received_2'] == "") and
-			// ($data['qtk_questionnaire_sent'] == "1") and
-			// ($data['patc'] <> "1")
+			$edata['pati_14'] == "" or 
+			($data['pttk_diary_check'] <> "1" and $data['pttk_pt_report_sent'] <> "") or 
+			($data['qtk_questionnaire_sent_2'] == "" and $data['qtk_questionnaire_sent'] == "1") or 
+			($data['qtk_questionnaire_sent_2'] == "" and $data['qtk_questionnaire_sent'] == "1")
 		) {
 			$row = [];
 			$row[0] = "<a href = \"" . $dash->recordHome . "$i\">" . $edata['enrollment_id'] . "</a> " . $edata['study_id'];
