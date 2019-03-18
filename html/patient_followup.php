@@ -72,9 +72,8 @@ foreach ($records as $i => $record) {
 			(($m3data['qtk_questionnaire_sent_2'] == "") and 
 			($m3data['qtk_questionnaire_sent'] == "1")) or 
 			(($m6data['qtk_questionnaire_sent_2'] == "") and 
-			($m6data['qtk_questionnaire_sent'] == "1")))
+			($m6data['qtk_questionnaire_sent'] == "1"))
 			
-			// old:
 			// ($data['pttk_diary_check'] == "" or
 			// $data['qtk_questionnaire_received_2'] == "") and
 			// ($data['qtk_questionnaire_sent'] == "1") and
