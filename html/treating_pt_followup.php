@@ -133,7 +133,7 @@ foreach ($records as $i => $record) {
 		// $row[2] = $rgroup == '1' ? 'Operative (1)' : ($rgroup == 2 ? 'Non-operative (2)' : $rgroup);
 		$row[2] = $this->labelizeValue("randgroup", $rgroup);
 		
-		$row[3] = $dash->projEvents[$eid];
+		$row[3] = $m1bool ? '1 Month' : '3 Months';
 		$row[4] = $rgroup == '1' ? $data['pttk_lower_window_2'] : ($rgroup == '2' ? $data['pttk_lower_window'] : '');
 		$row[5] = $rgroup == '1' ? $data['pttk_ideal_date_2'] : ($rgroup == '2' ? $data['pttk_ideal_date'] : '');
 		
