@@ -7,7 +7,7 @@ $(function() {
 	
 	// click handler for nav buttons
 	$("nav div").on("click", function(e) {
-		if ($(this).hasClass('selected')) return;
+		// if ($(this).hasClass('selected')) return;
 		
 		$("nav div").removeClass('selected');
 		$(this).addClass('selected');

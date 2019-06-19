@@ -104,9 +104,10 @@ $content .= $dash->makeDataTable($table);
 $table = [
 	"title" => "Follow-up Calls (Outstanding Questionnaires)",
 	"titleClass" => "blueHeader",
-	"headers" => ["Study ID", "DAG", "Event Name", "Contact 1 approx. date due:", "Call 2 approx. date due", "Call 3 approx. date due", "PI referral approx. date due"],
+	"headers" => ["Study ID", "DAG", "Event Name", "Contact 1 approx. date due:", "Call 2 approx. date due", "Call 3 approx. date due", "PI referral approx. date due", "Days passed since contact due:"],
 	"content" => []
 ];
+$today = date('Y-m-d');
 foreach ($records as $i => $record) {
 	$edata = $record[$dash->enrollmentEID];
 	foreach ($record as $eid => $data) {
@@ -135,6 +136,9 @@ foreach ($records as $i => $record) {
 			$row[5] = $data['qtk_call_due_3'];
 			$row[6] = $data['qtk_call_due_4'];
 			
+			$mostRecent = max($row[3], $row[4], $row[5], $row[6]);
+			$row[7] = date_diff(date_create($mostRecent), date_create($today))->format("%a");
+			
 			$table['content'][] = $row;
 		}
 	}
@@ -145,7 +149,7 @@ $content .= $dash->makeDataTable($table);
 $table = [
 	"title" => "Follow-up Calls (Data Validation and/or Missing Data Collection)",
 	"titleClass" => "redHeader",
-	"headers" => ["Study ID", "DAG", "Event", "Instance:", "Information to be validated", "Resolution notes", "Date issue(s) discovered", "Contact 1 Date", "Contact 2 Date", "Contact 3 Date", "Contact 4 Date", "Contact 5 Date"],
+	"headers" => ["Study ID", "DAG", "Event", "Instance:", "Information to be validated", "Resolution notes", "Date issue(s) discovered", "Contact 1 Date", "Contact 2 Date", "Contact 3 Date", "Contact 4 Date", "Contact 5 Date", "Days passed since last contact attempt:"],
 	"content" => []
 ];
 
@@ -178,6 +182,9 @@ foreach ($records as $i => $record) {
 				$row[9] = $data['dval_contact_date_3'];
 				$row[10] = $data['dval_contact_date_4'];
 				$row[11] = $data['dval_contact_date_5'];
+			
+				$mostRecent = max($row[7], $row[8], $row[9], $row[10], $row[11]);
+				$row[7] = date_diff(date_create($mostRecent), date_create($today))->format("%a");
 				
 				$table['content'][] = $row;
 			}

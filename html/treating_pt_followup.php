@@ -44,9 +44,10 @@ $content .= $dash->makeDataTable($table);
 $table = [
 	"title" => "Outstanding Lead PT Initial Calls/Verification",
 	"titleClass" => "redHeader",
-	"headers" => ["Study ID", "DAG", "Site Lead PT Treating PT?", "Date referred to lead PT", "Treating Physical therapist successfully contacted?", "Contact Notes"],
+	"headers" => ["Study ID", "DAG", "Site Lead PT Treating PT?", "Date referred to lead PT", "Treating Physical therapist successfully contacted?", "Contact Notes", "Days since referred:"],
 	"content" => []
 ];
+$today = date('Y-m-d');
 foreach ($records as $i => $record) {
 	$edata = $record[$dash->enrollmentEID];
 	if (
@@ -66,6 +67,8 @@ foreach ($records as $i => $record) {
 		$row[3] = $edata['pti_lpt_referral_date'];
 		$row[4] = $edata['pti_pt_contacted'];
 		$row[5] = $edata['pti_pt_contact_notes'];
+		
+		$row[6] = date_diff(date_create($row[3]), date_create($today))->format("%a");
 		
 		$table['content'][] = $row;
 	}

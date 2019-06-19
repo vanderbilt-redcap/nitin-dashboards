@@ -14,9 +14,10 @@ $records = \REDCap::getData($params);
 $table = [
 	"title" => "Physical Therapy Scheduling",
 	"titleClass" => "blueHeader",
-	"headers" => ["Study ID", "DAG", "Randomization (if Non-Op)/Surgery(if Op) Date", "Randomization/Surgery Date", "Call 1 approx. date due", "Call 2 approx. date due", "Call 3 approx. date due", "Site referral"],
+	"headers" => ["Study ID", "DAG", "Randomization (if Non-Op)/Surgery(if Op) Date", "Randomization/Surgery Date", "Call 1 approx. date due", "Call 2 approx. date due", "Call 3 approx. date due", "Site referral", "Days passed since contact due:"],
 	"content" => []
 ];
+$today = date('Y-m-d');
 foreach ($records as $i => $record) {
 	$edata = $enrollment = $record[$dash->enrollmentEID];
 	$baseline = $record[$dash->baselineEID];
@@ -36,6 +37,9 @@ foreach ($records as $i => $record) {
 		$row[5] = $record[$dash->baselineEID]["qtk_call_due_2"];
 		$row[6] = $record[$dash->baselineEID]["qtk_call_due_3"];
 		$row[7] = $record[$dash->baselineEID]["qtk_call_due_4"];
+		
+		$mostRecent = max($row[3], $row[4], $row[5], $row[6]);
+		$row[8] = date_diff(date_create($mostRecent), date_create($today))->format("%a");
 		
 		$table['content'][] = $row;
 	}
