@@ -61,10 +61,13 @@ foreach ($records as $i => $record) {
 	$edata = $enrollment = $record[$dash->enrollmentEID];
 	$baseline = $record[$dash->baselineEID];
 	
-	if ($baseline['qtk_physical_therapy'] <> '1' and
+	if (
+	($edata['randgroup'] == '1' and $edata['pati_x15'] == '' and $edata['pati_study_status'] <> '0') or
+	($baseline['qtk_physical_therapy'] <> '1' and
 	$baseline['qtk_physical_therapy'] <> '0' and
 	$enrollment['pati_study_status'] <> '0' and
-	($enrollment['randgroup'] == '2' or ($enrollment['randgroup'] == '1' and $enrollment['pati_x15'] <> ''))) {
+	($enrollment['randgroup'] == '2' or ($enrollment['randgroup'] == '1' and $enrollment['pati_x15'] <> '')))
+	) {
 		$tableData[0][1]++;
 	}
 	
