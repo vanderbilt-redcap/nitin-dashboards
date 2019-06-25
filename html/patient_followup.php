@@ -184,7 +184,11 @@ foreach ($records as $i => $record) {
 				$row[11] = $data['dval_contact_date_5'];
 			
 				$mostRecent = max($row[7], $row[8], $row[9], $row[10], $row[11]);
-				$row[7] = date_diff(date_create($mostRecent), date_create($today))->format("%a");
+				if (empty($mostRecent)) {
+					$row[12] = "N/A";
+				} else {
+					$row[12] = date_diff(date_create($mostRecent), date_create($today))->format("%a");
+				}
 				
 				$table['content'][] = $row;
 			}
