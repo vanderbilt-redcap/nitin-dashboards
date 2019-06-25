@@ -88,23 +88,19 @@ foreach ($records as $i => $record) {
 		(($edata['randgroup'] == "1") and 
 		($m3data['pttk_ideal_date_2'] <= $day30) and 
 		($m3data['pttk_ideal_date_2'] <> ""))));
-	
-	if ($m1bool) {
-		if ($edata['randgroup'] == 1) {
-			$compareDate = $m1data['pttk_ideal_date_2'];
-		} else {
-			$compareDate = $m1data['pttk_ideal_date'];
+	if (($edata['pati_study_status']<>'0') and ($m1bool or $m3bool)) {
+		if ($m1bool) $data = $m1data;
+		if ($m3bool) $data = $m3data;
+		$rgroup = $edata['randgroup'];
+		
+		if ($rgroup == 1) {
+			$idealDate = $data['pttk_ideal_date_2'];
+		} else if ($rgroup == 2) {
+			$idealDate = $data['pttk_ideal_date'];
 		}
-	} elseif ($m3bool) {
-		if ($edata['randgroup'] == 1) {
-			$compareDate = $m1data['pttk_ideal_date_2'];
-		} else {
-			$compareDate = $m1data['pttk_ideal_date'];
-		}
-	}
-	// $compareDate = $edata['randgroup'] == 1 ? $m1data[
-	if (($edata['pati_study_status']<>'0') and ($compareDate >= $today) and ($m1bool or $m3bool)) {
-		$tableData[1][1]++;
+		
+		if ($idealDate >= $today)
+			$tableData[1][1]++;
 	}
 	
 	// "Physical therapy reports pending:" 2

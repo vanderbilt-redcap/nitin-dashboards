@@ -68,7 +68,11 @@ foreach ($records as $i => $record) {
 		$row[4] = $edata['pti_pt_contacted'];
 		$row[5] = $edata['pti_pt_contact_notes'];
 		
-		$row[6] = date_diff(date_create($row[3]), date_create($today))->format("%a");
+		if (empty($row[3])) {
+			$row[6] = "N/A";
+		} else {
+			$row[6] = date_diff(date_create($row[3]), date_create($today))->format("%a");
+		}
 		
 		$table['content'][] = $row;
 	}
@@ -163,7 +167,7 @@ foreach ($records as $i => $record) {
 			$row[6] = $data['pttk_contact_due_3'];
 			$row[7] = $data['pttk_lead_pt_contact_needed'];
 			
-			$compareDate = max($row[3], $row[4], $row[5], $row[6], $row[7]);
+			$compareDate = max($row[4], $row[5], $row[6]);
 			if (empty($compareDate)) {
 				$row[8] = "N/A";
 			} else {
