@@ -149,24 +149,32 @@ foreach ($records as $i => $record) {
 	}
 	
 	// "Questionnaires pending:" 5
-	if (
-		($data['qtk_timepoint'] <> "0") and
-		($data['qtk_pi_call'] <> "1") and
-		($data['pati_study_status'] <> "0") and
-		($data['qtk_questionnaire_sent'] == "1") and
-		($data['qtk_questionnaire_received'] == "" or
-		$data['qtk_questionnaire_received'] == "2")
-	) {
-		$d1 = $data['qtk_call_due'];
-		$d2 = $data['qtk_call_due_2'];
-		$d3 = $data['qtk_call_due_3'];
-		$d4 = $data['qtk_call_due_4'];
-		
-		$mostRecent = max($d1, $d2, $d3, $d4);
-		$diff = (int) date_diff(date_create($mostRecent), date_create($today))->format("%a");
-		
-		if (!empty($mostRecent) and $diff > 0) {
-			$tableData[5][1]++;
+	foreach ($record['repeat_instances'] as $eid => $eventData) {
+		foreach ($eventData['data_collectionvalidation'] as $repeatInstanceIndex => $data) {
+			if (
+				$data['dval_pat_contact_needed'] == '1' and
+				($data['dval_res_pat'] == '2' or $data['dval_res_pat'] == '') and
+				$data['pati_study_status'] <> '0'
+			) {
+				$row = [];
+				$row[6] = $data['dval_issue_disc_date'];
+				$row[7] = $data['dval_contact_date_1'];
+				$row[8] = $data['dval_contact_date_2'];
+				$row[9] = $data['dval_contact_date_3'];
+				$row[10] = $data['dval_contact_date_4'];
+				$row[11] = $data['dval_contact_date_5'];
+			
+				$mostRecent = max($row[6], $row[7], $row[8], $row[9], $row[10], $row[11]);
+				if (empty($mostRecent)) {
+					$row[12] = "N/A";
+				} else {
+					$row[12] = date_diff(date_create($mostRecent), date_create($today))->format("%a");
+					if ($row[12] > 0)
+						$tableData[5][1]++;
+				}
+				
+				// $table['content'][] = $row;
+			}
 		}
 	}
 	
