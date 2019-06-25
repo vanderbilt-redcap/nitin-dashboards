@@ -177,8 +177,6 @@ foreach ($records as $i => $record) {
 	$m6data = $record[$dash->m6EID];
 	$m12data = $record[$dash->m12EID];
 	foreach ($record as $j => $data) {
-		if (empty($data["de_comp_initials_crf00"]))
-			continue;
 		$row = [];
 		$css = [];
 		$row[0] = $edata['study_id'];
@@ -242,9 +240,19 @@ foreach ($records as $i => $record) {
 			$row[20] = $edata["pati_x15"];
 			$css[20] = 1;
 		}
+		
+		$ignoreThisRow = true;
+		for ($i = 1; $i <= 20; $i++) {
+			if (!empty($row[$i])) {
+				$ignoreThisRow = false;
+				continue;
+			}
+		}
+		if (!$ignoreThisRow) {
+			$table["css"][] = $css;
+			$table['content'][] = $row;
+		}
 	}
-	$table["css"][] = $css;
-	$table['content'][] = $row;
 }
 $content .= $dash->makeDDETable($table);
 
