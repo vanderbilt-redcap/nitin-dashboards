@@ -145,53 +145,53 @@ foreach ($records as $i => $record) {
 }
 $content .= $dash->makeDataTable($table);
 
-// ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// $table = [
-	// "title" => "Follow-up Calls (Data Validation and/or Missing Data Collection)",
-	// "titleClass" => "redHeader",
-	// "headers" => ["Study ID", "DAG", "Event", "Instance:", "Information to be validated", "Resolution notes", "Date issue(s) discovered", "Contact 1 Date", "Contact 2 Date", "Contact 3 Date", "Contact 4 Date", "Contact 5 Date", "Days passed since last contact attempt:"],
-	// "content" => []
-// ];
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+$table = [
+	"title" => "Follow-up Calls (Data Validation and/or Missing Data Collection)",
+	"titleClass" => "redHeader",
+	"headers" => ["Study ID", "DAG", "Event", "Instance:", "Information to be validated", "Resolution notes", "Date issue(s) discovered", "Contact 1 Date", "Contact 2 Date", "Contact 3 Date", "Contact 4 Date", "Contact 5 Date", "Days passed since last contact attempt:"],
+	"content" => []
+];
 
-// # diagnostics
-// // $out = [];
-// // $out['$datatype'] = gettype($records[14]['repeat_instances'][82]['data_collectionvalidation'][1]);
-// // $out['baselineEID'] = $dash->baselineEID;
-// // $out['record14'] = $records[14];
-// // exit("<pre>" . print_r($out, true) . "</pre>");
+# diagnostics
+// $out = [];
+// $out['$datatype'] = gettype($records[14]['repeat_instances'][82]['data_collectionvalidation'][1]);
+// $out['baselineEID'] = $dash->baselineEID;
+// $out['record14'] = $records[14];
+// exit("<pre>" . print_r($out, true) . "</pre>");
 
-// foreach ($records as $i => $record) {
-	// $edata = $record[$dash->enrollmentEID];
-	// foreach ($record['repeat_instances'] as $eid => $eventData) {
-		// foreach ($eventData['data_collectionvalidation'] as $repeatInstanceIndex => $data) {
-			// if (
-				// $data['dval_pat_contact_needed'] == '1' and
-				// ($data['dval_res_pat'] == '2' or $data['dval_res_pat'] == '') and
-				// $data['pati_study_status'] <> '0'
-			// ) {
-				// $row = [];
-				// $row[0] = "<a href = \"" . $dash->recordHome . "$i\">" . $edata['enrollment_id'] . "</a> " . $edata['study_id'];
-				// $row[1] = $edata['pati_6'];
-				// $row[2] = $dash->projEvents[$eid];
-				// $row[3] = ''; // how to get redcap_repeat_instance??
-				// $row[4] = $data['dval_specify_patient'];
-				// $row[5] = $data['dval_res_notes'];
-				// $row[6] = $data['dval_issue_disc_date'];
-				// $row[7] = $data['dval_contact_date_1'];
-				// $row[8] = $data['dval_contact_date_2'];
-				// $row[9] = $data['dval_contact_date_3'];
-				// $row[10] = $data['dval_contact_date_4'];
-				// $row[11] = $data['dval_contact_date_5'];
+foreach ($records as $i => $record) {
+	$edata = $record[$dash->enrollmentEID];
+	foreach ($record['repeat_instances'] as $eid => $eventData) {
+		foreach ($eventData['data_collectionvalidation'] as $repeatInstanceIndex => $data) {
+			if (
+				$data['dval_pat_contact_needed'] == '1' and
+				($data['dval_res_pat'] == '2' or $data['dval_res_pat'] == '') and
+				$data['pati_study_status'] <> '0'
+			) {
+				$row = [];
+				$row[0] = "<a href = \"" . $dash->recordHome . "$i\">" . $edata['enrollment_id'] . "</a> " . $edata['study_id'];
+				$row[1] = $edata['pati_6'];
+				$row[2] = $dash->projEvents[$eid];
+				$row[3] = ''; // how to get redcap_repeat_instance??
+				$row[4] = $data['dval_specify_patient'];
+				$row[5] = $data['dval_res_notes'];
+				$row[6] = $data['dval_issue_disc_date'];
+				$row[7] = $data['dval_contact_date_1'];
+				$row[8] = $data['dval_contact_date_2'];
+				$row[9] = $data['dval_contact_date_3'];
+				$row[10] = $data['dval_contact_date_4'];
+				$row[11] = $data['dval_contact_date_5'];
 			
-				// $mostRecent = max($row[7], $row[8], $row[9], $row[10], $row[11]);
-				// $row[7] = date_diff(date_create($mostRecent), date_create($today))->format("%a");
+				$mostRecent = max($row[7], $row[8], $row[9], $row[10], $row[11]);
+				$row[7] = date_diff(date_create($mostRecent), date_create($today))->format("%a");
 				
-				// $table['content'][] = $row;
-			// }
-		// }
-	// }
-// }
-// $content .= $dash->makeDataTable($table);
+				$table['content'][] = $row;
+			}
+		}
+	}
+}
+$content .= $dash->makeDataTable($table);
 
 // ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // $table = [
