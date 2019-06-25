@@ -137,7 +137,11 @@ foreach ($records as $i => $record) {
 			$row[6] = $data['qtk_call_due_4'];
 			
 			$mostRecent = max($row[3], $row[4], $row[5], $row[6]);
-			$row[7] = date_diff(date_create($mostRecent), date_create($today))->format("%a");
+			if (empty($mostRecent)) {
+				$row[7] = "N/A";
+			} else {
+				$row[7] = date_diff(date_create($mostRecent), date_create($today))->format("%a");
+			}
 			
 			$table['content'][] = $row;
 		}
