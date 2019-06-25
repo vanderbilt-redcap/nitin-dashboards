@@ -188,7 +188,7 @@ foreach ($records as $i => $record) {
 				$row[11] = $data['dval_contact_date_5'];
 			
 				$mostRecent = max($row[6], $row[7], $row[8], $row[9], $row[10], $row[11]);
-				if (empty($mostRecent)) {
+				if (empty($mostRecent or $mostRecent >= $today)) {
 					$row[12] = "N/A";
 				} else {
 					$row[12] = date_diff(date_create($mostRecent), date_create($today))->format("%a");
@@ -201,42 +201,48 @@ foreach ($records as $i => $record) {
 }
 $content .= $dash->makeDataTable($table);
 
-// ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// $table = [
-	// "title" => "Physical Therapy Diary Monitoring (Questionnaire received but physical therapy diary still outstanding)",
-	// "titleClass" => "blueHeader",
-	// "headers" => ["Study ID", "DAG", "Diary Type", "Event Name", "Date Questionnaire Received:"],
-	// "content" => []
-// ];
-// foreach ($records as $i => $record) {
-	// $edata = $record[$dash->enrollmentEID];
-	// $m3data = $record[$dash->m3EID];
-	// $m6data = $record[$dash->m6EID];
-	// foreach ($record as $eid => $data) {
-		// if (
-			// // logic from "PT diary follow-up"
-			// (($data['qtk_questionnaire_received'] == "1") and
-			// ($data['qtk_questionnaire_received_2'] == "2") and
-			// ($data['qtk_questionnaire_sent_2'] == "1")) or
-			// (($data['qtk_questionnaire_received'] == "1") and
-			// ($data['qtk_questionnaire_received_2'] == "2") and
-			// ($data['qtk_questionnaire_sent_2'] == "1")) or
-			// (($data['mycap_completion'] == "") and
-			// ($data['qtk_questionnaire_sent_2'] == "2")) or
-			// (($data['mycap_completion'] == "") and
-			// ($data['qtk_questionnaire_sent_2'] == "2"))
-		// ) {
-			// $row = [];
-			// $row[0] = "<a href = \"" . $dash->recordHome . "$i\">" . $edata['enrollment_id'] . "</a> " . $edata['study_id'];
-			// $row[1] = $edata['pati_6'];
-			// $row[2] = $dash->labelizeValue('pati_14', $edata['pati_14']);
-			// $row[3] = $dash->projEvents[$eid];
-			// $row[4] = $data['qtk_date_received'];
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+$table = [
+	"title" => "Physical Therapy Diary Monitoring (Questionnaire received but physical therapy diary still outstanding)",
+	"titleClass" => "blueHeader",
+	"headers" => ["Study ID", "DAG", "Diary Type", "Event Name", "Date Questionnaire Received:", "Days since questionnaire received"],
+	"content" => []
+];
+foreach ($records as $i => $record) {
+	$edata = $record[$dash->enrollmentEID];
+	$m3data = $record[$dash->m3EID];
+	$m6data = $record[$dash->m6EID];
+	foreach ($record as $eid => $data) {
+		if (
+			// logic from "PT diary follow-up"
+			(($data['qtk_questionnaire_received'] == "1") and
+			($data['qtk_questionnaire_received_2'] == "2") and
+			($data['qtk_questionnaire_sent_2'] == "1")) or
+			(($data['qtk_questionnaire_received'] == "1") and
+			($data['qtk_questionnaire_received_2'] == "2") and
+			($data['qtk_questionnaire_sent_2'] == "1")) or
+			(($data['mycap_completion'] == "") and
+			($data['qtk_questionnaire_sent_2'] == "2")) or
+			(($data['mycap_completion'] == "") and
+			($data['qtk_questionnaire_sent_2'] == "2"))
+		) {
+			$row = [];
+			$row[0] = "<a href = \"" . $dash->recordHome . "$i\">" . $edata['enrollment_id'] . "</a> " . $edata['study_id'];
+			$row[1] = $edata['pati_6'];
+			$row[2] = $dash->labelizeValue('pati_14', $edata['pati_14']);
+			$row[3] = $dash->projEvents[$eid];
+			$row[4] = $data['qtk_date_received'];
 			
-			// $table['content'][] = $row;
-		// }
-	// }
-// }
-// $content .= $dash->makeDataTable($table);
+			if (empty($row[4])) {
+				$row[5] = "N/A";
+			} else {
+				$row[5] = date_diff(date_create($row[4]), date_create($today))->format("%a");
+			}
+			
+			$table['content'][] = $row;
+		}
+	}
+}
+$content .= $dash->makeDataTable($table);
 
 unset($table);
