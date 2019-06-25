@@ -119,13 +119,10 @@ foreach ($records as $i => $record) {
 			$d5 = $data['pttk_lead_pt_contact_needed'];
 			
 			$compareDate = max($d1, $d2, $d3, $d4, $d5);
-			if (empty($compareDate)) {
+			if (empty($compareDate) or $compareDate >= $today) {
 				// $row[8] = "N/A";
 			} else {
-				$diff = date_diff(date_create($compareDate), date_create($today))->format("%a");
-				if ((int) $diff > 0) {
-					$tableData[2][1]++;
-				}
+				$tableData[2][1]++;
 			}
 		}
 	}
@@ -165,12 +162,10 @@ foreach ($records as $i => $record) {
 			$row[6] = $data['qtk_call_due_4'];
 			
 			$mostRecent = max($row[3], $row[4], $row[5], $row[6]);
-			if (empty($mostRecent)) {
+			if (empty($mostRecent) or $mostRecent >= $today) {
 				$row[7] = "N/A";
 			} else {
-				$row[7] = date_diff(date_create($mostRecent), date_create($today))->format("%a");
-				if ($row[7] > 0)
-					$tableData[5][1]++;
+				$tableData[5][1]++;
 			}
 		}
 	}

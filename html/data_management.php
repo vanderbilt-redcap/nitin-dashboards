@@ -25,9 +25,12 @@ foreach ($records as $i => $record) {
 		$row[2] = $dash->labelizeValue('randgroup', $edata['randgroup']);
 		$row[3] = $edata['date'];
 		$row[4] = $edata['sdoc_initial_due'];
-		$row[5] = date_diff(date_create($row[4]), date_create($today))->format("%a");
-		if ((int) $row[5] <= 0)
+		
+		if (empty($row[4]) or $row[4] >= $today) {
 			$row[5] = "N/A";
+		} else {
+			$row[5] = date_diff(date_create($row[4]), date_create($today))->format("%a");
+		}
 		
 		$table['content'][] = $row;
 	}
@@ -50,9 +53,12 @@ foreach ($records as $i => $record) {
 		$row[2] = $edata['date'];
 		$row[3] = $edata['pati_x15'];
 		$row[4] = $edata['sdoc_surgical_due'];
-		$row[5] = date_diff(date_create($row[4]), date_create($today))->format("%a");
-		if ((int) $row[5] <= 0)
+		
+		if (empty($row[4]) or $row[4] >= $today) {
 			$row[5] = "N/A";
+		} else {
+			$row[5] = date_diff(date_create($row[4]), date_create($today))->format("%a");
+		}
 		
 		$table['content'][] = $row;
 	}
@@ -87,10 +93,10 @@ foreach ($records as $i => $record) {
 			$row[10] = $data['dval_contact_date_4'];
 			$row[11] = $data['dval_contact_date_5'];
 			
-			if (empty($row[7]) and empty($row[8]) and empty($row[9]) and empty($row[10]) and empty($row[11])) {
+			$mostRecent = max($row[7], $row[8], $row[9], $row[10], $row[11]);
+			if (empty($mostRecent) or $mostRecent >= $today) {
 				$row[12] = "N/A";
 			} else {
-				$mostRecent = max($row[7], $row[8], $row[9], $row[10], $row[11]);
 				$row[12] = date_diff(date_create($mostRecent), date_create($today))->format("%a");
 			}
 			$table['content'][] = $row;
