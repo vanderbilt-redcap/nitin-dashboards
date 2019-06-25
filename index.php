@@ -232,7 +232,7 @@ class Dashboard {
 	}
 }
 
-$record54 = \REDCap::getData(96003, 'array', 54);
+$record54 = \REDCap::getData(95805, 'array', 54);
 echo("<pre>");
 print_r($record54);
 echo("</pre>");
