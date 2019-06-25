@@ -168,7 +168,7 @@ foreach ($records as $i => $record) {
 			$row[7] = $data['pttk_lead_pt_contact_needed'];
 			
 			$compareDate = max($row[4], $row[5], $row[6]);
-			if (empty($compareDate)) {
+			if (empty($compareDate) or $compareDate >= $today) {
 				$row[8] = "N/A";
 			} else {
 				$row[8] = date_diff(date_create($compareDate), date_create($today))->format("%a");
