@@ -232,6 +232,11 @@ class Dashboard {
 	}
 }
 
+$record54 = \REDCap::getData(96003, 'array', 54);
+print_r($record54);
+
+exit('hi');
+
 if (!$dash) {
 	$dash = new Dashboard();
 }
