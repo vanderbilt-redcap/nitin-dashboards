@@ -245,7 +245,7 @@ foreach ($records as $i => $record) {
 		for ($i = 1; $i <= 20; $i++) {
 			if (!empty($row[$i])) {
 				$ignoreThisRow = false;
-				continue;
+				break;
 			}
 		}
 		if (!$ignoreThisRow) {

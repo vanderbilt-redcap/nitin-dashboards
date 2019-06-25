@@ -409,6 +409,7 @@ nav div.selected {
   width: calc(100% - 350px);
   margin-right: 7.5%;
   font-family: sans-serif;
+  background-color: white;
 }
 .dataTable thead {
   text-align: left;
