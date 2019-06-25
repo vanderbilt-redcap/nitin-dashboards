@@ -100,50 +100,50 @@ foreach ($records as $i => $record) {
 }
 $content .= $dash->makeDataTable($table);
 
-// ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// $table = [
-	// "title" => "Follow-up Calls (Outstanding Questionnaires)",
-	// "titleClass" => "blueHeader",
-	// "headers" => ["Study ID", "DAG", "Event Name", "Contact 1 approx. date due:", "Call 2 approx. date due", "Call 3 approx. date due", "PI referral approx. date due", "Days passed since contact due:"],
-	// "content" => []
-// ];
-// $today = date('Y-m-d');
-// foreach ($records as $i => $record) {
-	// $edata = $record[$dash->enrollmentEID];
-	// foreach ($record as $eid => $data) {
-		// if (
-			// // logic from "Follow up calls (patient questionnaire)"
-			// // ([qtk_timepoint] <> "0") AND
-			// // ([qtk_pi_call] <> "1") AND
-			// // ([pati_study_status] <> "0") AND
-			// // ([qtk_questionnaire_sent] = "1") AND
-			// // ([qtk_questionnaire_received] = "" OR
-			// // [qtk_questionnaire_received] = "2")
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+$table = [
+	"title" => "Follow-up Calls (Outstanding Questionnaires)",
+	"titleClass" => "blueHeader",
+	"headers" => ["Study ID", "DAG", "Event Name", "Contact 1 approx. date due:", "Call 2 approx. date due", "Call 3 approx. date due", "PI referral approx. date due", "Days passed since contact due:"],
+	"content" => []
+];
+$today = date('Y-m-d');
+foreach ($records as $i => $record) {
+	$edata = $record[$dash->enrollmentEID];
+	foreach ($record as $eid => $data) {
+		if (
+			// logic from "Follow up calls (patient questionnaire)"
+			// ([qtk_timepoint] <> "0") AND
+			// ([qtk_pi_call] <> "1") AND
+			// ([pati_study_status] <> "0") AND
+			// ([qtk_questionnaire_sent] = "1") AND
+			// ([qtk_questionnaire_received] = "" OR
+			// [qtk_questionnaire_received] = "2")
 			
-			// ($data['qtk_timepoint'] <> "0") and
-			// ($data['qtk_pi_call'] <> "1") and
-			// ($data['pati_study_status'] <> "0") and
-			// ($data['qtk_questionnaire_sent'] == "1") and
-			// ($data['qtk_questionnaire_received'] == "" or
-			// $data['qtk_questionnaire_received'] == "2")
-		// ) {
-			// $row = [];
-			// $row[0] = "<a href = \"" . $dash->recordHome . "$i\">" . $edata['enrollment_id'] . "</a> " . $edata['study_id'];
-			// $row[1] = $edata['pati_6'];
-			// $row[2] = $dash->projEvents[$eid];
-			// $row[3] = $data['qtk_call_due'];
-			// $row[4] = $data['qtk_call_due_2'];
-			// $row[5] = $data['qtk_call_due_3'];
-			// $row[6] = $data['qtk_call_due_4'];
+			($data['qtk_timepoint'] <> "0") and
+			($data['qtk_pi_call'] <> "1") and
+			($data['pati_study_status'] <> "0") and
+			($data['qtk_questionnaire_sent'] == "1") and
+			($data['qtk_questionnaire_received'] == "" or
+			$data['qtk_questionnaire_received'] == "2")
+		) {
+			$row = [];
+			$row[0] = "<a href = \"" . $dash->recordHome . "$i\">" . $edata['enrollment_id'] . "</a> " . $edata['study_id'];
+			$row[1] = $edata['pati_6'];
+			$row[2] = $dash->projEvents[$eid];
+			$row[3] = $data['qtk_call_due'];
+			$row[4] = $data['qtk_call_due_2'];
+			$row[5] = $data['qtk_call_due_3'];
+			$row[6] = $data['qtk_call_due_4'];
 			
-			// $mostRecent = max($row[3], $row[4], $row[5], $row[6]);
-			// $row[7] = date_diff(date_create($mostRecent), date_create($today))->format("%a");
+			$mostRecent = max($row[3], $row[4], $row[5], $row[6]);
+			$row[7] = date_diff(date_create($mostRecent), date_create($today))->format("%a");
 			
-			// $table['content'][] = $row;
-		// }
-	// }
-// }
-// $content .= $dash->makeDataTable($table);
+			$table['content'][] = $row;
+		}
+	}
+}
+$content .= $dash->makeDataTable($table);
 
 // ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // $table = [
