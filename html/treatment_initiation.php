@@ -39,7 +39,11 @@ foreach ($records as $i => $record) {
 		$row[7] = $record[$dash->baselineEID]["qtk_call_due_4"];
 		
 		$mostRecent = max($row[3], $row[4], $row[5], $row[6]);
-		$row[8] = date_diff(date_create($mostRecent), date_create($today))->format("%a");
+		if (empty($mostRecent) or $mostRecent >= $today) {
+			$row[8] = "N/A";
+		} else {
+			$row[8] = date_diff(date_create($mostRecent), date_create($today))->format("%a");
+		}
 		
 		$table['content'][] = $row;
 	}
