@@ -183,7 +183,7 @@ foreach ($records as $i => $record) {
 				$row[10] = $data['dval_contact_date_4'];
 				$row[11] = $data['dval_contact_date_5'];
 			
-				$mostRecent = max($row[7], $row[8], $row[9], $row[10], $row[11]);
+				$mostRecent = max($row[6], $row[7], $row[8], $row[9], $row[10], $row[11]);
 				if (empty($mostRecent)) {
 					$row[12] = "N/A";
 				} else {
