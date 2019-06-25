@@ -189,11 +189,13 @@ foreach ($records as $i => $record) {
 	// "Outstanding physical therapy diaries:" 7
 	
 	// "Check requests due:" 8
-	if (
-		$data['qtk_check_request_submitted'] == '' and
-		$data['qtk_questionnaire_received'] == '1'
-	)
-		$tableData[8][1]++;
+	foreach ($record as $eid => $data) {
+		if (
+			$data['qtk_check_request_submitted'] == '' and
+			$data['qtk_questionnaire_received'] == '1'
+		) $tableData[8][1]++;
+	}
+		
 }
 
 $content = "<table class='summaryTable'>
