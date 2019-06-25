@@ -105,6 +105,31 @@ foreach ($records as $i => $record) {
 	}
 	
 	// "Physical therapy reports pending:" 2
+	foreach ($record as $eid => $data) {
+		if (
+		($data['pttk_pt_report_completed'] == '' or
+		$data['pttk_pt_report_completed'] == '2') and
+		$data['pttk_pt_report_sent'] == '1' and
+		$data['pttk_lead_pt_contact_made'] == '' and
+		$edata['pati_study_status'] <> '0'
+		) {
+			$d1 = $data['pttk_date_pt_report_sent'];
+			$d2 = $data['pttk_contact_due_1'];
+			$d3 = $data['pttk_contact_due_2'];
+			$d4 = $data['pttk_contact_due_3'];
+			$d5 = $data['pttk_lead_pt_contact_needed'];
+			
+			$compareDate = max($d1, $d2, $d3, $d4, $d5);
+			if (empty($compareDate)) {
+				// $row[8] = "N/A";
+			} else {
+				$diff = date_diff(date_create($compareDate), date_create($today))->format("%a");
+				if ((int) $diff > 0) {
+					$tableData[2][1]++;
+				}
+			}
+		}
+	}
 	
 	// "Surgery reports outstanding:" 3
 	if ($edata['sdoc_vumc_cert_2'] <> '1' and $edata['randgroup'] == '1' and $edata['pati_x15'] <> '')
@@ -125,6 +150,26 @@ foreach ($records as $i => $record) {
 	}
 	
 	// "Questionnaires pending:" 5
+	if (
+		($data['qtk_timepoint'] <> "0") and
+		($data['qtk_pi_call'] <> "1") and
+		($data['pati_study_status'] <> "0") and
+		($data['qtk_questionnaire_sent'] == "1") and
+		($data['qtk_questionnaire_received'] == "" or
+		$data['qtk_questionnaire_received'] == "2")
+	) {
+		$d1 = $data['qtk_call_due'];
+		$d2 = $data['qtk_call_due_2'];
+		$d3 = $data['qtk_call_due_3'];
+		$d4 = $data['qtk_call_due_4'];
+		
+		$mostRecent = max($d1, $d2, $d3, $d4);
+		$diff = (int) date_diff(date_create($mostRecent), date_create($today))->format("%a");
+		
+		if (!empty($mostRecent) and $diff > 0) {
+			$tableData[5][1]++;
+		}
+	}
 	
 	// "Physical therapy diaries to be checked/sent:" 6
 	$m6data = $record[$dash->m6EID];
@@ -140,7 +185,11 @@ foreach ($records as $i => $record) {
 	// "Outstanding physical therapy diaries:" 7
 	
 	// "Check requests due:" 8
-	
+	if (
+		$data['qtk_check_request_submitted'] == '' and
+		$data['qtk_questionnaire_received'] == '1'
+	)
+		$tableData[8][1]++;
 }
 
 $content = "<table class='summaryTable'>

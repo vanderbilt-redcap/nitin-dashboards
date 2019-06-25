@@ -52,8 +52,8 @@ foreach ($records as $i => $record) {
 	$edata = $record[$dash->enrollmentEID];
 	foreach ($record as $eid => $data) {
 		if (
-		($data['qtk_check_request_submitted'] == '' and
-		$data['qtk_questionnaire_received'] == '1'
+			$data['qtk_check_request_submitted'] == '' and
+			$data['qtk_questionnaire_received'] == '1'
 		) {
 			$row = [];
 			$row[0] = "<a href = \"" . $dash->recordHome . "$i\">" . $edata['enrollment_id'] . "</a> " . $edata['study_id'];

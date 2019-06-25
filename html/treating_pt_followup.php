@@ -140,7 +140,7 @@ $content .= $dash->makeDataTable($table);
 $table = [
 	"title" => "PT Reports (follow-up)",
 	"titleClass" => "redHeader",
-	"headers" => ["Study ID", "DAG", "Event", "Date sent:", "Contact 1 approx. date due:", "Contact 2 approx. date due:", "LPT contact approx. date due:", "LPT contact needed?"],
+	"headers" => ["Study ID", "DAG", "Event", "Date sent:", "Contact 1 approx. date due:", "Contact 2 approx. date due:", "LPT contact approx. date due:", "LPT contact needed?", "Days passed since contact due:"],
 	"content" => []
 ];
 foreach ($records as $i => $record) {
@@ -163,6 +163,12 @@ foreach ($records as $i => $record) {
 			$row[6] = $data['pttk_contact_due_3'];
 			$row[7] = $data['pttk_lead_pt_contact_needed'];
 			
+			$compareDate = max($row[3], $row[4], $row[5], $row[6], $row[7]);
+			if (empty($compareDate)) {
+				$row[8] = "N/A";
+			} else {
+				$row[8] = date_diff(date_create($compareDate), date_create($today))->format("%a");
+			}
 			$table['content'][] = $row;
 		}
 	}
