@@ -171,6 +171,62 @@ class Dashboard {
 		return $table;
 	}
 	
+	public function makeDDETable($tableData) {
+		# returns (string) HTML table
+		# requires $tableData array with properties:
+		$table = "
+			<h2 class='" . $tableData['titleClass'] . "'>" . $tableData['title'] . "</h2>
+			<table class='dataTable'>
+				<thead>
+					<tr>";
+		foreach ($tableData['headers'] as $i => $header) {
+			if ($i == 0) {
+			$table .= "
+						<th>$header</th>";
+			} else {
+			$table .= "
+						<th colspan=\"2\">$header</th>";
+			}
+		}
+		$table .= "
+					</tr>
+					<tr>";
+		foreach ($tableData['headers2'] as $i => $header) {
+			$table .= "
+						<th>$header</th>";
+		}
+		$table .= "
+					</tr>
+				</thead>
+				<tbody>";
+		foreach ($tableData['content'] as $i => $row) {
+			$table .= "
+					<tr>";
+			foreach ($row as $j => $datum) {
+				$classText = "";
+				if ($tableData["css"][$i][$j] == 1)
+					$classText = "class=\"DDEDouble\"";
+				
+				if (strpos($datum, '</a>') !== false) {
+					preg_match_all("/>(\d+)<.a>/", $datum, $matches);
+					$enrollmentID = $matches[1][0];
+					$table .= "
+							<td $classText data-sort='$enrollmentID'>$datum</td>";
+				} else {
+					$table .= "
+							<td $classText>$datum</td>";
+				}
+			}
+			$table .= "
+					</tr>";
+		}
+		$table .= "
+				</tbody>
+			</table>";
+		
+		return $table;
+	}
+	
 	public function test($x) {
 		return "<pre>$x\n</pre>";
 	}

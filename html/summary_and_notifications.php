@@ -99,7 +99,7 @@ foreach ($records as $i => $record) {
 			$compareDate = $m1data['pttk_ideal_date'];
 		}
 	}
-	$compareDate = $edata['randgroup'] == 1 ? $m1data[
+	// $compareDate = $edata['randgroup'] == 1 ? $m1data[
 	if (($edata['pati_study_status']<>'0') and ($compareDate >= $today) and ($m1bool or $m3bool)) {
 		$tableData[1][1]++;
 	}
@@ -164,4 +164,5 @@ unset($evenOdd, $i, $row);
 
 # add PI Calls Needed table
 $content .= $dash->makeDataTable($table);
+
 unset($table);

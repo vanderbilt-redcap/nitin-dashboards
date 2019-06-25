@@ -458,6 +458,11 @@ nav div.selected {
   background-color: #cbd5e4;
 }
 
+.DDEDouble {
+  color: white;
+  background-color: #A1033E;
+}
+
 #loader {
   display: none;
   position: absolute;
