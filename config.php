@@ -22,7 +22,7 @@ if(!defined("ENVIRONMENT")) {
 		define("IMAGING_RECORD_URL", APP_PATH_WEBROOT_FULL . substr(APP_PATH_WEBROOT, 1) . "DataEntry/record_home.php?pid=" . IMAGING_PID . "&id=");
 		
 		function llog($text) {
-			echo $text . "<br>";
+			// echo $text . "<br>";
 		}
 	} else {
 		define("ENVIRONMENT", "DEV");
@@ -40,7 +40,7 @@ if(!defined("ENVIRONMENT")) {
 		file_put_contents("C:/vumc/log.txt", "starting log nitin\n");
 		function llog($text) {
 			// file_put_contents("C:/vumc/log.txt", "$text\n", FILE_APPEND);
-			echo($text . "<br>");
+			// echo($text . "<br>");
 		}
 	}
 }

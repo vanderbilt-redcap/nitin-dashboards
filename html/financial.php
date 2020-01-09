@@ -5,6 +5,35 @@ $content = "";
 $params = [
 	"project_id" => $dash->pid,
 	"return_format" => 'array',
+	"fields" => [
+		'enrollment_id',
+		'patc_a2',
+		'mritk_invoice_recd',
+		'pati_6',
+		'qtk_date_received',
+		'date',
+		'patc_a3',
+		'mritk_invoice_vumc_paid',
+		'dem_crf03_1',
+		'qtk_questionnaire_received',
+		'mritk_recruitment_invoice',
+		'mritk_invoice_vumc',
+		'randgroup',
+		'mritk_invoice_submitted_date',
+		'mritk_invoice_vumc_paid',
+		'qtk_check_request_notes',
+		'qtk_patient_paid',
+		'study_id',
+		'qtk_date_check_cleared',
+		'qtk_date_payment_processed',
+		'qtk_check_request_date',
+		'qtk_check_request_number',
+		'qtk_date_received',
+		'mritk_recruitment_invoice_number',
+		'patc_a1',
+		'qtk_check_request_submitted',
+		'mritk_recruitment_invoice'
+	],
 	"exportDataAccessGroups" => true
 ];
 $records = \REDCap::getData($params);
