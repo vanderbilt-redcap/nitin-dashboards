@@ -6,7 +6,17 @@ global $dash;
 $params = [
 	"project_id" => $dash->pid,
 	"return_format" => 'array',
-	"exportDataAccessGroups" => true
+	"fields" => [
+		"qtk_pi_call",
+		"qtk_pi_call_complete",
+		"pati_study_status",
+		"enrollment_id",
+		"study_id",
+		"pati_6",
+		"qtk_call_due_4",
+	],
+	"exportDataAccessGroups" => true,
+	"filterLogic" => "[qtk_pi_call] = '1' and [qtk_pi_call_complete] = ''"
 ];
 $records = \REDCap::getData($params);
 
