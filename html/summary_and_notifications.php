@@ -1,5 +1,7 @@
 <?php
 
+llog("top of summary_and_notifications.php: " . memory_get_usage(true) / 1000000);
+
 global $dash;
 $params = [
 	"project_id" => $dash->pid,
@@ -7,6 +9,8 @@ $params = [
 	"exportDataAccessGroups" => true
 ];
 $records = \REDCap::getData($params);
+
+llog("after get records s_a_n: " . memory_get_usage(true) / 1000000);
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 $table = [
@@ -32,6 +36,8 @@ foreach ($records as $i => $record) {
 	}
 }
 
+llog("after adding data to \$table: " . memory_get_usage(true) / 1000000);
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 # add Follow-Up Status Summary table
 
@@ -41,6 +47,9 @@ $records = \REDCap::getData([
 	"return_format" => 'array',
 	"exportDataAccessGroups" => true
 ]);
+
+llog("after get records (2nd): " . memory_get_usage(true) / 1000000);
+
 $tableData = [
 	["Patients with treatment info outstanding:", 0],
 	["Physical therapy reports to be sent:", 0],
@@ -193,6 +202,8 @@ foreach ($records as $i => $record) {
 		
 }
 
+llog("after adding 2nd table: " . memory_get_usage(true) / 1000000);
+
 $content = "<table class='summaryTable'>
 	<thead>
 		<th>Follow-Up Status Summary</th>
@@ -214,5 +225,7 @@ unset($evenOdd, $i, $row);
 
 # add PI Calls Needed table
 $content .= $dash->makeDataTable($table);
+
+llog("after adding \$content: " . memory_get_usage(true) / 1000000);
 
 unset($table);

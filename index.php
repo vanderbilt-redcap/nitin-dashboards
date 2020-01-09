@@ -44,6 +44,7 @@ class Dashboard {
 	];
 	
 	public function __construct() {
+		llog("mem on construct: " . memory_get_usage(true) / 1000000);
 		$this->pid = SUBJECT_PID;
 		$this->project = new \Project($this->pid);
 		$this->projEvents = \Event::getEventsByProject($this->pid);
@@ -57,6 +58,8 @@ class Dashboard {
 		$this->recordHome = SUBJECT_RECORD_URL;
 		$this->imagingRecordHome = IMAGING_RECORD_URL;
 		$this->screeningRecordHome = SCREENING_RECORD_URL;
+		
+		llog("after class instance declarations: " . memory_get_usage(true) / 1000000);
 		
 		// get labels for subject project
 		$q = db_query("SELECT field_name, element_enum FROM redcap_metadata WHERE project_id=" . SUBJECT_PID);
@@ -76,6 +79,8 @@ class Dashboard {
 		while ($row = db_fetch_assoc($q)) {
 			$this->imaging_labels[$row['field_name']] = $row['element_enum'];
 		}
+		
+		llog("after get labels: " . memory_get_usage(true) / 1000000);
 	}
 	
 	function labelizeValue($fieldName, $fieldValue, $labels = '') {
@@ -115,6 +120,8 @@ class Dashboard {
 	function init() {
 		$html = self::getBaseHtml();
 		
+		llog("after get base HTML: " . memory_get_usage(true) / 1000000);
+		
 		// insert dashboard header/navbar
 		$body = file_get_contents("html/dashboard.html");
 		$html = str_replace("{BODY}", $body, $html);
@@ -123,6 +130,9 @@ class Dashboard {
 		include_once("html/summary_and_notifications.php");
 		// include_once("html/treatment_initiation.php");
 		$html = str_replace("{CONTENT}", $content, $html);
+		
+		
+		llog("before init return: " . memory_get_usage(true) / 1000000);
 		
 		return $html;
 	}
@@ -234,9 +244,12 @@ class Dashboard {
 
 if (!$dash) {
 	$dash = new Dashboard();
+	llog("after dash instantiation: " . memory_get_usage(true) / 1000000);
 }
 if (isset($_GET['screen'])) {
+	llog("before get screen: " . memory_get_usage(true) / 1000000);
 	echo $dash->getDashboard($_GET['screen']);
+	llog("after get screen: " . memory_get_usage(true) / 1000000);
 } else {
 	echo $dash->init();
 }
