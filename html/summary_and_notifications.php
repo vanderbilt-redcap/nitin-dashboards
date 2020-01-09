@@ -55,6 +55,37 @@ llog("after adding data to \$table: " . memory_get_usage(true) / 1000000);
 $records = \REDCap::getData([
 	"project_id" => $dash->pid,
 	"return_format" => 'array',
+	"fields" => [
+		"randgroup",
+		"pati_x15",
+		"pati_study_status",
+		"qtk_physical_therapy",
+		"pttk_pt_report_sent",
+		"pttk_ideal_date",
+		"pttk_ideal_date_2",
+		"pttk_pt_report_completed",
+		"pttk_lead_pt_contact_made",
+		"pttk_date_pt_report_sent",
+		"pttk_contact_due_1",
+		"pttk_contact_due_2",
+		"pttk_contact_due_3",
+		"pttk_lead_pt_contact_needed",
+		"sdoc_vumc_cert_2",
+		"qtk_lower_window",
+		"qtk_questionnaire_sent",
+		"date",
+		"qtk_timepoint",
+		"qtk_pi_call",
+		"qtk_questionnaire_received",
+		"qtk_call_due",
+		"qtk_call_due_2",
+		"qtk_call_due_3",
+		"qtk_call_due_4",
+		"pati_14",
+		"pttk_diary_check",
+		"qtk_questionnaire_sent_2",
+		"qtk_check_request_submitted"
+	],
 	"exportDataAccessGroups" => true
 ]);
 
