@@ -188,7 +188,7 @@ foreach ($records as $i => $record) {
 			
 			$mostRecent = max($row[3], $row[4], $row[5], $row[6]);
 			if (empty($mostRecent) or $mostRecent >= $today) {
-				$row[7] = "N/A";
+				$row[7] = 0;
 			} else {
 				$row[7] = date_diff(date_create($mostRecent), date_create($today))->format("%a");
 			}
@@ -239,7 +239,7 @@ foreach ($records as $i => $record) {
 			
 				$mostRecent = max($row[6], $row[7], $row[8], $row[9], $row[10], $row[11]);
 				if (empty($mostRecent or $mostRecent >= $today)) {
-					$row[12] = "N/A";
+					$row[12] = 0;
 				} else {
 					$row[12] = date_diff(date_create($mostRecent), date_create($today))->format("%a");
 				}
@@ -284,7 +284,7 @@ foreach ($records as $i => $record) {
 			$row[4] = $data['qtk_date_received'];
 			
 			if (empty($row[4])) {
-				$row[5] = "N/A";
+				$row[5] = 0;
 			} else {
 				$row[5] = date_diff(date_create($row[4]), date_create($today))->format("%a");
 			}

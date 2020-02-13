@@ -74,7 +74,7 @@ foreach ($records as $i => $record) {
 		
 		$mostRecent = max($row[3], $row[4], $row[5], $row[6]);
 		if (empty($mostRecent) or $mostRecent >= $today) {
-			$row[8] = "N/A";
+			$row[8] = 0;
 		} else {
 			$row[8] = date_diff(date_create($mostRecent), date_create($today))->format("%a");
 		}

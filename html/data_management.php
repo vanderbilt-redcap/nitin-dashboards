@@ -80,7 +80,7 @@ foreach ($records as $i => $record) {
 		$row[4] = $edata['sdoc_initial_due'];
 		
 		if (empty($row[4]) or $row[4] >= $today) {
-			$row[5] = "N/A";
+			$row[5] = 0;
 		} else {
 			$row[5] = date_diff(date_create($row[4]), date_create($today))->format("%a");
 		}
@@ -108,7 +108,7 @@ foreach ($records as $i => $record) {
 		$row[4] = $edata['sdoc_surgical_due'];
 		
 		if (empty($row[4]) or $row[4] >= $today) {
-			$row[5] = "N/A";
+			$row[5] = 0;
 		} else {
 			$row[5] = date_diff(date_create($row[4]), date_create($today))->format("%a");
 		}
@@ -148,7 +148,7 @@ foreach ($records as $i => $record) {
 			
 			$mostRecent = max($row[7], $row[8], $row[9], $row[10], $row[11]);
 			if (empty($mostRecent) or $mostRecent >= $today) {
-				$row[12] = "N/A";
+				$row[12] = 0;
 			} else {
 				$row[12] = date_diff(date_create($mostRecent), date_create($today))->format("%a");
 			}

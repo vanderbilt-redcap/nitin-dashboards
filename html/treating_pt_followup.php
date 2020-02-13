@@ -105,7 +105,7 @@ foreach ($records as $i => $record) {
 		$row[5] = $edata['pti_pt_contact_notes'];
 		
 		if (empty($row[3])) {
-			$row[6] = "N/A";
+			$row[6] = 0;
 		} else {
 			$row[6] = date_diff(date_create($row[3]), date_create($today))->format("%a");
 		}
@@ -205,7 +205,7 @@ foreach ($records as $i => $record) {
 			
 			$compareDate = max($row[4], $row[5], $row[6]);
 			if (empty($compareDate) or $compareDate >= $today) {
-				$row[8] = "N/A";
+				$row[8] = 0;
 			} else {
 				$row[8] = date_diff(date_create($compareDate), date_create($today))->format("%a");
 			}
