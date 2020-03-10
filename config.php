@@ -1,6 +1,5 @@
 <?php
 use Vanderbilt\Victrlib\Env;
-
 error_reporting(E_ALL & ~E_WARNING);
 
 if(!defined("ENVIRONMENT")) {
