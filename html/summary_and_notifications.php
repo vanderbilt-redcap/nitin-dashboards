@@ -237,33 +237,41 @@ foreach ($records as $i => $record) {
 	}
 	
 	// 5 "Physical therapy report follow-up calls due:"
-	if (
-		($other['pttk_pt_report_completed'] == '' or
-		$other['pttk_pt_report_completed'] == '2') and
-		$other['pttk_pt_report_sent'] == '1' and
-		$other['pttk_lead_pt_contact_made'] == '' and
-		$edata['pati_study_status'] <> '0'
-	) {
-		$d1 = $other['pttk_contact_due_1'];
-		$d2 = $other['pttk_contact_due_2'];
-		$d3 = $other['pttk_contact_due_3'];
-		if (max($d1, $d2, $d3) < $today) {
-			$tableData[5][1]++;
+	foreach ($record as $eid => $data) {
+		if (
+			($data['pttk_pt_report_completed'] == '' or
+			$data['pttk_pt_report_completed'] == '2') and
+			$data['pttk_pt_report_sent'] == '1' and
+			$data['pttk_lead_pt_contact_made'] == '' and
+			$edata['pati_study_status'] <> '0'
+		) {
+			$d1 = $data['pttk_contact_due_1'];
+			$d2 = $data['pttk_contact_due_2'];
+			$d3 = $data['pttk_contact_due_3'];
+			
+			$compareDate = max($row[4], $row[5], $row[6]);
+			if (empty($compareDate) or $compareDate >= $today) {
+				
+			} else {
+				$tableData[5][1]++;
+			}
 		}
-	}
+		
 		// crossovers due
-	if (
-		($other['pttk_pt_rep_sent_x_r'] == "1") AND 
-		($other['pttk_pt_rep_completed_x_r'] == "2" OR 
-		$other['pttk_pt_rep_completed_x_r'] == "")
-	) {
-		$d1 = $other['pttk_contact_due_1_x_r'];
-		$d2 = $other['pttk_contact_due_2_x_r'];
-		$d3 = $other['pttk_contact_due_3_x_r'];
-		if (max($d1, $d2, $d3) < $today) {
-			$tableData[5][1]++;
+		if (
+			($data['pttk_pt_rep_sent_x_r'] == "1") AND 
+			($data['pttk_pt_rep_completed_x_r'] == "2" OR 
+			$data['pttk_pt_rep_completed_x_r'] == "")
+		) {
+			$d1 = $data['pttk_contact_due_1_x_r'];
+			$d2 = $data['pttk_contact_due_2_x_r'];
+			$d3 = $data['pttk_contact_due_3_x_r'];
+			if (max($d1, $d2, $d3) <= $today) {
+				$tableData[5][1]++;
+			}
 		}
 	}
+
 	
 	// 6 "Questionnaires to be sent:"
 	foreach ($record as $eid => $data) {
