@@ -30,6 +30,13 @@ $(function() {
 					info: false,
 					searching: false
 				});
+				
+				Nitin.tables = []
+				$(".dataTable").each(function(index, item) {
+						Nitin.tables.push($(item).DataTable())
+				})
+				Nitin.order_tables()
+				
 				document.body.scrollTop = document.documentElement.scrollTop = 0;
 				$("#loader").fadeOut(100, function() {
 					$("#content").fadeIn(150);
@@ -41,3 +48,16 @@ $(function() {
 		})
 	})
 })
+
+Nitin = {}
+Nitin.order_tables = function() {
+	Nitin.tables.forEach(function(table, index) {
+		var col = $(table.table().node()).attr('data-order-col')
+		var direction = $(table.table().node()).attr('data-order-direction')
+		
+		if (col && direction) {
+			table.order([col, direction])
+			table.draw()
+		}
+	})
+}
