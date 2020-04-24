@@ -140,8 +140,8 @@ foreach ($records as $i => $record) {
 				$compDate = $row[2];
 			if (!empty($row[4]))
 				$compDate = $row[4];
-			if ($today < $compDate) {
-				$row[6] = date_diff(date_create($mostRecent), date_create($today))->format("%a");
+			if ($today > $compDate) {
+				$row[6] = date_diff(date_create($compDate), date_create($today))->format("%a");
 			}
 			
 			$table['content'][] = $row;
