@@ -90,8 +90,12 @@ $content .= $dash->makeDataTable($table);
 $table = [
 	"title" => "Surgery Scheduling",
 	"titleClass" => "redHeader",
-	"headers" => ["Study ID", "DAG", "Randomization date:", "Surgery Scheduled Date", "Surgery Scheduling Notes"],
-	"content" => []
+	"headers" => ["Study ID", "DAG", "Randomization date:", "Surgery Scheduled Date", "Surgery Scheduling Notes", "Days since Randomization/Surgery scheduled date"],
+	"content" => [],
+	"attributes" => [
+		"order-col" => 5,
+		"order-direction" => "desc"
+	]
 ];
 foreach ($records as $i => $record) {
 	$edata = $record[$dash->enrollmentEID];
@@ -102,6 +106,14 @@ foreach ($records as $i => $record) {
 		$row[2] = $edata["date"];
 		$row[3] = $edata["pati_16"];
 		$row[4] = $edata["pati_surgical_sched_notes"];
+		$row[5] = 0;
+		
+		if (!empty($row[2])) {
+			$row[5] = date_diff(date_create($row[2]), date_create($today))->format("%a");
+		}
+		if (!empty($row[3])) {
+			$row[5] = date_diff(date_create($row[3]), date_create($today))->format("%a");
+		}
 		
 		$table['content'][] = $row;
 	}
@@ -158,8 +170,12 @@ $content .= $dash->makeDataTable($table);
 $table = [
 	"title" => "Non-operative to Operative Potential Crossovers",
 	"titleClass" => "redHeader",
-	"headers" => ["Study ID", "DAG", "Actual Surgery Date", "Patient 3mQ surgery update", "Patient 6mQ surgery update", "Patient 12mQ surgery update"],
-	"content" => []
+	"headers" => ["Study ID", "DAG", "Scheduled Surgery Data", "Actual Surgery Date", "Patient 3mQ surgery update", "Patient 6mQ surgery update", "Patient 12mQ surgery update"],
+	"content" => [],
+	"attributes" => [
+		"order-col" => 3,
+		"order-direction" => "asc"
+	]
 ];
 foreach ($records as $i => $record) {
 	$m3data = $record[$dash->m3EID];
@@ -167,13 +183,6 @@ foreach ($records as $i => $record) {
 	$m12data = $record[$dash->m12EID];
 	$edata = $record[$dash->enrollmentEID];
 	if (
-		// from "Potential Crossovers: PT to Surgery" report logic
-		// ([3months_arm_1][sxu_b1] = "1" OR
-		// [6months_arm_1][sxu_b1] = "1" OR
-		// [12months_arm_1][sxu_b1] = "1" OR
-		// [enrollment_arm_1][pati_x15] <> "" OR
-		// [enrollment_arm_1][pati_16] <> "") AND
-		// ([enrollment_arm_1][randgroup] = "2")
 		($m3data['sxu_b1'] == '1' or
 		$m6data['sxu_b1'] == '1' or
 		$m12data['sxu_b1'] == '1' or
@@ -184,16 +193,17 @@ foreach ($records as $i => $record) {
 		$row = [];
 		$row[0] = "<a href = \"" . $dash->recordHome . "$i\">" . $edata['enrollment_id'] . "</a> " . $edata['study_id'];
 		$row[1] = $record[$dash->enrollmentEID]['pati_6'];
-		$row[2] = $edata['pati_x15'];
+		$row[2] = $edata["pati_16"];
+		$row[3] = $edata['pati_x15'];
 		
 		$m3 = $record[$dash->m3EID]["sxu_b1"];
 		$m6 = $record[$dash->m6EID]["sxu_b1"];
 		$m12 = $record[$dash->m12EID]["sxu_b1"];
 		
 		# if $m3 is empty, print empty, otherwise print label and value "Label (val)"
-		$row[3] = $m3 == '1' ? "Yes (1)" : ($m3 == '0' ? "No (0)" : $m3);
-		$row[4] = $m6 == '1' ? "Yes (1)" : ($m6 == '0' ? "No (0)" : $m6);
-		$row[5] = $m12 == '1' ? "Yes (1)" : ($m12 == '0' ? "No (0)" : $m12);
+		$row[4] = $m3 == '1' ? "Yes (1)" : ($m3 == '0' ? "No (0)" : $m3);
+		$row[5] = $m6 == '1' ? "Yes (1)" : ($m6 == '0' ? "No (0)" : $m6);
+		$row[6] = $m12 == '1' ? "Yes (1)" : ($m12 == '0' ? "No (0)" : $m12);
 		$table['content'][] = $row;
 	}
 }
