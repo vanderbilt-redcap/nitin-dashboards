@@ -488,5 +488,24 @@ nav div.selected {
     transform: rotate(360deg);
   }
 }
+.redDivider {
+  background-color: #7d3c4a;
+  border: 1.5px solid #5a2934;
+  color: #fff;
+  font: 20px bold, sans-serif;
+  padding: 16px;
+  text-align: center;
+  margin-right: 7.5%;
+}
+
+.blueDivider {
+  background-color: #0073b1;
+  border: 1.5px solid #005381;
+  color: #fff;
+  font: 20px bold, sans-serif;
+  padding: 16px;
+  text-align: center;
+  margin-right: 7.5%;
+}
 
 /*# sourceMappingURL=base.css.map */
