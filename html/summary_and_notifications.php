@@ -249,8 +249,8 @@ foreach ($records as $i => $record) {
 			$d2 = $data['pttk_contact_due_2'];
 			$d3 = $data['pttk_contact_due_3'];
 			
-			$compareDate = max($row[4], $row[5], $row[6]);
-			if (empty($compareDate) or $compareDate >= $today) {
+			$compareDate = max($d1, $d2, $d3);
+			if (empty($compareDate) or $compareDate > $today) {
 				
 			} else {
 				$tableData[5][1]++;
