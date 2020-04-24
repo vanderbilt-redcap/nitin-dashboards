@@ -136,9 +136,9 @@ foreach ($records as $i => $record) {
 			$row[6] = 0;
 			
 			$compDate = null;
-			if (!empty($row[2])
+			if (!empty($row[2]))
 				$compDate = $row[2];
-			if (!empty($row[4])
+			if (!empty($row[4]))
 				$compDate = $row[4];
 			if ($today < $compDate) {
 				$row[6] = date_diff(date_create($mostRecent), date_create($today))->format("%a");
