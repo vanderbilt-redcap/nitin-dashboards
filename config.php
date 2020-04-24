@@ -25,26 +25,23 @@ if(!defined("ENVIRONMENT")) {
 		define("SCREENING_RECORD_URL", APP_PATH_WEBROOT_FULL . substr(APP_PATH_WEBROOT, 1) . "DataEntry/index.php?pid=" . SCREENING_PID . "&page=screening_log&id=");
 		define("IMAGING_RECORD_URL", APP_PATH_WEBROOT_FULL . substr(APP_PATH_WEBROOT, 1) . "DataEntry/record_home.php?pid=" . IMAGING_PID . "&id=");
 		
-		function llog($text) {
-			// echo $text . "<br>";
-		}
+		function llog($text) {}
 	} else {
 		define("ENVIRONMENT", "DEV");
-		// define("SUBJECT_PID", 13);		// @able
-		// define("IMAGING_PID", 14);		// @able
-		// define("SCREENING_PID", 15);	// @able
-		define("SUBJECT_PID", 123);
-		define("SCREENING_PID", 122);
-		define("IMAGING_PID", 124);
+		define("SUBJECT_PID", 13);		// @able
+		define("IMAGING_PID", 14);		// @able
+		define("SCREENING_PID", 15);	// @able
+		// define("SUBJECT_PID", 123);
+		// define("SCREENING_PID", 122);
+		// define("IMAGING_PID", 124);
 		
 		define("SUBJECT_RECORD_URL", substr(APP_PATH_WEBROOT_FULL, 0, -8) . APP_PATH_WEBROOT . "DataEntry/record_home.php?pid=" . SUBJECT_PID . "&id=");
 		define("SCREENING_RECORD_URL", substr(APP_PATH_WEBROOT_FULL, 0, -8) . APP_PATH_WEBROOT . "DataEntry/index.php?pid=" . SCREENING_PID . "&page=screening_log&id=");
 		define("IMAGING_RECORD_URL", substr(APP_PATH_WEBROOT_FULL, 0, -8) . APP_PATH_WEBROOT . "DataEntry/record_home.php?pid=" . IMAGING_PID . "&id=");
 		
-		file_put_contents("C:/vumc/log.txt", "starting log nitin\n");
+		file_put_contents("C:/vumc/log.txt", "nitin dev logging:\n");
 		function llog($text) {
-			// file_put_contents("C:/vumc/log.txt", "$text\n", FILE_APPEND);
-			// echo($text . "<br>");
+			file_put_contents("C:/vumc/log.txt", "$text\n", FILE_APPEND);
 		}
 	}
 }
