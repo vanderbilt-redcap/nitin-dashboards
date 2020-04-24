@@ -60,8 +60,12 @@ $dagNames = [
 $table = [
 	"title" => "Pending MRIs",
 	"titleClass" => "redHeader",
-	"headers" => ["Study ID", "DAG", "Physician Name", "Appointment Date", "MRI Scheduled Date:", "Date patient scheduled to return to clinic:"],
-	"content" => []
+	"headers" => ["Study ID", "DAG", "Physician Name", "Appointment Date", "MRI Scheduled Date:", "Date patient scheduled to return to clinic:", "Days since last recorded date:"],
+	"content" => [],
+	"attributes" => [
+		"order-col" => 6,
+		"order-direction" => "desc"
+	]
 ];
 foreach ($records as $i => $record) {
 	$edata = $record[$dash->enrollmentEID];
@@ -76,6 +80,19 @@ foreach ($records as $i => $record) {
 			$row[3] = $data['slg_appointment_date'];
 			$row[4] = $data['slg_d3'];
 			$row[5] = $data['slg_d5'];
+			$row[6] = 0;
+			
+			$compdate = null;
+			if (!empty($row[3]))
+				$compdate = $row[3];
+			if (!empty($row[4]))
+				$compdate = $row[4];
+			if (!empty($row[5]))
+				$compdate = $row[5];
+			if (!empty($compdate)) {
+				$row[6] = date_diff(date_create($compdate), date_create($today))->format("%a");
+			}
+			
 			
 			$table['content'][] = $row;
 		}
