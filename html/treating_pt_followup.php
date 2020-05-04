@@ -121,11 +121,12 @@ foreach ($records as $i => $record) {
 		$row[3] = $edata['pti_lpt_referral_date'];
 		$row[4] = $edata['pti_pt_contacted'];
 		$row[5] = $edata['pti_pt_contact_notes'];
+		$row[6] = 0;
 		
-		if (empty($row[3])) {
-			$row[6] = 0;
-		} else {
+		if (!empty($row[3])) {
 			$row[6] = date_diff(date_create($row[3]), date_create($today))->format("%a");
+			if ($today < $row[3])
+				$row[6] *= -1;
 		}
 		
 		$table['content'][] = $row;
@@ -206,7 +207,12 @@ foreach ($records as $i => $record) {
 				$row[4] = $data['pttk_ideal_date'];
 				break;
 		}
-		$row[5] = date_diff(date_create($row[4]), date_create($today))->format("%a");
+		if (!empty($row[4])) {
+			$row[5] = date_diff(date_create($today), date_create($row[4]))->format("%a");
+			if ($today < $row[4])
+				$row[5] *= -1;
+		}
+		
 		$row[6] = $data["pttk_pt_report_sent_notes"];
 		
 		$table['content'][] = $row;
@@ -244,13 +250,16 @@ foreach ($records as $i => $record) {
 			$row[5] = $data['pttk_contact_due_2'];
 			$row[6] = $data['pttk_contact_due_3'];
 			$row[7] = $dash->labelizeValue('pttk_lead_pt_contact_needed', $data['pttk_lead_pt_contact_needed']);
+			$row[8] = 0;
 			
 			$compareDate = max($row[4], $row[5], $row[6]);
-			if (empty($compareDate) or $compareDate >= $today) {
-				$row[8] = 0;
-			} else {
+			if (!empty($compareDate)) {
 				$row[8] = date_diff(date_create($compareDate), date_create($today))->format("%a");
+				if ($today < $compareDate)
+					$row[8] *= -1;
 			}
+			unset($compareDate);
+			
 			$table['content'][] = $row;
 		}
 	}
@@ -321,11 +330,12 @@ foreach ($records as $i => $record) {
 		$row[2] = $otherdata["pti_lpt_referral_date"];
 		$row[3] = $otherdata["pti_pt_contacted"];
 		$row[4] = $otherdata["pti_pt_contact_notes"];
+		$row[5] = 0;
 		
-		if (empty($row[2])) {
-			$row[5] = 0;
-		} else {
+		if (!empty($row[2])) {
 			$row[5] = date_diff(date_create($row[2]), date_create($today))->format("%a");
+			if ($today < $row[2])
+				$row[5] *= -1;
 		}
 		
 		$table['content'][] = $row;
@@ -354,10 +364,12 @@ foreach ($records as $i => $record) {
 		$row = [];
 		$row[0] = "<a href = \"" . $dash->recordHome . "$i\">" . $edata['enrollment_id'] . "</a> " . $edata['study_id'];
 		$row[1] = $otherdata['pti_date_discharge_x'];
-		if (empty($row[1])) {
-			$row[2] = 0;
-		} else {
+		$row[2] = 0;
+		
+		if (!empty($row[1])) {
 			$row[2] = date_diff(date_create($row[1]), date_create($today))->format("%a");
+			if ($today < $row[1])
+				$row[2] *= -1;
 		}
 		
 		$table['content'][] = $row;
@@ -394,13 +406,15 @@ foreach ($records as $i => $record) {
 		$row[5] = $otherdata['pttk_contact_due_2_x_r'];
 		$row[6] = $otherdata['pttk_contact_due_3_x_r'];
 		$row[7] = $dash->labelizeValue('pttk_lpt_cont_needed_x_r', $otherdata['pttk_lpt_cont_needed_x_r']);
+		$row[8] = 0;
 		
 		$compareDate = max($row[4], $row[5], $row[6]);
-		if (empty($compareDate) or $compareDate >= $today) {
-			$row[8] = 0;
-		} else {
+		if (!empty($compareDate)) {
 			$row[8] = date_diff(date_create($compareDate), date_create($today))->format("%a");
+			if ($today < $compareDate)
+				$row[8] *= -1;
 		}
+		unset($compareDate);
 		
 		$table['content'][] = $row;
 	}

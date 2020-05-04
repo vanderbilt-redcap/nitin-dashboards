@@ -82,15 +82,11 @@ foreach ($records as $i => $record) {
 			$row[5] = $data['slg_d5'];
 			$row[6] = 0;
 			
-			$compdate = null;
-			if (!empty($row[3]))
-				$compdate = $row[3];
-			if (!empty($row[4]))
-				$compdate = $row[4];
-			if (!empty($row[5]))
-				$compdate = $row[5];
-			if (!empty($compdate)) {
-				$row[6] = date_diff(date_create($compdate), date_create($today))->format("%a");
+			$mostRecent = max($row[3], $row[4], $row[5]);
+			if (!empty($mostRecent)) {
+				$row[6] = date_diff(date_create($mostRecent), date_create($today))->format("%a");
+				if ($today < $mostRecent)
+					$row[6] *= -1;
 			}
 			
 			
@@ -118,10 +114,13 @@ foreach ($records as $i => $record) {
 			$row[0] = "<a href = \"" . $dash->screeningRecordHome . $data['study_id'] . "\">" . $data['study_id'] . "</a>";
 			$row[1] = $dagNames[$data['redcap_data_access_group']];
 			$row[2] = $data['slg_appointment_date'];
-			
 			$row[3] = 0;
-			if (!empty($row[2]))
+			
+			if (!empty($row[2])) {
 				$row[3] = date_diff(date_create($mostRecent), date_create($today))->format("%a");
+				if ($today < $row[2])
+					$row[3] *= -1;
+			}
 			
 			$table['content'][] = $row;
 		}
@@ -152,13 +151,11 @@ foreach ($records as $i => $record) {
 			$row[5] = $data['slg_f2a'] == '1' ? 'Yes (1)' : ($data['slg_f2a'] == '0' ? "No (0)" : $data['slg_f2a']);
 			$row[6] = 0;
 			
-			$compDate = null;
-			if (!empty($row[2]))
-				$compDate = $row[2];
-			if (!empty($row[4]))
-				$compDate = $row[4];
-			if ($today > $compDate) {
-				$row[6] = date_diff(date_create($compDate), date_create($today))->format("%a");
+			$mostRecent = max($row[2], $row[4]);
+			if (!empty($mostRecent)) {
+				$row[6] = date_diff(date_create($mostRecent), date_create($today))->format("%a");
+				if ($today < $mostRecent)
+					$row[6] *= -1;
 			}
 			
 			$table['content'][] = $row;

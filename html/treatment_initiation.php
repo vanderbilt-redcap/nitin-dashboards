@@ -71,13 +71,15 @@ foreach ($records as $i => $record) {
 		$row[5] = $record[$dash->baselineEID]["qtk_call_due_2"];
 		$row[6] = $record[$dash->baselineEID]["qtk_call_due_3"];
 		$row[7] = $record[$dash->baselineEID]["qtk_call_due_4"];
+		$row[8] = 0;
 		
 		$mostRecent = max($row[3], $row[4], $row[5], $row[6]);
-		if (empty($mostRecent) or $mostRecent >= $today) {
-			$row[8] = 0;
-		} else {
-			$row[8] = date_diff(date_create($mostRecent), date_create($today))->format("%a");
+		if (!empty($mostRecent)) {
+			$row[8] = date_diff(date_create($today), date_create($mostRecent))->format("%a");
+			if ($today < $mostRecent)
+				$row[8] *= -1;
 		}
+		unset($mostRecent);
 		
 		$table['content'][] = $row;
 	}
@@ -108,12 +110,13 @@ foreach ($records as $i => $record) {
 		$row[4] = $edata["pati_surgical_sched_notes"];
 		$row[5] = 0;
 		
-		if (!empty($row[2])) {
-			$row[5] = date_diff(date_create($row[2]), date_create($today))->format("%a");
+		$mostRecent = max($row[2], $row[3]);
+		if (!empty($mostRecent)) {
+			$row[5] = date_diff(date_create($today), date_create($mostRecent))->format("%a");
+			if ($today < $mostRecent)
+				$row[5] *= -1;
 		}
-		if (!empty($row[3])) {
-			$row[5] = date_diff(date_create($row[3]), date_create($today))->format("%a");
-		}
+		unset($mostRecent);
 		
 		$table['content'][] = $row;
 	}

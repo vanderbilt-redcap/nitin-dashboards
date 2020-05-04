@@ -101,11 +101,12 @@ foreach ($records as $i => $record) {
 		$row[2] = $dash->labelizeValue('randgroup', $edata['randgroup']);
 		$row[3] = $edata['date'];
 		$row[4] = $edata['sdoc_initial_due'];
+		$row[5] = 0;
 		
-		if (empty($row[4]) or $row[4] >= $today) {
-			$row[5] = 0;
-		} else {
+		if (!empty($row[4])) {
 			$row[5] = date_diff(date_create($row[4]), date_create($today))->format("%a");
+			if ($today < $row[4])
+				$row[5] *= -1;
 		}
 		
 		$table['content'][] = $row;
@@ -167,8 +168,10 @@ foreach ($records as $i => $record) {
 		$row[9] = $dash->labelizeValue('surgery_report_form_crf05_complete', $otherdata['surgery_report_form_crf05_complete']);
 		$row[10] = 0;
 		
-		if ($today < $edata['sdoc_surgical_due']) {
-			$row[10] = date_diff(date_create($edata['sdoc_surgical_due']), date_create($today))->format("%a");
+		if (!empty($row[4])) {
+			$row[10] = date_diff(date_create($row[4]), date_create($today))->format("%a");
+			if ($today < $row[4])
+				$row[10] *= -1;
 		}
 		
 		$table['content'][] = $row;
@@ -207,12 +210,13 @@ foreach ($records as $i => $record) {
 			$row[9] = $data['dval_contact_date_3'];
 			$row[10] = $data['dval_contact_date_4'];
 			$row[11] = $data['dval_contact_date_5'];
+			$row[12] = 0;
 			
 			$mostRecent = max($row[7], $row[8], $row[9], $row[10], $row[11]);
-			if (empty($mostRecent) or $mostRecent >= $today) {
-				$row[12] = 0;
-			} else {
+			if (!empty($mostRecent)) {
 				$row[12] = date_diff(date_create($mostRecent), date_create($today))->format("%a");
+				if ($today < $mostRecent)
+					$row[12] *= -1;
 			}
 			$table['content'][] = $row;
 		}

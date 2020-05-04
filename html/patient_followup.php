@@ -94,8 +94,10 @@ foreach ($records as $i => $record) {
 			$row[5] = $data['qtk_upper_window'];
 			$row[6] = 0;
 			
-			if ($today > $row[3]) {
+			if (!empty($row[3])) {
 				$row[6] = date_diff(date_create($today), date_create($row[3]))->format("%a");
+				if ($today < $row[3])
+					$row[6] *= -1;
 			}
 			
 			$table['content'][] = $row;
@@ -177,10 +179,10 @@ foreach ($records as $i => $record) {
 			$row[6] = $data['qtk_call_due_4'];
 			
 			$mostRecent = max($row[3], $row[4], $row[5], $row[6]);
-			if (empty($mostRecent) or $mostRecent >= $today) {
-				$row[7] = 0;
-			} else {
+			if (!empty($mostRecent)) {
 				$row[7] = date_diff(date_create($mostRecent), date_create($today))->format("%a");
+				if ($today < $mostRecent)
+					$row[7] *= -1;
 			}
 			
 			$table['content'][] = $row;
@@ -230,12 +232,13 @@ foreach ($records as $i => $record) {
 				$row[9] = $data['dval_contact_date_3'];
 				$row[10] = $data['dval_contact_date_4'];
 				$row[11] = $data['dval_contact_date_5'];
-			
+				$row[12] = 0;
+				
 				$mostRecent = max($row[6], $row[7], $row[8], $row[9], $row[10], $row[11]);
-				if (empty($mostRecent or $mostRecent >= $today)) {
-					$row[12] = 0;
-				} else {
+				if (!empty($mostRecent)) {
 					$row[12] = date_diff(date_create($mostRecent), date_create($today))->format("%a");
+					if ($today < $mostRecent)
+						$row[12] *= -1;
 				}
 				
 				$table['content'][] = $row;
@@ -280,11 +283,12 @@ foreach ($records as $i => $record) {
 			$row[2] = $dash->labelizeValue('pati_14', $edata['pati_14']);
 			$row[3] = $dash->projEvents[$eid];
 			$row[4] = $data['qtk_date_received'];
+			$row[5] = 0;
 			
-			if (empty($row[4])) {
-				$row[5] = 0;
-			} else {
+			if (!empty($row[4])) {
 				$row[5] = date_diff(date_create($row[4]), date_create($today))->format("%a");
+				if ($today < $row[4])
+					$row[5] *= -1;
 			}
 			
 			$table['content'][] = $row;

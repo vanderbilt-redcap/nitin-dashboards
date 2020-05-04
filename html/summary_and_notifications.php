@@ -48,10 +48,12 @@ foreach ($records as $i => $record) {
 			$row[1] = $edata['pati_6'];
 			$row[2] = $dash->projEvents[$eid];
 			$row[3] = $data["qtk_call_due_4"];
-			$row[4] = "0";
+			$row[4] = 0;
 			
-			if ($row[3] < $today) {
+			if (!empty($row[3])) {
 				$row[4] = date_diff(date_create($today), date_create($row[3]))->format("%a");
+				if ($today < $row[3])
+					$row[4] *= -1;
 			}
 			
 			$table['content'][] = $row;
