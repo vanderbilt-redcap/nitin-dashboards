@@ -43,7 +43,7 @@ $table = [
 		"Report Date",
 		"Event Type",
 		"Was the event SERIOUS?",
-		"Was the event UNFORTUNATE?",
+		"Was the event UNFORESEEN?",
 		"Was the event RELATED TO the research procedures?",
 		"Did the event involve RISK?",
 		"Outcome/Status",
@@ -88,7 +88,7 @@ $content .= $dash->makeDataTable($table);
 $table = [
 	"title" => "AE reports started by sites but not submitted",
 	"titleClass" => "blueHeader",
-	"headers" => ["Study ID", "Event Name", "Event Type"],
+	"headers" => ["Study ID", "Repeat Instance", "Event Type"],
 	"content" => []
 ];
 foreach ($records as $i => $record) {
@@ -102,7 +102,7 @@ foreach ($records as $i => $record) {
 		) {
 			$row = [];
 			$row[0] = "<a href = \"" . $dash->recordHome . "$i\">" . $edata['enrollment_id'] . "</a> " . $edata['study_id'];
-			$row[1] = $this->labelizeValue("evt_event_name", $data['evt_event_name']);
+			$row[1] = $repeatInstance;
 			$row[2] = $this->labelizeValue("evt_event_type", $data['evt_event_type']);
 			
 			$table['content'][] = $row;
