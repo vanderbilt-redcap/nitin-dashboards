@@ -296,7 +296,10 @@ foreach ($records as $i => $record) {
 		$row[0] = "<a href = \"" . $dash->recordHome . "$i\">" . $edata['enrollment_id'] . "</a> " . $edata['study_id'];
 		$row[1] = $edata['pati_6'];
 		$row[2] = $dash->labelizeValue('pti_release_sent_to_pt_x', $otherdata['pti_release_sent_to_pt_x']);
-		$row[3] = $dash->labelizeValue('pti_lead_pt_is_treating_pt_x', $otherdata['pti_lead_pt_is_treating_pt_x']);
+		if ($otherdata['pti_lead_pt_is_treating_pt_x'] == '1')
+			$row[3] = "Yes (1)";
+		if ($otherdata['pti_lead_pt_is_treating_pt_x'] == '0')
+			$row[3] = "No (0)";
 		
 		$table['content'][] = $row;
 	}
@@ -326,10 +329,10 @@ foreach ($records as $i => $record) {
 	) {
 		$row = [];
 		$row[0] = "<a href = \"" . $dash->recordHome . "$i\">" . $edata['enrollment_id'] . "</a> " . $edata['study_id'];
-		$row[1] = $otherdata["pti_lead_pt_is_treating_pt"];
-		$row[2] = $otherdata["pti_lpt_referral_date"];
-		$row[3] = $otherdata["pti_pt_contacted"];
-		$row[4] = $otherdata["pti_pt_contact_notes"];
+		$row[1] = $dash->labelizeValue("pti_lead_pt_is_treating_pt", $otherdata["pti_lead_pt_is_treating_pt"]);
+		$row[2] = $dash->labelizeValue("pti_lpt_referral_date", $otherdata["pti_lpt_referral_date"]);
+		$row[3] = $dash->labelizeValue("pti_pt_contacted", $otherdata["pti_pt_contacted"]);
+		$row[4] = $dash->labelizeValue("pti_pt_contact_notes", $otherdata["pti_pt_contact_notes"]);
 		$row[5] = 0;
 		
 		if (!empty($row[2])) {
@@ -363,7 +366,7 @@ foreach ($records as $i => $record) {
 	) {
 		$row = [];
 		$row[0] = "<a href = \"" . $dash->recordHome . "$i\">" . $edata['enrollment_id'] . "</a> " . $edata['study_id'];
-		$row[1] = $otherdata['pti_date_discharge_x'];
+		$row[1] = $dash->labelizeValue("pti_date_discharge_x", $otherdata["pti_date_discharge_x"]);
 		$row[2] = 0;
 		
 		if (!empty($row[1])) {
