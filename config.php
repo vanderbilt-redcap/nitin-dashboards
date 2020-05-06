@@ -39,9 +39,9 @@ if(!defined("ENVIRONMENT")) {
 		define("SCREENING_RECORD_URL", substr(APP_PATH_WEBROOT_FULL, 0, -8) . APP_PATH_WEBROOT . "DataEntry/index.php?pid=" . SCREENING_PID . "&page=screening_log&id=");
 		define("IMAGING_RECORD_URL", substr(APP_PATH_WEBROOT_FULL, 0, -8) . APP_PATH_WEBROOT . "DataEntry/record_home.php?pid=" . IMAGING_PID . "&id=");
 		
-		file_put_contents("C:/vumc/log.txt", "nitin dev logging:\n");
+		// file_put_contents("C:/vumc/log.txt", "nitin log\n");
 		function llog($text) {
-			file_put_contents("C:/vumc/log.txt", "$text\n", FILE_APPEND);
+			// file_put_contents("C:/vumc/log.txt", "$text\n", FILE_APPEND);
 		}
 	}
 }

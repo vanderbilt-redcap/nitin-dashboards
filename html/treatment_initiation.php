@@ -127,14 +127,19 @@ $content .= $dash->makeDataTable($table);
 $table = [
 	"title" => "Operative to Non-operative Potential Crossovers",
 	"titleClass" => "blueHeader",
-	"headers" => ["Study ID", "DAG", "Actual Surgery Date", "Patient 3mQ PT response", "Patient 6mQ PT response", "Patient 12mQ PT response"],
-	"content" => []
+	"headers" => ["Study ID", "DAG", "Scheduled Surgery Date", "Actual Surgery Date", "Patient 3mQ PT response", "Patient 6mQ PT response", "Patient 12mQ PT response", "Crossover Status"],
+	"content" => [],
+	"attributes" => [
+		"order-col" => 3,
+		"order-direction" => "asc"
+	]
 ];
 foreach ($records as $i => $record) {
 	$edata = $record[$dash->enrollmentEID];
 	$m3data = $record[$dash->m3EID];
 	$m6data = $record[$dash->m6EID];
 	$m12data = $record[$dash->m12EID];
+	$other = $record[$dash->otherEID];
 	if (
 		// from "Potential Crossovers: Surgery To PT (Complete)" report logic
 		// ([3months_arm_1][sxu_b1] <> "1") AND
@@ -161,9 +166,12 @@ foreach ($records as $i => $record) {
 		$m12 = $m12data["tx_a7_fu"];
 		
 		# if $m3 is empty, print empty, otherwise print label and value "Label (val)"
-		$row[3] = $m3 == '1' ? "Yes (1)" : ($m3 == '0' ? "No (0)" : $m3);
-		$row[4] = $m6 == '1' ? "Yes (1)" : ($m6 == '0' ? "No (0)" : $m6);
-		$row[5] = $m12 == '1' ? "Yes (1)" : ($m12 == '0' ? "No (0)" : $m12);
+		$row[4] = $m3 == '1' ? "Yes (1)" : ($m3 == '0' ? "No (0)" : $m3);
+		$row[5] = $m6 == '1' ? "Yes (1)" : ($m6 == '0' ? "No (0)" : $m6);
+		$row[6] = $m12 == '1' ? "Yes (1)" : ($m12 == '0' ? "No (0)" : $m12);
+		
+		$row[7] = $this->labelizeValue('pti_arm_x', $other['pti_arm_x']);
+		
 		$table['content'][] = $row;
 	}
 }
@@ -173,7 +181,7 @@ $content .= $dash->makeDataTable($table);
 $table = [
 	"title" => "Non-operative to Operative Potential Crossovers",
 	"titleClass" => "redHeader",
-	"headers" => ["Study ID", "DAG", "Scheduled Surgery Data", "Actual Surgery Date", "Patient 3mQ surgery update", "Patient 6mQ surgery update", "Patient 12mQ surgery update"],
+	"headers" => ["Study ID", "DAG", "Scheduled Surgery Data", "Actual Surgery Date", "Patient 3mQ surgery update", "Patient 6mQ surgery update", "Patient 12mQ surgery update", "Crossover Status"],
 	"content" => [],
 	"attributes" => [
 		"order-col" => 3,
@@ -185,6 +193,7 @@ foreach ($records as $i => $record) {
 	$m6data = $record[$dash->m6EID];
 	$m12data = $record[$dash->m12EID];
 	$edata = $record[$dash->enrollmentEID];
+	$other = $record[$dash->otherEID];
 	if (
 		($m3data['sxu_b1'] == '1' or
 		$m6data['sxu_b1'] == '1' or
@@ -207,6 +216,8 @@ foreach ($records as $i => $record) {
 		$row[4] = $m3 == '1' ? "Yes (1)" : ($m3 == '0' ? "No (0)" : $m3);
 		$row[5] = $m6 == '1' ? "Yes (1)" : ($m6 == '0' ? "No (0)" : $m6);
 		$row[6] = $m12 == '1' ? "Yes (1)" : ($m12 == '0' ? "No (0)" : $m12);
+		
+		$row[7] = $this->labelizeValue('pti_arm_x', $other['pti_arm_x']);
 		$table['content'][] = $row;
 	}
 }

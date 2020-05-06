@@ -1,6 +1,7 @@
 <?php
 
 global $dash;
+
 $content = "";
 $params = [
 	"project_id" => $dash->pid,
