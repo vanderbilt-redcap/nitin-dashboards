@@ -130,7 +130,7 @@ foreach ($records as $i => $record) {
 	$edata = $record[$dash->enrollmentEID];
 	$bdata = $record[$dash->baselineEID];
 	if (
-		$edata['sdoc_initial_due'] <> '' and $edata['sdoc_vumc_cert'] <> '1' or $bdata['physical_examination_form_part_a_crf021_complete'] == "0"
+		$edata['sdoc_initial_due'] <> '' and ($edata['sdoc_vumc_cert'] <> '1' or $bdata['physical_examination_form_part_a_crf021_complete'] == "0")
 	) {
 		$row = array_fill(0, count($table['headers']), "");
 		$row[0] = "<a href = \"" . $dash->recordHome . "$i\">" . $edata['enrollment_id'] . "</a> " . $edata['study_id'];
@@ -234,7 +234,7 @@ foreach ($records as $i => $record) {
 	if (
 		($edata['sdoc_vumc_cert_2'] <> '1' or
 		$otherdata['surgery_report_form_crf05_complete'] <> '2') and 
-		$edata['pati_x15'] <> ''
+		($edata['pati_x15'] <> '')
 	) {
 		$row = array_fill(0, count($table['headers']), "");
 		$row[0] = "<a href = \"" . $dash->recordHome . "$i\">" . $edata['enrollment_id'] . "</a> " . $edata['study_id'];
