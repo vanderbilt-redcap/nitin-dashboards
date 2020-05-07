@@ -95,7 +95,10 @@ $params = [
 ];
 $records = \REDCap::getData($params);
 $today = date("Y-m-d");
+
+global $__SALT__;
 $dash->setProjectSalt();
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 $table = [
 	"title" => "Enrollment Document Collection",

@@ -128,7 +128,7 @@ class Dashboard {
 	
 	function setProjectSalt() {
 		global $__SALT__;
-		$q = db_query("SELECT __SALT__ from redcap_projects where project_id=13");
+		$q = db_query("SELECT __SALT__ from redcap_projects where project_id=" . $this->pid);
 		$row = db_fetch_assoc($q);
 		$__SALT__ = $row['__SALT__'];
 	}
