@@ -95,6 +95,7 @@ $params = [
 ];
 $records = \REDCap::getData($params);
 $today = date("Y-m-d");
+$dash->setProjectSalt();
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 $table = [
 	"title" => "Enrollment Document Collection",
@@ -230,7 +231,6 @@ $table = [
 foreach ($records as $i => $record) {
 	$edata = $record[$dash->enrollmentEID];
 	$otherdata = $record[$dash->otherEID];
-	
 	if (
 		($edata['sdoc_vumc_cert_2'] <> '1' or
 		$otherdata['surgery_report_form_crf05_complete'] <> '2') and 
