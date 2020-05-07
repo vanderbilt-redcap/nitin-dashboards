@@ -43,7 +43,7 @@ foreach ($records as $i => $record) {
 			($edata["pati_study_status"] <> "0") and
 			$data['qtk_questionnaire_received'] <> "1"
 		) {
-			$row = [];
+			$row = array_fill(0, count($table['headers']), "");
 			$row[0] = "<a href = \"" . $dash->recordHome . "$i\">" . $edata['enrollment_id'] . "</a> " . $edata['study_id'];
 			$row[1] = $edata['pati_6'];
 			$row[2] = $dash->projEvents[$eid];
@@ -391,7 +391,7 @@ foreach ($records as $i => $record) {
 			($data['evt_notify_study_coord'] <> "1") AND
 			($data['evt_report_to_sponsor'] == "0")
 		) {
-			$row = [];
+			$row = array_fill(0, count($table['headers']), "");
 			$row[0] = "<a href = \"" . $dash->recordHome . "$i\">" . $edata['enrollment_id'] . "</a> " . $edata['study_id'];
 			$row[1] = $this->labelizeValue("pati_6", $edata['pati_6']);
 			$row[2] = $this->labelizeValue("evt_event_type", $data['evt_event_type']);

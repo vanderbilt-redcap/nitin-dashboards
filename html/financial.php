@@ -52,7 +52,7 @@ foreach ($records as $i => $record) {
 	if ($rgroup <> '' AND
 		$edata["mritk_recruitment_invoice"] == "1" AND
 		$edata["mritk_invoice_vumc_paid"] <> "1") {
-		$row = [];
+		$row = array_fill(0, count($table['headers']), "");
 		$row[0] = "<a href = \"" . $dash->recordHome . "$i\">" . $edata['enrollment_id'] . "</a> " . $edata['study_id'];
 		$row[1] = $edata['pati_6'];
 		$row[2] = $dash->projEvents[$dash->enrollmentEID];
@@ -84,7 +84,7 @@ foreach ($records as $i => $record) {
 			$data['qtk_check_request_submitted'] == '' and
 			$data['qtk_questionnaire_received'] == '1'
 		) {
-			$row = [];
+			$row = array_fill(0, count($table['headers']), "");
 			$row[0] = "<a href = \"" . $dash->recordHome . "$i\">" . $edata['enrollment_id'] . "</a> " . $edata['study_id'];
 			$row[1] = $edata['pati_6'];
 			$row[2] = $dash->projEvents[$eid];
@@ -110,7 +110,7 @@ $content .= $dash->makeDataTable($table);
 	// $edata = $record[$dash->enrollmentEID];
 	// foreach ($record as $eid => $data) {
 		// if ($data['qtk_questionnaire_received'] == '1') {
-			// $row = [];
+			// $row = array_fill(0, count($table['headers']), "");
 			// $row[0] = "<a href = \"" . $dash->recordHome . "$i\">" . $edata['enrollment_id'] . "</a> " . $edata['study_id'];
 			// $row[1] = $edata['pati_6'];
 			// $row[2] = $data['patc_a2'];

@@ -71,7 +71,7 @@ foreach ($records as $i => $record) {
 	$edata = $record[$dash->enrollmentEID];
 	foreach ($record as $eid => $data) {
 		if ($data['slg_d1'] == '2' AND $data['site_name'] == "1") {
-			$row = [];
+			$row = array_fill(0, count($table['headers']), "");
 			$row[0] = "<a href = \"" . $dash->screeningRecordHome . $data['study_id'] . "\">" . $data['study_id'] . "</a>";
 			$row[1] = $dagNames[$data['redcap_data_access_group']];
 			
@@ -110,7 +110,7 @@ $table = [
 foreach ($records as $i => $record) {
 	foreach ($record as $eid => $data) {
 		if ($data['slg_f2a'] == '1' AND $data['site_name'] == "1") {
-			$row = [];
+			$row = array_fill(0, count($table['headers']), "");
 			$row[0] = "<a href = \"" . $dash->screeningRecordHome . $data['study_id'] . "\">" . $data['study_id'] . "</a>";
 			$row[1] = $dagNames[$data['redcap_data_access_group']];
 			$row[2] = $data['slg_appointment_date'];
@@ -142,7 +142,7 @@ $table = [
 foreach ($records as $i => $record) {
 	foreach ($record as $eid => $data) {
 		if ($data['screening_log_complete'] <> '2' AND $data['site_name'] == "1") {
-			$row = [];
+			$row = array_fill(0, count($table['headers']), "");
 			$row[0] = "<a href = \"" . $dash->screeningRecordHome . $data['study_id'] . "\">" . $data['study_id'] . "</a>";
 			$row[1] = $dagNames[$data['redcap_data_access_group']];
 			$row[2] = $data['slg_appointment_date'];

@@ -65,7 +65,7 @@ foreach ($records as $i => $record) {
 			($data['evt_irb_report'] <> "0") and 
 			($data['evt_irb_submitted'] <> "1")
 		) {
-			$row = [];
+			$row = array_fill(0, count($table['headers']), "");
 			$row[0] = "<a href = \"" . $dash->recordHome . "$i\">" . $edata['enrollment_id'] . "</a> " . $edata['study_id'];
 			$row[1] = $data['evt_report_date'];
 			$row[2] = $this->labelizeValue("evt_event_type", $data['evt_event_type']);
@@ -100,7 +100,7 @@ foreach ($records as $i => $record) {
 			$data['events_saeae_complete'] == "2") AND
 			($data['evt_report_to_sponsor'] == "")
 		) {
-			$row = [];
+			$row = array_fill(0, count($table['headers']), "");
 			$row[0] = "<a href = \"" . $dash->recordHome . "$i\">" . $edata['enrollment_id'] . "</a> " . $edata['study_id'];
 			$row[1] = $repeatInstance;
 			$row[2] = $this->labelizeValue("evt_event_type", $data['evt_event_type']);
@@ -126,7 +126,7 @@ foreach ($records as $i => $record) {
 			$data['evt_report_to_sponsor'] == "2") AND
 			($data['evt_coord_review'] <> "1")
 		) {
-			$row = [];
+			$row = array_fill(0, count($table['headers']), "");
 			$row[0] = "<a href = \"" . $dash->recordHome . "$i\">" . $edata['enrollment_id'] . "</a> " . $edata['study_id'];
 			$row[1] = $this->labelizeValue("evt_event_type", $data['evt_event_type']);
 			$row[2] = $this->labelizeValue("evt_report_to_sponsor", $data['evt_report_to_sponsor']);
@@ -148,7 +148,7 @@ foreach ($records as $i => $record) {
 	$edata = $record[$dash->enrollmentEID];
 	foreach ($record['repeat_instances'][$dash->otherEID]['events_saeae'] as $repeatInstance => $data) {
 		if (($data['evt_notify_study_coord'] == "1") AND ($data['evt_irb_report'] == "")) {
-			$row = [];
+			$row = array_fill(0, count($table['headers']), "");
 			$row[0] = "<a href = \"" . $dash->recordHome . "$i\">" . $edata['enrollment_id'] . "</a> " . $edata['study_id'];
 			$row[1] = $this->labelizeValue("evt_event_type", $data['evt_event_type']);
 			
@@ -171,7 +171,7 @@ foreach ($records as $i => $record) {
 		if (
 			($data['evt_irb_report'] == "0")
 		) {
-			$row = [];
+			$row = array_fill(0, count($table['headers']), "");
 			$row[0] = "<a href = \"" . $dash->recordHome . "$i\">" . $edata['enrollment_id'] . "</a> " . $edata['study_id'];
 			$row[1] = $this->labelizeValue("pati_6", $edata['pati_6']);
 			$row[2] = $this->labelizeValue("evt_event_class", $data['evt_event_class']);
@@ -198,7 +198,7 @@ foreach ($records as $i => $record) {
 			($data['evt_notify_study_coord'] <> "1") and
 			($data['evt_report_to_sponsor'] == "0")
 		) {
-			$row = [];
+			$row = array_fill(0, count($table['headers']), "");
 			$row[0] = "<a href = \"" . $dash->recordHome . "$i\">" . $edata['enrollment_id'] . "</a> " . $edata['study_id'];
 			$row[1] = $this->labelizeValue("pati_6", $edata['pati_6']);
 			$row[2] = $this->labelizeValue("evt_event_type", $data['evt_event_type']);

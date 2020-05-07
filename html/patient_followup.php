@@ -76,7 +76,7 @@ foreach ($records as $i => $record) {
 			($data['qtk_lower_window'] <> "") AND
 			($edata['pati_study_status'] <> "0")
 		) {
-			$row = [];
+			$row = array_fill(0, count($table['headers']), "");
 			$row[0] = "<a href = \"" . $dash->recordHome . "$i\">" . $edata['enrollment_id'] . "</a> " . $edata['study_id'];
 			$row[1] = $record[$dash->enrollmentEID]['pati_6'];
 			$row[2] = $dash->projEvents[$eid];
@@ -117,7 +117,7 @@ foreach ($records as $i => $record) {
 			($m6data['qtk_questionnaire_sent_2'] == "" and $m6data['qtk_questionnaire_sent'] == "1") and
 			($edata['pati_study_status'] <> "0")
 		) {
-			$row = [];
+			$row = array_fill(0, count($table['headers']), "");
 			$row[0] = "<a href = \"" . $dash->recordHome . "$i\">" . $edata['enrollment_id'] . "</a> " . $edata['study_id'];
 			$row[1] = $edata['pati_6'];
 			$row[2] = $dash->labelizeValue('pati_14', $edata['pati_14']);
@@ -161,7 +161,7 @@ foreach ($records as $i => $record) {
 			($data['qtk_questionnaire_received'] == "" or
 			$data['qtk_questionnaire_received'] == "2")
 		) {
-			$row = [];
+			$row = array_fill(0, count($table['headers']), "");
 			$row[0] = "<a href = \"" . $dash->recordHome . "$i\">" . $edata['enrollment_id'] . "</a> " . $edata['study_id'];
 			$row[1] = $edata['pati_6'];
 			$row[2] = $dash->projEvents[$eid];
@@ -211,7 +211,7 @@ foreach ($records as $i => $record) {
 				($data['dval_res_pat'] == '2' or $data['dval_res_pat'] == '') and
 				$data['pati_study_status'] <> '0'
 			) {
-				$row = [];
+				$row = array_fill(0, count($table['headers']), "");
 				$row[0] = "<a href = \"" . $dash->recordHome . "$i\">" . $edata['enrollment_id'] . "</a> " . $edata['study_id'];
 				$row[1] = $edata['pati_6'];
 				$row[2] = $dash->projEvents[$eid];
@@ -269,7 +269,7 @@ foreach ($records as $i => $record) {
 			(($data['mycap_completion'] == "") and
 			($data['qtk_questionnaire_sent_2'] == "2"))
 		) {
-			$row = [];
+			$row = array_fill(0, count($table['headers']), "");
 			$row[0] = "<a href = \"" . $dash->recordHome . "$i\">" . $edata['enrollment_id'] . "</a> " . $edata['study_id'];
 			$row[1] = $edata['pati_6'];
 			$row[2] = $dash->labelizeValue('pati_14', $edata['pati_14']);
@@ -306,7 +306,7 @@ foreach ($records as $i => $record) {
 	if (
 		(strtotime($edata['date']) >= strtotime("2019-04-23")) AND ($bdata['qtk_welcome_ltr_sent'] <> "1")
 	) {
-		$row = [];
+		$row = array_fill(0, count($table['headers']), "");
 		$row[0] = "<a href = \"" . $dash->recordHome . "$i\">" . $edata['enrollment_id'] . "</a> " . $edata['study_id'];
 		$row[1] = $edata['date'];
 		$row[2] = $dash->labelizeValue('qtk_welcome_ltr_sent', $bdata['qtk_welcome_ltr_sent']);

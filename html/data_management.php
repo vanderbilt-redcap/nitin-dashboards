@@ -96,7 +96,7 @@ $table = [
 foreach ($records as $i => $record) {
 	$edata = $record[$dash->enrollmentEID];
 	if ($edata['sdoc_initial_due'] <> '' and $edata['sdoc_vumc_cert'] <> '1') {
-		$row = [];
+		$row = array_fill(0, count($table['headers']), "");
 		$row[0] = "<a href = \"" . $dash->recordHome . "$i\">" . $edata['enrollment_id'] . "</a> " . $edata['study_id'];
 		$row[1] = $edata['pati_6'];
 		$row[2] = $dash->labelizeValue('randgroup', $edata['randgroup']);
@@ -148,7 +148,7 @@ foreach ($records as $i => $record) {
 		$otherdata['surgery_report_form_crf05_complete'] <> '2') and 
 		$edata['pati_x15'] <> ''
 	) {
-		$row = [];
+		$row = array_fill(0, count($table['headers']), "");
 		$row[0] = "<a href = \"" . $dash->recordHome . "$i\">" . $edata['enrollment_id'] . "</a> " . $edata['study_id'];
 		$row[1] = $edata['pati_6'];
 		$row[2] = $edata['date'];
@@ -198,7 +198,7 @@ foreach ($records as $i => $record) {
 		// ([dval_action_needed] = "1") AND ([dval_res_ra] = "2")
 		// if ($data['dval_action_needed'] == '1' or $record[$dash->baselineEID]['dval_res_ra'] == '2') exit('2');
 		if ($data['dval_action_needed'] == '1' and $data['dval_res_ra'] == '2') {
-			$row = [];
+			$row = array_fill(0, count($table['headers']), "");
 			$row[0] = "<a href = \"" . $dash->recordHome . "$i\">" . $edata['enrollment_id'] . "</a> " . $edata['study_id'];
 			$row[1] = $edata['pati_6'];
 			$row[2] = $dash->projEvents[$dash->baselineEID];
@@ -245,7 +245,7 @@ foreach ($records as $i => $record) {
 	$edata['pati_x15'] == '' and
 	$bdata['qtk_physical_therapy'] <> '1'
 	) {
-		$row = [];
+		$row = array_fill(0, count($table['headers']), "");
 		$row[0] = "<a href = \"" . $dash->recordHome . "$i\">" . $edata['enrollment_id'] . "</a> " . $edata['study_id'];
 		$row[1] = $edata['pati_6'];
 		$row[2] = $dash->labelizeValue('randgroup', $edata['randgroup']);
@@ -279,7 +279,7 @@ foreach ($records as $i => $record) {
 	$edata['pati_x15'] == '' and
 	$bdata['qtk_physical_therapy'] <> '1'
 	) {
-		$row = [];
+		$row = array_fill(0, count($table['headers']), "");
 		$row[0] = "<a href = \"" . $dash->recordHome . "$i\">" . $edata['enrollment_id'] . "</a> " . $edata['study_id'];
 		$row[1] = $edata['pati_6'];
 		$row[2] = $dash->labelizeValue('randgroup', $edata['randgroup']);
@@ -334,7 +334,7 @@ foreach ($records as $i => $record) {
 		($otherdata['de_comp_crf03_12m'] == "1" AND
 		$otherdata['de_2_comp_crf03_12m'] == "")
 	) {
-		$row = [];
+		$row = array_fill(0, count($table['headers']), "");
 		$css = [];
 		$row[0] = "<a href = \"" . $dash->recordHome . "$i\">" . $edata['enrollment_id'] . "</a> " . $edata['study_id'];
 		$row[1] = $otherdata["de_comp_initials_crf00"];

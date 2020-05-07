@@ -71,7 +71,7 @@ foreach ($records as $i => $record) {
 	$enrollment['pati_study_status'] <> '0' and
 	($enrollment['randgroup'] == '2' or ($enrollment['randgroup'] == '1' and $enrollment['pati_x15'] <> ''))) {
 		$rgroup = $record[$dash->enrollmentEID]['randgroup'];
-		$row = [];
+		$row = array_fill(0, count($table['headers']), "");
 		$row[0] = "<a href = \"" . $dash->recordHome . "$i\">" . $edata['enrollment_id'] . "</a> " . $edata['study_id'];
 		$row[1] = $record[$dash->enrollmentEID]['pati_6'];
 		# print with label where possible, if not, print actual value
@@ -120,7 +120,7 @@ $table = [
 foreach ($records as $i => $record) {
 	$edata = $record[$dash->enrollmentEID];
 	if ($edata['randgroup'] == '1' and $edata['pati_x15'] == '' and $edata['pati_study_status'] <> '0') {
-		$row = [];
+		$row = array_fill(0, count($table['headers']), "");
 		$row[0] = "<a href = \"" . $dash->recordHome . "$i\">" . $edata['enrollment_id'] . "</a> " . $edata['study_id'];
 		$row[1] = $edata['pati_6'];
 		$row[2] = $edata["date"];
@@ -182,7 +182,7 @@ foreach ($records as $i => $record) {
 		$edata['randgroup'] == '1' and
 		($m3data['tx_a7_fu'] == '1' or $m6data['tx_a7_fu'] == '1' or $m12data['tx_a7_fu'] == '1' or $edata['pati_x16'] <> '')
 	) {
-		$row = [];
+		$row = array_fill(0, count($table['headers']), "");
 		$row[0] = "<a href = \"" . $dash->recordHome . "$i\">" . $edata['enrollment_id'] . "</a> " . $edata['study_id'];
 		$row[1] = $record[$dash->enrollmentEID]['pati_6'];
 		$row[2] = $edata['pati_x15'];
@@ -238,7 +238,7 @@ foreach ($records as $i => $record) {
 		$edata['pati_16'] <> '') and
 		$edata['randgroup'] == '2'
 	) {
-		$row = [];
+		$row = array_fill(0, count($table['headers']), "");
 		$row[0] = "<a href = \"" . $dash->recordHome . "$i\">" . $edata['enrollment_id'] . "</a> " . $edata['study_id'];
 		$row[1] = $record[$dash->enrollmentEID]['pati_6'];
 		$row[2] = $edata["pati_16"];
