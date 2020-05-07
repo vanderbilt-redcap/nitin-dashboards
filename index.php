@@ -51,6 +51,12 @@ class Dashboard {
 		$this->pid = SUBJECT_PID;
 		$this->project = new \Project($this->pid);
 		
+		// get project __SALT__ so we can download edocs
+		global $__SALT__;
+		$q = db_query("SELECT __SALT__ from redcap_projects where project_id=13");
+		$row = db_fetch_assoc($q);
+		$__SALT__ = $row['__SALT__'];
+		
 		$this->projEvents = \Event::getEventsByProject($this->pid);
 		$this->baselineEID = array_search("Baseline", $this->projEvents);
 		$this->enrollmentEID = array_search("Enrollment", $this->projEvents);

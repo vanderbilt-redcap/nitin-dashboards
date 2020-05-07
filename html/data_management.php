@@ -76,7 +76,20 @@ $params = [
 		'de_2_comp_initials_crf04_b',
 		'de_2_comp_initials_crf03_12m',
 		'qtk_date_received',
-		'qtk_date_received_2'
+		'qtk_date_received_2',
+		'elg_sign4',
+		'sdoc_icf',
+		'sdoc_pt_release',
+		'sdoc_csf',
+		'sdoc_baseline',
+		'dem_crf03_1',
+		'q_patient_contact_info_crf03_section_1_complete',
+		'sdoc_pex_form',
+		'dem_crf02',
+		'physical_examination_form_part_a_crf021_complete',
+		'sdoc_pex_form_2',
+		'dem_crf02_2',
+		'physical_examination_form_part_b_crf022_complete'
 	],
 	"exportDataAccessGroups" => true
 ];
@@ -86,7 +99,27 @@ $today = date("Y-m-d");
 $table = [
 	"title" => "Enrollment Document Collection",
 	"titleClass" => "blueHeader",
-	"headers" => ["Study ID", "DAG", "Randomization Group", "Randomization date:", "These documents MUST be uploaded BY:", "Days since date due:"],
+	"headers" => [
+		"Study ID",
+		"DAG",
+		"Randomization Group",
+		"Randomization date:",
+		"These documents MUST be uploaded BY:",
+		"Days since date due:",
+		"Recruiting Physician",
+		"Consent Form",
+		"PT Medical Info Release Form",
+		"Clinic Screening Form",
+		"Baseline Questionnaire",
+		"Data Entry Method",
+		"Complete?",
+		"Physical Exam Form A",
+		"Data Entry Method",
+		"Complete?",
+		"Physical Exam Form b",
+		"Data Entry Method",
+		"Complete?"
+	],
 	"content" => [],
 	"attributes" => [
 		"order-col" => 5,
@@ -95,7 +128,10 @@ $table = [
 ];
 foreach ($records as $i => $record) {
 	$edata = $record[$dash->enrollmentEID];
-	if ($edata['sdoc_initial_due'] <> '' and $edata['sdoc_vumc_cert'] <> '1') {
+	$bdata = $record[$dash->baselineEID];
+	if (
+		$edata['sdoc_initial_due'] <> '' and $edata['sdoc_vumc_cert'] <> '1' or $bdata['physical_examination_form_part_a_crf021_complete'] == "0"
+	) {
 		$row = array_fill(0, count($table['headers']), "");
 		$row[0] = "<a href = \"" . $dash->recordHome . "$i\">" . $edata['enrollment_id'] . "</a> " . $edata['study_id'];
 		$row[1] = $edata['pati_6'];
@@ -103,12 +139,64 @@ foreach ($records as $i => $record) {
 		$row[3] = $edata['date'];
 		$row[4] = $edata['sdoc_initial_due'];
 		$row[5] = 0;
-		
 		if (!empty($row[4])) {
 			$row[5] = date_diff(date_create($row[4]), date_create($today))->format("%a");
 			if ($today < $row[4])
 				$row[5] *= -1;
 		}
+		
+		$row[6] = $dash->labelizeValue('elg_sign4', $edata['elg_sign4']);
+		
+		// edoc section
+		$row[7] = "";
+		if (!empty($edata['sdoc_icf'])) {
+			$hash = \Files::docIdHash($edata['sdoc_icf']);
+			$url = APP_PATH_WEBROOT . "DataEntry/file_download.php?pid=" . $dash->pid . "&record=$i&event_id=" . $dash->enrollmentEID . "&instance=1&field_name=sdoc_icf&id=" . $edata['sdoc_icf'] . "&doc_id_hash=$hash";
+			$row[7] = "<button onclick='window.open(\"$url\",\"_blank\");'>Download</button>";
+		}
+		$row[8] = "";
+		if (!empty($edata['sdoc_pt_release'])) {
+			$hash = \Files::docIdHash($edata['sdoc_pt_release']);
+			$url = APP_PATH_WEBROOT . "DataEntry/file_download.php?pid=" . $dash->pid . "&record=$i&event_id=" . $dash->enrollmentEID . "&instance=1&field_name=sdoc_pt_release&id=" . $edata['sdoc_pt_release'] . "&doc_id_hash=$hash";
+			$row[8] = "<button onclick='window.open(\"$url\",\"_blank\");'>Download</button>";
+		}
+		$row[9] = "";
+		if (!empty($edata['sdoc_csf'])) {
+			$hash = \Files::docIdHash($edata['sdoc_csf']);
+			$url = APP_PATH_WEBROOT . "DataEntry/file_download.php?pid=" . $dash->pid . "&record=$i&event_id=" . $dash->enrollmentEID . "&instance=1&field_name=sdoc_csf&id=" . $edata['sdoc_csf'] . "&doc_id_hash=$hash";
+			$row[9] = "<button onclick='window.open(\"$url\",\"_blank\");'>Download</button>";
+		}
+		$row[10] = "";
+		if (!empty($edata['sdoc_baseline'])) {
+			$hash = \Files::docIdHash($edata['sdoc_baseline']);
+			$url = APP_PATH_WEBROOT . "DataEntry/file_download.php?pid=" . $dash->pid . "&record=$i&event_id=" . $dash->enrollmentEID . "&instance=1&field_name=sdoc_baseline&id=" . $edata['sdoc_baseline'] . "&doc_id_hash=$hash";
+			$row[10] = "<button onclick='window.open(\"$url\",\"_blank\");'>Download</button>";
+		}
+		
+		$row[11] = $dash->labelizeValue('dem_crf03_1', $bdata['dem_crf03_1']);
+		$row[12] = $dash->labelizeValue('q_patient_contact_info_crf03_section_1_complete', $bdata['q_patient_contact_info_crf03_section_1_complete']);
+		
+		// another edoc form
+		$row[13] = "";
+		if (!empty($edata['sdoc_pex_form'])) {
+			$hash = \Files::docIdHash($edata['sdoc_pex_form']);
+			$url = APP_PATH_WEBROOT . "DataEntry/file_download.php?pid=" . $dash->pid . "&record=$i&event_id=" . $dash->enrollmentEID . "&instance=1&field_name=sdoc_pex_form&id=" . $edata['sdoc_pex_form'] . "&doc_id_hash=$hash";
+			$row[13] = "<button onclick='window.open(\"$url\",\"_blank\");'>Download</button>";
+		}
+		
+		$row[14] = $dash->labelizeValue('dem_crf02', $bdata['dem_crf02']);
+		$row[15] = $dash->labelizeValue('physical_examination_form_part_a_crf021_complete', $bdata['physical_examination_form_part_a_crf021_complete']);
+		
+		// another edoc form
+		$row[16] = "";
+		if (!empty($edata['sdoc_pex_form_2'])) {
+			$hash = \Files::docIdHash($edata['sdoc_pex_form_2']);
+			$url = APP_PATH_WEBROOT . "DataEntry/file_download.php?pid=" . $dash->pid . "&record=$i&event_id=" . $dash->enrollmentEID . "&instance=1&field_name=sdoc_pex_form_2&id=" . $edata['sdoc_pex_form_2'] . "&doc_id_hash=$hash";
+			$row[16] = "<button onclick='window.open(\"$url\",\"_blank\");'>Download</button>";
+		}
+		
+		$row[17] = $dash->labelizeValue('dem_crf02_2', $bdata['dem_crf02_2']);
+		$row[18] = $dash->labelizeValue('physical_examination_form_part_b_crf022_complete', $bdata['physical_examination_form_part_b_crf022_complete']);
 		
 		$table['content'][] = $row;
 	}
@@ -144,7 +232,7 @@ foreach ($records as $i => $record) {
 	$otherdata = $record[$dash->otherEID];
 	
 	if (
-		($edata['sdoc_vumc_cert_2'] <> '1' or 
+		($edata['sdoc_vumc_cert_2'] <> '1') or
 		$otherdata['surgery_report_form_crf05_complete'] <> '2') and 
 		$edata['pati_x15'] <> ''
 	) {
@@ -160,7 +248,7 @@ foreach ($records as $i => $record) {
 		$row[6] = "";
 		if (!empty($edata['sdoc_sx_note'])) {
 			$hash = \Files::docIdHash($edata['sdoc_sx_note']);
-			$url = APP_PATH_WEBROOT . "/DataEntry/file_download.php?pid=" . $dash->pid . "&record=$i&event_id=" . $dash->enrollmentEID . "&instance=1&field_name=sdoc_sx_note&id=" . $edata['sdoc_sx_note'] . "&doc_id_hash=$hash";
+			$url = APP_PATH_WEBROOT . "DataEntry/file_download.php?pid=" . $dash->pid . "&record=$i&event_id=" . $dash->enrollmentEID . "&instance=1&field_name=sdoc_sx_note&id=" . $edata['sdoc_sx_note'] . "&doc_id_hash=$hash";
 			$row[6] = "<button onclick='window.open(\"$url\",\"_blank\");'>Download</button>";
 		}
 		
