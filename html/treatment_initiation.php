@@ -38,7 +38,8 @@ $params = [
 		"date",
 		'pati_16',
 		'sxu_b1',
-		'study_id'
+		'study_id',
+		'pti_arm_x'
 	],
 	"exportDataAccessGroups" => true
 ];
@@ -48,7 +49,17 @@ $records = \REDCap::getData($params);
 $table = [
 	"title" => "Physical Therapy Scheduling",
 	"titleClass" => "blueHeader",
-	"headers" => ["Study ID", "DAG", "Randomization (if Non-Op)/Surgery(if Op) Date", "Randomization/Surgery Date", "Call 1 approx. date due", "Call 2 approx. date due", "Call 3 approx. date due", "Site referral", "Days passed since contact due:"],
+	"headers" => [
+		"Study ID",
+		"DAG",
+		"Randomization (if Non-Op)/Surgery(if Op) Date",
+		"Randomization/Surgery Date",
+		"Call 1 approx. date due",
+		"Call 2 approx. date due",
+		"Call 3 approx. date due",
+		"Site referral",
+		"Days passed since contact due:"
+	],
 	"content" => []
 ];
 $today = date('Y-m-d');
@@ -92,7 +103,14 @@ $content .= $dash->makeDataTable($table);
 $table = [
 	"title" => "Surgery Scheduling",
 	"titleClass" => "redHeader",
-	"headers" => ["Study ID", "DAG", "Randomization date:", "Surgery Scheduled Date", "Surgery Scheduling Notes", "Days since Randomization/Surgery scheduled date"],
+	"headers" => [
+		"Study ID",
+		"DAG",
+		"Randomization date:",
+		"Surgery Scheduled Date",
+		"Surgery Scheduling Notes",
+		"Days since Randomization/Surgery scheduled date"
+	],
 	"content" => [],
 	"attributes" => [
 		"order-col" => 5,
@@ -127,7 +145,16 @@ $content .= $dash->makeDataTable($table);
 $table = [
 	"title" => "Operative to Non-operative Potential Crossovers",
 	"titleClass" => "blueHeader",
-	"headers" => ["Study ID", "DAG", "Scheduled Surgery Date", "Actual Surgery Date", "Patient 3mQ PT response", "Patient 6mQ PT response", "Patient 12mQ PT response", "Crossover Status"],
+	"headers" => [
+		"Study ID",
+		"DAG",
+		"Scheduled Surgery Date",
+		"Actual Surgery Date",
+		"Patient 3mQ PT response",
+		"Patient 6mQ PT response",
+		"Patient 12mQ PT response",
+		"Crossover Status"
+	],
 	"content" => [],
 	"attributes" => [
 		"order-col" => 3,
@@ -181,7 +208,16 @@ $content .= $dash->makeDataTable($table);
 $table = [
 	"title" => "Non-operative to Operative Potential Crossovers",
 	"titleClass" => "redHeader",
-	"headers" => ["Study ID", "DAG", "Scheduled Surgery Data", "Actual Surgery Date", "Patient 3mQ surgery update", "Patient 6mQ surgery update", "Patient 12mQ surgery update", "Crossover Status"],
+	"headers" => [
+		"Study ID",
+		"DAG",
+		"Scheduled Surgery Data",
+		"Actual Surgery Date",
+		"Patient 3mQ surgery update",
+		"Patient 6mQ surgery update",
+		"Patient 12mQ surgery update",
+		"Crossover Status"
+	],
 	"content" => [],
 	"attributes" => [
 		"order-col" => 3,
