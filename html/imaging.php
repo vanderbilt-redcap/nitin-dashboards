@@ -34,7 +34,7 @@ $table = [
 foreach ($subjectRecords as $i => $s_record) {
 	$s_data = reset($s_record);
 	if ($s_data['pati_x19'] <> '1' and $s_data['study_id'] <> '') {
-		$row = [];
+		$row = array_fill(0, count($table['headers']), "");
 		$row[0] = "<a href = \"" . $dash->imagingRecordHome . "$i\">" . $s_data['enrollment_id'] . "</a> " . $s_data['study_id'];
 		$row[1] = $s_data['pati_6'];
 		$row[2] = $s_data['date'];
@@ -55,7 +55,7 @@ $table = [
 foreach ($subjectRecords as $i => $s_record) {
 	$s_data = reset($s_record);
 	if ($s_data['pati_x19'] == '1' and $s_data['pati_x20'] <> '1') {
-		$row = [];
+		$row = array_fill(0, count($table['headers']), "");
 		$row[0] = "<a href = \"" . $dash->imagingRecordHome . "$i\">" . $s_data['enrollment_id'] . "</a> " . $s_data['study_id'];
 		$row[1] = $s_data['pati_6'];
 		$row[2] = $s_data['date'];
@@ -79,7 +79,7 @@ foreach ($subjectRecords as $i => $s_record) {
 		$s_data = reset($s_record);
 		$i_data = reset($i_record);
 		if (($s_data['pati_x20'] == '1' or $i_data['img_mri_avail'] == '1') and $i_data['img_mri_deidentified'] <> '1') {
-			$row = [];
+			$row = array_fill(0, count($table['headers']), "");
 			$row[0] = "<a href = \"" . $dash->imagingRecordHome . "$i\">" . $s_data['enrollment_id'] . "</a> " . $s_data['study_id'];
 			$row[1] = $s_data['pati_6'];
 			$row[2] = $s_data['date'];
@@ -104,7 +104,7 @@ foreach ($subjectRecords as $i => $s_record) {
 		$s_data = reset($s_record);
 		$i_data = reset($i_record);
 		if ($i_data['img_mri_ready_to_review'] == '1' and $i_data['img_disc_given'] <> '1') {
-			$row = [];
+			$row = array_fill(0, count($table['headers']), "");
 			$row[0] = "<a href = \"" . $dash->imagingRecordHome . "$i\">" . $s_data['enrollment_id'] . "</a> " . $s_data['study_id'];
 			$row[1] = $s_data['pati_6'];
 			$row[2] = $s_data['date'];
@@ -129,7 +129,7 @@ foreach ($subjectRecords as $i => $s_record) {
 		$s_data = reset($s_record);
 		$i_data = reset($i_record);
 		if ($i_data['img_disc_given'] == '1' and $i_data['img_radiologist_review'] <> '1') {
-			$row = [];
+			$row = array_fill(0, count($table['headers']), "");
 			$row[0] = "<a href = \"" . $dash->imagingRecordHome . "$i\">" . $s_data['enrollment_id'] . "</a> " . $s_data['study_id'];
 			$row[1] = $s_data['pati_6'];
 			$row[2] = $s_data['date'];

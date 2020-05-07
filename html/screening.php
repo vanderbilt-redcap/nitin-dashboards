@@ -19,6 +19,8 @@ $params = [
 ];
 $records = \REDCap::getData($params);
 
+$today = date('Y-m-d');
+
 # fetch subject db info
 // $subjectParams = [
 	// "project_id" => SUBJECT_PID,
@@ -58,14 +60,18 @@ $dagNames = [
 $table = [
 	"title" => "Pending MRIs",
 	"titleClass" => "redHeader",
-	"headers" => ["Study ID", "DAG", "Physician Name", "Appointment Date", "MRI Scheduled Date:", "Date patient scheduled to return to clinic:"],
-	"content" => []
+	"headers" => ["Study ID", "DAG", "Physician Name", "Appointment Date", "MRI Scheduled Date:", "Date patient scheduled to return to clinic:", "Days since last recorded date:"],
+	"content" => [],
+	"attributes" => [
+		"order-col" => 6,
+		"order-direction" => "desc"
+	]
 ];
 foreach ($records as $i => $record) {
 	$edata = $record[$dash->enrollmentEID];
 	foreach ($record as $eid => $data) {
 		if ($data['slg_d1'] == '2' AND $data['site_name'] == "1") {
-			$row = [];
+			$row = array_fill(0, count($table['headers']), "");
 			$row[0] = "<a href = \"" . $dash->screeningRecordHome . $data['study_id'] . "\">" . $data['study_id'] . "</a>";
 			$row[1] = $dagNames[$data['redcap_data_access_group']];
 			
@@ -74,6 +80,15 @@ foreach ($records as $i => $record) {
 			$row[3] = $data['slg_appointment_date'];
 			$row[4] = $data['slg_d3'];
 			$row[5] = $data['slg_d5'];
+			$row[6] = 0;
+			
+			$mostRecent = max($row[3], $row[4], $row[5]);
+			if (!empty($mostRecent)) {
+				$row[6] = date_diff(date_create($mostRecent), date_create($today))->format("%a");
+				if ($today < $mostRecent)
+					$row[6] *= -1;
+			}
+			
 			
 			$table['content'][] = $row;
 		}
@@ -85,16 +100,27 @@ $content .= $dash->makeDataTable($table);
 $table = [
 	"title" => "Patients who need more time to decide",
 	"titleClass" => "blueHeader",
-	"headers" => ["Study ID", "DAG", "Appointment date"],
-	"content" => []
+	"headers" => ["Study ID", "DAG", "Appointment date", "Days since last recorded date:"],
+	"content" => [],
+	"attributes" => [
+		"order-col" => 3,
+		"order-direction" => "desc"
+	]
 ];
 foreach ($records as $i => $record) {
 	foreach ($record as $eid => $data) {
 		if ($data['slg_f2a'] == '1' AND $data['site_name'] == "1") {
-			$row = [];
+			$row = array_fill(0, count($table['headers']), "");
 			$row[0] = "<a href = \"" . $dash->screeningRecordHome . $data['study_id'] . "\">" . $data['study_id'] . "</a>";
 			$row[1] = $dagNames[$data['redcap_data_access_group']];
 			$row[2] = $data['slg_appointment_date'];
+			$row[3] = 0;
+			
+			if (!empty($row[2])) {
+				$row[3] = date_diff(date_create($mostRecent), date_create($today))->format("%a");
+				if ($today < $row[2])
+					$row[3] *= -1;
+			}
 			
 			$table['content'][] = $row;
 		}
@@ -106,19 +132,31 @@ $content .= $dash->makeDataTable($table);
 $table = [
 	"title" => "Outstanding (incomplete) records",
 	"titleClass" => "redHeader",
-	"headers" => ["Study ID", "DAG", "Appointment Date", "Does patient have tear?", "Date MRI scheduled (if MRI Pending)", "Patient need more time to decide?"],
-	"content" => []
+	"headers" => ["Study ID", "DAG", "Appointment Date", "Does patient have tear?", "Date MRI scheduled (if MRI Pending)", "Patient need more time to decide?", "Days since last recorded date:"],
+	"content" => [],
+	"attributes" => [
+		"order-col" => 6,
+		"order-direction" => "desc"
+	]
 ];
 foreach ($records as $i => $record) {
 	foreach ($record as $eid => $data) {
 		if ($data['screening_log_complete'] <> '2' AND $data['site_name'] == "1") {
-			$row = [];
+			$row = array_fill(0, count($table['headers']), "");
 			$row[0] = "<a href = \"" . $dash->screeningRecordHome . $data['study_id'] . "\">" . $data['study_id'] . "</a>";
 			$row[1] = $dagNames[$data['redcap_data_access_group']];
 			$row[2] = $data['slg_appointment_date'];
 			$row[3] = $dash->labelizeValue('slg_d1', $data['slg_d1'], $dash->screening_labels);
 			$row[4] = $data['slg_d3'];
 			$row[5] = $data['slg_f2a'] == '1' ? 'Yes (1)' : ($data['slg_f2a'] == '0' ? "No (0)" : $data['slg_f2a']);
+			$row[6] = 0;
+			
+			$mostRecent = max($row[2], $row[4]);
+			if (!empty($mostRecent)) {
+				$row[6] = date_diff(date_create($mostRecent), date_create($today))->format("%a");
+				if ($today < $mostRecent)
+					$row[6] *= -1;
+			}
 			
 			$table['content'][] = $row;
 		}

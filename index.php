@@ -40,6 +40,9 @@ class Dashboard {
 		], [
 			"title" => "Imaging",
 			"filepath" => "html/imaging.php"
+		], [
+			"title" => "SAE/AE Monitoring",
+			"filepath" => "html/sae_ae_monitoring.php"
 		]
 	];
 	
@@ -47,6 +50,10 @@ class Dashboard {
 		llog("mem on construct: " . memory_get_usage(true) / 1000000);
 		$this->pid = SUBJECT_PID;
 		$this->project = new \Project($this->pid);
+		
+		// get project __SALT__ so we can download edocs
+		$this->setProjectSalt();
+		
 		$this->projEvents = \Event::getEventsByProject($this->pid);
 		$this->baselineEID = array_search("Baseline", $this->projEvents);
 		$this->enrollmentEID = array_search("Enrollment", $this->projEvents);
@@ -54,6 +61,8 @@ class Dashboard {
 		$this->m3EID = array_search("3-Months", $this->projEvents);
 		$this->m6EID = array_search("6-Months", $this->projEvents);
 		$this->m12EID = array_search("12-Months", $this->projEvents);
+		$this->otherEID = array_search("Other", $this->projEvents);
+		
 		$this->dags = $this->project->getGroups();
 		$this->recordHome = SUBJECT_RECORD_URL;
 		$this->imagingRecordHome = IMAGING_RECORD_URL;
@@ -117,6 +126,13 @@ class Dashboard {
 		}
 	}
 	
+	function setProjectSalt() {
+		global $__SALT__;
+		$q = db_query("SELECT __SALT__ from redcap_projects where project_id=" . $this->pid);
+		$row = db_fetch_assoc($q);
+		$__SALT__ = $row['__SALT__'];
+	}
+	
 	function init() {
 		$html = self::getBaseHtml();
 		
@@ -144,9 +160,16 @@ class Dashboard {
 		#	title => string
 		#	headers => 1D array of header values
 		#	content => 2D array of the actual tabular data to be inserted
+		#	attributes => assoc array
+		
+		$attr_string = "";
+		foreach ($tableData['attributes'] as $attr => $val) {
+			$attr_string .= " data-$attr='$val'";
+		}
+		
 		$table = "
 			<h2 class='" . $tableData['titleClass'] . "'>" . $tableData['title'] . "</h2>
-			<table class='dataTable'>
+			<table class='dataTable'$attr_string>
 				<thead>
 					<tr>";
 		foreach ($tableData['headers'] as $header) {
