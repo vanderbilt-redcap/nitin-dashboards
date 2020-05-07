@@ -232,7 +232,7 @@ foreach ($records as $i => $record) {
 	$otherdata = $record[$dash->otherEID];
 	
 	if (
-		($edata['sdoc_vumc_cert_2'] <> '1') or
+		($edata['sdoc_vumc_cert_2'] <> '1' or
 		$otherdata['surgery_report_form_crf05_complete'] <> '2') and 
 		$edata['pati_x15'] <> ''
 	) {
